@@ -26,46 +26,50 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
+			<head />
+
 			<body
 				className={cn(
-					'min-h-screen bg-background font-sans antialiased flex flex-col max-w-xl mx-auto py-8',
+					'min-h-screen bg-background font-sans antialiased flex flex-col',
 					fontSans.variable
 				)}
 			>
-				<ThemeProvider
-					attribute='class'
-					defaultTheme='dark'
-					enableSystem
-					disableTransitionOnChange
-				>
-					<header className='sticky z-50 w-full border-b bg-background/95 backdrop-blur'>
-						<div className='flex items-center justify-between py-4'>
-							<a className='flex items-center space-x-2' href='/'>
-								<div className='flex flex-col space-y-1 text-sm leading-none'>
-									<span className='text-lg font-bold'>Duy Le</span>
-									<span>Full Stack Developer</span>
-								</div>
-							</a>
-							<div className='flex items-center space-x-1'>
-								<Link href='/' target='_blank' rel='noreferrer'>
-									<div
-										className={cn(
-											buttonVariants({
-												variant: 'ghost'
-											}),
-											'w-8 px-0 h-8'
-										)}
-									>
-										<Icons.gitHub className='h-4 w-4' />
-										<span className='sr-only'>GitHub</span>
+				<div className='max-w-xl mx-auto py-8'>
+					<ThemeProvider
+						attribute='class'
+						defaultTheme='dark'
+						enableSystem
+						disableTransitionOnChange
+					>
+						<header className='sticky z-50 w-full bg-background/95 backdrop-blur'>
+							<div className='flex items-center justify-between py-4'>
+								<a className='flex items-center space-x-2' href='/'>
+									<div className='flex flex-col space-y-1 text-sm leading-none'>
+										<span className='text-lg font-bold'>Duy Le</span>
+										<span>Full Stack Developer</span>
 									</div>
-								</Link>
-								<ModeToggle />
+								</a>
+								<div className='flex items-center space-x-1'>
+									<Link href='/' target='_blank' rel='noreferrer'>
+										<div
+											className={cn(
+												buttonVariants({
+													variant: 'ghost'
+												}),
+												'w-8 px-0 h-8'
+											)}
+										>
+											<Icons.gitHub className='h-4 w-4' />
+											<span className='sr-only'>GitHub</span>
+										</div>
+									</Link>
+									<ModeToggle />
+								</div>
 							</div>
-						</div>
-					</header>
-					<main className='flex-1'>{children}</main>
-				</ThemeProvider>
+						</header>
+						<main className='flex-1'>{children}</main>
+					</ThemeProvider>
+				</div>
 			</body>
 		</html>
 	)
