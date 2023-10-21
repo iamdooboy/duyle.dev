@@ -25,22 +25,21 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang='en'>
+		<html lang='en' suppressHydrationWarning>
 			<head />
-
 			<body
 				className={cn(
 					'min-h-screen bg-background font-sans antialiased flex flex-col',
 					fontSans.variable
 				)}
 			>
-				<div className='max-w-xl mx-auto py-8'>
-					<ThemeProvider
-						attribute='class'
-						defaultTheme='dark'
-						enableSystem
-						disableTransitionOnChange
-					>
+				<ThemeProvider
+					attribute='class'
+					defaultTheme='dark'
+					enableSystem
+					disableTransitionOnChange
+				>
+					<div className='max-w-xl mx-auto py-8'>
 						<header className='sticky z-50 w-full bg-background/95 backdrop-blur'>
 							<div className='flex items-center justify-between py-4'>
 								<a className='flex items-center space-x-2' href='/'>
@@ -68,8 +67,8 @@ export default function RootLayout({
 							</div>
 						</header>
 						<main className='flex-1'>{children}</main>
-					</ThemeProvider>
-				</div>
+					</div>
+				</ThemeProvider>
 			</body>
 		</html>
 	)
