@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 import { CardSpotlight } from '@/components/card-spotlight'
+import { projectConfig } from './config/project'
 
 interface Props extends ComponentPropsWithoutRef<'a'> {
 	label: string
@@ -23,7 +24,9 @@ export default function Home() {
 				and attention to detail, striving to create great experiences.
 			</p>
 			<div className='text-lg font-semibold'>Projects</div>
-			<CardSpotlight />
+			{projectConfig.map(project => (
+				<CardSpotlight {...project} />
+			))}
 		</div>
 	)
 }

@@ -27,12 +27,16 @@ import {
 	DropdownMenuTrigger
 } from '@/ui/dropdown-menu'
 import { Separator } from '@/ui/separator'
+import { ProjectConfig } from '@/types'
 
-export function CardSpotlight() {
+import { useTheme } from 'next-themes'
+
+export function CardSpotlight({ ...project }: ProjectConfig) {
 	const divRef = useRef<HTMLDivElement>(null)
 	const [isFocused, setIsFocused] = useState(false)
 	const [position, setPosition] = useState({ x: 0, y: 0 })
 	const [opacity, setOpacity] = useState(0)
+	const { theme } = useTheme()
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (!divRef.current || isFocused) return
@@ -61,6 +65,9 @@ export function CardSpotlight() {
 		setOpacity(0)
 	}
 
+	const backgroundColor =
+		theme === 'dark' ? 'rgba(255, 182, 255, 0.1)' : 'rgba(20, 105, 124, 0.1)'
+
 	return (
 		<Card
 			ref={divRef}
@@ -69,22 +76,19 @@ export function CardSpotlight() {
 			onBlur={handleBlur}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			className='overflow-hidden relative bg-gradient-to-r from-black to-slate-950 shadow-2xl'
+			className='overflow-hidden relative'
 		>
 			<div
 				className='pointer-events-none absolute -inset-px opacity-0 transition duration-300'
 				style={{
 					opacity,
-					background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,182,255,.1), transparent 40%)`
+					background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${backgroundColor}, transparent 40%)`
 				}}
 			/>
 			<CardHeader className='grid grid-cols-[1fr_110px] items-start gap-4 space-y-0'>
 				<div className='space-y-1'>
-					<CardTitle>Project 1</CardTitle>
-					<CardDescription>
-						Beautifully designed components built with Radix UI and Tailwind
-						CSS.
-					</CardDescription>
+					<CardTitle>{project.title}</CardTitle>
+					<CardDescription>{project.description}</CardDescription>
 				</div>
 				<div className='flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground'>
 					<Button variant='secondary' className='px-3 shadow-none'>
@@ -129,7 +133,7 @@ export function CardSpotlight() {
 						<StarIcon className='mr-1 h-3 w-3' />
 						20k
 					</div>
-					<div>Updated April 2023</div>
+					<div>{project.year}</div>
 				</div>
 			</CardContent>
 		</Card>
