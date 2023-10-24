@@ -19,11 +19,13 @@ function Badge(props: Props) {
 export default function Home() {
 	return (
 		<div className='space-y-2'>
-			<p className='leading-7 [&:not(:first-child)]:mt-6'>
-				Crafting UIs with React since 2016. Passionate about interface design
+			<p className='leading-7 [&:not(:first-child)]:mt-6 dark:text-neutral-100 '>
+				Crafting UIs with React since 2019. Passionate about interface design
 				and attention to detail, striving to create great experiences.
 			</p>
-			<div className='text-lg font-semibold'>Projects</div>
+			<div className='text-lg font-semibold dark:text-neutral-100'>
+				Projects
+			</div>
 			{projectConfig.map(project => (
 				<CardSpotlight {...project} />
 			))}

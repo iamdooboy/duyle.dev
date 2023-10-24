@@ -29,23 +29,25 @@ export default function RootLayout({
 			<head />
 			<body
 				className={cn(
-					'min-h-screen bg-background font-sans antialiased flex flex-col',
+					'min-h-screen font-sans antialiased flex flex-col',
 					fontSans.variable
 				)}
 			>
-				<ThemeProvider
-					attribute='class'
-					defaultTheme='dark'
-					enableSystem
-					disableTransitionOnChange
-				>
+				<div className='dark'>
+					<div className='fixed left-0 top-0 -z-10 h-full w-full'>
+						<div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]'></div>
+					</div>
 					<div className='max-w-xl mx-auto py-8'>
 						<header className='sticky z-50 w-full bg-background/95 backdrop-blur'>
 							<div className='flex items-center justify-between py-4'>
 								<a className='flex items-center space-x-2' href='/'>
 									<div className='flex flex-col space-y-1 text-sm leading-none'>
-										<span className='text-lg font-bold'>Duy Le</span>
-										<span>Full Stack Developer</span>
+										<span className='text-lg font-bold dark:text-neutral-100'>
+											Duy Le
+										</span>
+										<span className='dark:text-neutral-100 '>
+											Full Stack Developer
+										</span>
 									</div>
 								</a>
 								<div className='flex items-center space-x-1'>
@@ -68,7 +70,7 @@ export default function RootLayout({
 						</header>
 						<main className='flex-1'>{children}</main>
 					</div>
-				</ThemeProvider>
+				</div>
 			</body>
 		</html>
 	)

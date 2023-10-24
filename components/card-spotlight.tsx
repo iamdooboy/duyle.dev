@@ -66,7 +66,7 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
 	}
 
 	const backgroundColor =
-		theme === 'dark' ? 'rgba(255, 182, 255, 0.1)' : 'rgba(20, 105, 124, 0.1)'
+		theme === 'dark' ? 'rgba(255, 182, 255, 0.1)' : 'rgba(20, 105, 124, 0.05)'
 
 	return (
 		<Card
