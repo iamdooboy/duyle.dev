@@ -63,20 +63,22 @@ export function ModeToggle({ theme, setTheme, setPreview }: Props) {
 				buttonVariants({
 					variant: 'ghost'
 				}),
-				'w-8 px-0 h-8'
+				'w-8 h-8 px-0 dark:text-white text-black'
 			)}
 			onClick={() => {
 				let preview
 				if (theme === 'light') {
 					setTheme('dark')
 					preview = (
-						<div className='absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]' />
+						<div className='relative h-full w-full bg-[#000000]'>
+							<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
+						</div>
 					)
 				} else {
 					setTheme('light')
 					preview = (
 						<div className='relative h-full w-full bg-white'>
-							<div className='absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]' />
+							<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
 						</div>
 					)
 				}
@@ -86,9 +88,9 @@ export function ModeToggle({ theme, setTheme, setPreview }: Props) {
 		>
 			<span className='sr-only'>Toggle mode</span>
 			{theme === 'light' ? (
-				<Sun className='h-4 w-4' />
+				<Sun className='h-5 w-5' />
 			) : (
-				<Moon className='h-4 w-4' />
+				<Moon className='h-5 w-5' />
 			)}
 		</button>
 	)

@@ -6,7 +6,7 @@ import { projectConfig } from './config/project'
 import Link from 'next/link'
 import { ModeToggle } from '@/components/mode-toggle'
 import { Icons } from '@/components/icons'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface Props extends ComponentPropsWithoutRef<'a'> {
@@ -26,7 +26,7 @@ function Badge(props: Props) {
 export default function Home() {
 	const [preview, setPreview] = useState<null | React.ReactNode>(
 		<div className='relative h-full w-full bg-white'>
-			<div className='absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]' />
+			<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
 		</div>
 	)
 	const [theme, setTheme] = useState<'light' | 'dark'>('light')
@@ -46,7 +46,7 @@ export default function Home() {
 		<div className={`${theme}`}>
 			<div className='fixed left-0 top-0 -z-10 h-full w-full'>{preview}</div>
 			<div className='max-w-xl mx-auto py-8'>
-				<header className='sticky z-50 w-full bg-background/95 backdrop-blur'>
+				<header className='sticky z-50 w-full'>
 					<div className='flex items-center justify-between py-4'>
 						<a className='flex items-center space-x-2' href='/'>
 							<div className='flex flex-col space-y-1 text-sm leading-none'>
@@ -65,10 +65,10 @@ export default function Home() {
 										buttonVariants({
 											variant: 'ghost'
 										}),
-										'w-8 px-0 h-8'
+										'w-8 h-8 px-0 dark:text-white text-black'
 									)}
 								>
-									<Icons.gitHub className='h-4 w-4' />
+									<Icons.gitHub className='h-5 w-5' />
 									<span className='sr-only'>GitHub</span>
 								</div>
 							</Link>
