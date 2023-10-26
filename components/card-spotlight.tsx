@@ -1,14 +1,8 @@
 'use client'
 import React, { useRef, useState } from 'react'
 
-import {
-	ChevronDownIcon,
-	CircleIcon,
-	PlusIcon,
-	StarIcon
-} from '@radix-ui/react-icons'
+import { CircleIcon, StarIcon } from '@radix-ui/react-icons'
 
-import { Button } from '@/ui/button'
 import {
 	Card,
 	CardContent,
@@ -16,27 +10,13 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/ui/card'
-
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger
-} from '@/ui/dropdown-menu'
-import { Separator } from '@/ui/separator'
 import { ProjectConfig } from '@/types'
 
-import { useTheme } from 'next-themes'
-
-export function CardSpotlight({ ...project }: ProjectConfig) {
+export function CardSpotlight({ theme, ...project }: ProjectConfig) {
 	const divRef = useRef<HTMLDivElement>(null)
 	const [isFocused, setIsFocused] = useState(false)
 	const [position, setPosition] = useState({ x: 0, y: 0 })
 	const [opacity, setOpacity] = useState(0)
-	const { theme } = useTheme()
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (!divRef.current || isFocused) return
@@ -66,7 +46,7 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
 	}
 
 	const backgroundColor =
-		theme === 'dark' ? 'rgba(255, 182, 255, 0.1)' : 'rgba(20, 105, 124, 0.05)'
+		theme === 'dark' ? 'rgba(94, 106, 210, .25)' : 'rgba(20, 105, 124, 0.07)'
 
 	return (
 		<Card

@@ -6,7 +6,7 @@ import { projectConfig } from './config/project'
 import Link from 'next/link'
 import { ModeToggle } from '@/components/mode-toggle'
 import { Icons } from '@/components/icons'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface Props extends ComponentPropsWithoutRef<'a'> {
@@ -31,18 +31,6 @@ export default function Home() {
 	)
 	const [theme, setTheme] = useState<'light' | 'dark'>('light')
 	return (
-		// <div className='space-y-2'>
-		// 	<p className='leading-7 [&:not(:first-child)]:mt-6 dark:text-neutral-100 '>
-		// 		Crafting UIs with React since 2019. Passionate about interface design
-		// 		and attention to detail, striving to create great experiences.
-		// 	</p>
-		// 	<div className='text-lg font-semibold dark:text-neutral-100'>
-		// 		Projects
-		// 	</div>
-		// 	{projectConfig.map(project => (
-		// 		<CardSpotlight {...project} />
-		// 	))}
-		// </div>
 		<div className={`${theme}`}>
 			<div className='fixed left-0 top-0 -z-10 h-full w-full'>{preview}</div>
 			<div className='max-w-xl mx-auto py-8'>
@@ -90,7 +78,7 @@ export default function Home() {
 						Projects
 					</div>
 					{projectConfig.map(project => (
-						<CardSpotlight {...project} />
+						<CardSpotlight {...project} theme={theme} />
 					))}
 				</div>
 			</div>
