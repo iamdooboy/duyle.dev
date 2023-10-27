@@ -58,20 +58,17 @@ interface Props {
 
 export function ModeToggle({ theme, setTheme, setPreview }: Props) {
 	const [effect, setEffect] = useState(false)
-
 	return (
 		<button
 			className={cn(
 				buttonVariants({
 					variant: 'ghost'
 				}),
-				`${
-					effect && 'animate-rotate-out'
-				} w-8 h-8 px-0 dark:text-white text-black`
+				`${effect && 'animate-jiggle'} w-8 h-8 px-0 dark:text-white text-black`
 			)}
 			onClick={() => {
 				let preview
-				setEffect(true)
+
 				if (theme === 'light') {
 					setTheme('dark')
 					preview = (
@@ -87,15 +84,16 @@ export function ModeToggle({ theme, setTheme, setPreview }: Props) {
 						</div>
 					)
 				}
+				setEffect(true)
 				setPreview(preview)
 			}}
 			onAnimationEnd={() => setEffect(false)}
 		>
 			<span className='sr-only'>Toggle mode</span>
 			{theme === 'light' ? (
-				<Sun className={`h-5 w-5`} onAnimationEnd={() => setEffect(false)} />
+				<Sun className={`h-5 w-5`} />
 			) : (
-				<Moon className={`h-5 w-5`} onAnimationEnd={() => setEffect(false)} />
+				<Moon className={`h-5 w-5`} />
 			)}
 		</button>
 	)

@@ -74,28 +74,18 @@ module.exports = {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'rotate-out': 'rotate-out 0.6s ease-out',
-				'rotate-in': 'rotate-in 0.6s ease-out'
+				jiggle: 'jiggle 0.5s ease-in-out'
 			},
 			keyframes: {
-				'rotate-out': {
+				jiggle: {
 					'0%': {
-						opacity: '1',
-						transform: 'rotate(0deg)'
+						transform: 'rotate(-3deg)'
+					},
+					'50%': {
+						transform: 'rotate(3deg)'
 					},
 					'100%': {
-						opacity: '0',
-						transform: 'rotate(90deg)'
-					}
-				},
-				'rotate-in': {
-					'0%': {
-						opacity: '0',
-						transform: 'rotate(-90deg)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'rotate(0deg)'
+						transform: 'rotate(-3deg)'
 					}
 				}
 			}
