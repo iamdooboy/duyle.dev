@@ -5,5 +5,4 @@ export interface ProjectConfig {
   url: string
   github: string
   stack: string[]
-  theme: 'light' | 'dark'
 }

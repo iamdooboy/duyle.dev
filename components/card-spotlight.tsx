@@ -12,7 +12,11 @@ import {
 } from '@/ui/card'
 import { ProjectConfig } from '@/types'
 
-export function CardSpotlight({ theme, ...project }: ProjectConfig) {
+interface Props extends ProjectConfig {
+	theme: 'light' | 'dark'
+}
+
+export function CardSpotlight({ theme, ...project }: Props) {
 	const divRef = useRef<HTMLDivElement>(null)
 	const [isFocused, setIsFocused] = useState(false)
 	const [position, setPosition] = useState({ x: 0, y: 0 })
