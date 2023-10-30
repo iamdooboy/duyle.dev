@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { useState } from 'react'
 import { CardSpotlight } from '@/components/card-spotlight'
 import { projectConfig } from './config/project'
 import Link from 'next/link'
@@ -8,20 +8,6 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { Icons } from '@/components/icons'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-
-interface Props extends ComponentPropsWithoutRef<'a'> {
-	label: string
-}
-
-function Badge(props: Props) {
-	return (
-		<a
-			{...props}
-			target='_blank'
-			className='border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 rounded p-1 text-sm inline-flex items-center leading-4 text-neutral-900 dark:text-neutral-100 no-underline'
-		/>
-	)
-}
 
 export default function Home() {
 	const [preview, setPreview] = useState<null | React.ReactNode>(
