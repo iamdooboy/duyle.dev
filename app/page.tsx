@@ -79,7 +79,7 @@ export default function Home() {
 					</div>
 					<div className='space-y-3'>
 						{projectConfig.map(project => (
-							<CardSpotlight {...project} theme={theme} />
+							<CardSpotlight key={project.title} {...project} theme={theme} />
 						))}
 					</div>
 				</div>
