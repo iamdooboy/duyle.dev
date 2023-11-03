@@ -24,7 +24,6 @@ export function ModeToggle({ theme, setTheme, setPreview }: Props) {
       )}
       onClick={() => {
         let preview
-
         if (theme === 'light') {
           setTheme('dark')
           preview = (

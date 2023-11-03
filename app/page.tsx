@@ -13,7 +13,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 export default function Home() {
   const [preview, setPreview] = useState<null | React.ReactNode>(
     <div className='relative h-full w-full bg-white'>
-      <div className='absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
+      <div className='absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_110%)]' />
     </div>
   )
   const [theme, setTheme] = useState<'light' | 'dark'>('light')

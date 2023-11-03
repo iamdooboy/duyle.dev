@@ -1,14 +1,16 @@
 import { cn } from '@/lib/utils'
 
-import "@/styles/globals.css"
+import '@/styles/globals.css'
 
 import type { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
+import { GeistSans } from 'geist/font'
 
-export const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-})
+// import { Inter as FontSans } from 'next/font/google'
+
+// export const fontSans = FontSans({
+//   subsets: ['latin'],
+//   variable: '--font-sans',
+// })
 
 export const metadata: Metadata = {
   title: 'Duy Le',
@@ -26,8 +28,8 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          'flex min-h-screen flex-col font-sans antialiased',
-          fontSans.variable
+          'flex min-h-screen flex-col antialiased',
+          GeistSans.className
         )}
       >
         {children}
