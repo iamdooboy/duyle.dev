@@ -3,19 +3,14 @@ import { cn } from '@/lib/utils'
 import '@/styles/globals.css'
 
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font'
+import { GeistSans } from 'geist/font/sans'
 
-// import { Inter as FontSans } from 'next/font/google'
-
-// export const fontSans = FontSans({
-//   subsets: ['latin'],
-//   variable: '--font-sans',
-// })
+import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Duy Le',
   description:
-    'Minimalistic portfolio website built with Next.js, Shadcn/ui, and Tailwind CSS.',
+    'Minimalistic portfolio website built with Next.js, shadcn/ui, and Tailwind CSS.',
 }
 
 export default function RootLayout({
@@ -32,7 +27,14 @@ export default function RootLayout({
           GeistSans.className
         )}
       >
+        {/* <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        > */}
         {children}
+        {/* </ThemeProvider> */}
       </body>
     </html>
   )

@@ -12,11 +12,11 @@ import { ModeToggle } from '@/components/mode-toggle'
 
 export default function Home() {
   const [preview, setPreview] = useState<null | React.ReactNode>(
-    <div className='relative h-full w-full bg-white'>
-      <div className='absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_110%)]' />
+    <div className='relative h-full w-full bg-[#000000]'>
+      <div className='absolute inset-0 bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_110%)]'></div>
     </div>
   )
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   return (
     <div className={`${theme}`}>
       <div className='fixed left-0 top-0 -z-10 h-full w-full'>{preview}</div>
@@ -59,9 +59,9 @@ export default function Home() {
           <p className='leading-7 dark:text-neutral-100 [&:not(:first-child)]:mt-6 '>
             Crafting UIs with React since 2019. Passionate about interface
             design and attention to detail, striving to create great
-            experiences.
+            experiences. Love creating high quality and fun products.
           </p>
-          <div className='pb-2 pt-5 font-semibold dark:text-neutral-100'>
+          <div className='pb-2 pt-5 font-semibold dark:text-neutral-100 font-mono'>
             Projects
           </div>
           <div className='space-y-3'>

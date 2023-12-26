@@ -1,8 +1,10 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
+import Link from 'next/link'
 import { ProjectConfig } from '@/types'
-import { CircleIcon, StarIcon } from '@radix-ui/react-icons'
+import { CircleIcon } from '@radix-ui/react-icons'
+import clsx from 'clsx'
 
 import {
   Card,
@@ -50,44 +52,68 @@ export function CardSpotlight({ theme, ...project }: Props) {
   }
 
   const backgroundColor =
-    theme === 'dark' ? 'rgba(94, 106, 210, .25)' : 'rgba(20, 105, 124, 0.07)'
+    theme === 'dark' ? 'rgba(94, 106, 210, .2)' : 'rgba(20, 105, 124, 0.07)'
+
+  const borderColor =
+    theme === 'dark' ? 'rgba(94, 106, 210, .4)' : 'rgba(20, 105, 124, 0.14)'
 
   return (
-    <Card
-      ref={divRef}
-      onMouseMove={handleMouseMove}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className='relative overflow-hidden'
-    >
+    <div className='relative overflow-hidden'>
       <div
-        className='pointer-events-none absolute -inset-px opacity-0 transition duration-300'
+        className='pointer-events-none absolute inset-0 overflow-hidden rounded-lg opacity-0 transition duration-300'
         style={{
           opacity,
           background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${backgroundColor}, transparent 40%)`,
         }}
       />
-      <CardHeader className='grid grid-cols-[1fr_110px] items-start gap-4 space-y-0'>
-        <div className='space-y-1'>
-          <CardTitle>{project.title}</CardTitle>
-          <CardDescription>{project.description}</CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className='text-muted-foreground flex space-x-4 text-sm'>
-          <div className='flex items-center'>
-            <CircleIcon className='mr-1 h-3 w-3 fill-sky-400 text-sky-400' />
-            TypeScript
+      <div
+        ref={divRef}
+        className='pointer-events-none absolute left-0 top-0 z-10 h-full w-full cursor-default rounded-lg bg-[transparent] p-3.5 opacity-0 transition-opacity duration-500 placeholder:select-none'
+        style={{
+          border: `1px solid ${borderColor}`,
+          opacity,
+          WebkitMaskImage: `radial-gradient(30% 70px at ${position.x}px ${position.y}px, black 45%, transparent)`,
+        }}
+      />
+      <Card
+        ref={divRef}
+        onMouseMove={handleMouseMove}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className='overflow-hidden'
+      >
+        <Link href={project.url}>
+          <CardHeader className='grid grid-cols-[1fr_110px] items-start gap-4 space-y-0'>
+            <div className='space-y-1'>
+              <CardTitle className='font-mono underline-offset-4'>
+                {project.title}
+              </CardTitle>
+              <CardDescription>{project.description}</CardDescription>
+            </div>
+          </CardHeader>
+        </Link>
+        <CardContent>
+          <div className='text-muted-foreground flex space-x-4 text-sm'>
+            {project.stack.map((stack) => (
+              <div key={stack} className='flex items-center'>
+                <CircleIcon
+                  className={clsx(
+                    'mr-1 h-3 w-3',
+                    stack === 'Supabase' && 'text-[#3FCF8E]',
+                    stack === 'Tailwind CSS' && 'text-[#06B6D4]',
+                    stack === 'Typescript' && 'text-[#3178C6]',
+                    stack === 'React' && 'text-[#61DAFB]',
+                    stack === 'MongoDB' && 'text-[#47A248F]'
+                  )}
+                />
+                {stack}
+              </div>
+            ))}
           </div>
-          <div className='flex items-center'>
-            <StarIcon className='mr-1 h-3 w-3' />
-            20k
-          </div>
-          <div>{project.year}</div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

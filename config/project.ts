@@ -1,40 +1,47 @@
-import { ProjectConfig } from "@/types"
+import { ProjectConfig } from '@/types'
 
 export const projectConfig: ProjectConfig[] = [
   {
-    title: "duyle.dev",
-    description:
-      "The website you're looking at",
+    title: 'duyle.dev',
+    description: "The website you're looking at",
     year: 2023,
-    url: "https://duyle.dev",
-    github: "https://github.com/iamdooboy/duyle.dev",
-    stack: ['typescript', 'nextjs', 'tailwind']
+    url: 'https://duyle.dev',
+    github: 'https://github.com/iamdooboy/duyle.dev',
+    stack: ['Typescript', 'Next.js', 'Tailwind CSS', 'shadcn/ui'],
   },
   {
-    title: "next-cv",
-    description:
-      "An open source resume template inspired by read.cv",
+    title: 'next-cv',
+    description: 'An open source resume template inspired by read.cv',
     year: 2023,
-    url: "https://cv.duy.dev",
-    github: "https://github.com/iamdooboy/next-cv",
-    stack: ['typescript', 'react', 'tailwind']
+    url: 'https://cv.duyle.dev',
+    github: 'https://github.com/iamdooboy/next-cv',
+    stack: ['Typescript', 'Next.js', 'Tailwind CSS'],
   },
   {
-    title: "poke",
+    title: 'replicate',
     description:
-      "An open source sass application built using Next.js 13 app router, sercer components, tailwind, stripe, prisma, and supabase",
+      'A collection of copy and paste components built with React and Tailwind CSS',
     year: 2023,
-    url: "https://api.duyle.dev",
-    github: "https://github.com/iamdooboy/poke",
-    stack: ['typescript', 'nextjs', 'tailwind', 'stripe', 'primsa', 'supabase']
+    url: 'https://ui.duyle.dev',
+    github: 'https://github.com/iamdooboy/ui',
+    stack: ['Typescript', 'React', 'Tailwind CSS'],
   },
   {
-    title: "replicate",
+    title: 'Draw this and guess that',
     description:
-      "A collection of components built with React and Tailwind CSS",
+      'Supabase week x hackathon submission. An online drawing tool to draw and compete with others by earning points for guessing correctly and climb the leaderboard',
     year: 2023,
-    url: "https://ui.duyle.dev",
-    github: "https://github.com/iamdooboy/replicate",
-    stack: ['typescript', 'react', 'tailwind']
+    url: 'https://drawthisguessthat.vercel.app',
+    github: 'https://github.com/iamdooboy/supabase-hackathon',
+    stack: ['Typescript', 'Next.js', 'Tailwind CSS', 'shadcn/ui', 'Supabase'],
   },
+  // {
+  //   title: 'poke',
+  //   description:
+  //     'An open source sass application built using Next.js 13 app router, sercer components, tailwind, stripe, prisma, and supabase',
+  //   year: 2023,
+  //   url: 'https://api.duyle.dev',
+  //   github: 'https://github.com/iamdooboy/poke',
+  //   stack: ['typescript', 'nextjs', 'tailwind', 'stripe', 'primsa', 'supabase'],
+  // },
 ]
