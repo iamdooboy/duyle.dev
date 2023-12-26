@@ -3,7 +3,6 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link'
 import { ProjectConfig } from '@/types'
-import { CircleIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 
 import {
@@ -13,9 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Circle } from 'lucide-react'
 
 interface Props extends ProjectConfig {
-  theme: 'light' | 'dark'
+  theme: string | undefined
 }
 
 export function CardSpotlight({ theme, ...project }: Props) {
@@ -98,9 +98,9 @@ export function CardSpotlight({ theme, ...project }: Props) {
           <div className='text-muted-foreground flex space-x-4 text-sm'>
             {project.stack.map((stack) => (
               <div key={stack} className='flex items-center'>
-                <CircleIcon
+                <Circle
                   className={clsx(
-                    'mr-1 h-3 w-3',
+                    'mr-1 h-3 w-3 fill-current',
                     stack === 'Supabase' && 'text-[#3FCF8E]',
                     stack === 'Tailwind CSS' && 'text-[#06B6D4]',
                     stack === 'Typescript' && 'text-[#3178C6]',

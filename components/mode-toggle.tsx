@@ -2,6 +2,7 @@
 
 import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
@@ -12,8 +13,19 @@ interface Props {
   theme: string
 }
 
-export function ModeToggle({ theme, setTheme, setPreview }: Props) {
+export function ModeToggle() {
   const [effect, setEffect] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
   return (
     <button
       className={cn(
@@ -23,24 +35,12 @@ export function ModeToggle({ theme, setTheme, setPreview }: Props) {
         `${effect && 'animate-jiggle'} h-8 w-8 px-0 text-black dark:text-white`
       )}
       onClick={() => {
-        let preview
         if (theme === 'light') {
           setTheme('dark')
-          preview = (
-            <div className='relative h-full w-full bg-[#000000]'>
-              <div className='absolute inset-0 bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_110%)]'></div>
-            </div>
-          )
         } else {
           setTheme('light')
-          preview = (
-            <div className='relative h-full w-full bg-white'>
-              <div className='absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_110%)]'></div>
-            </div>
-          )
         }
         setEffect(true)
-        setPreview(preview)
       }}
       onAnimationEnd={() => setEffect(false)}
     >

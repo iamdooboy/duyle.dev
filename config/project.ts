@@ -27,7 +27,7 @@ export const projectConfig: ProjectConfig[] = [
     stack: ['Typescript', 'React', 'Tailwind CSS'],
   },
   {
-    title: 'Draw this and guess that',
+    title: 'draw this and guess that',
     description:
       'Supabase week x hackathon submission. An online drawing tool to draw and compete with others by earning points for guessing correctly and climb the leaderboard',
     year: 2023,
@@ -35,13 +35,4 @@ export const projectConfig: ProjectConfig[] = [
     github: 'https://github.com/iamdooboy/supabase-hackathon',
     stack: ['Typescript', 'Next.js', 'Tailwind CSS', 'shadcn/ui', 'Supabase'],
   },
-  // {
-  //   title: 'poke',
-  //   description:
-  //     'An open source sass application built using Next.js 13 app router, sercer components, tailwind, stripe, prisma, and supabase',
-  //   year: 2023,
-  //   url: 'https://api.duyle.dev',
-  //   github: 'https://github.com/iamdooboy/poke',
-  //   stack: ['typescript', 'nextjs', 'tailwind', 'stripe', 'primsa', 'supabase'],
-  // },
 ]
