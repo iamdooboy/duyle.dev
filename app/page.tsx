@@ -25,11 +25,10 @@ export default function Home() {
 
   const bgPattern =
     theme === 'dark' ? (
-      <div className='absolute inset-0 -z-10 bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] opacity-50 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_80%)]'></div>
+      <div className='absolute inset-0 -z-10 bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] opacity-70 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_80%)]'></div>
     ) : (
-      <div className='absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_80%)]'></div>
+      <div className='absolute inset-0 -z-10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px] opacity-70 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_0%,transparent_80%)]'></div>
     )
-  console.log(theme)
 
   return (
     <div className='mx-auto max-w-xl py-8'>
