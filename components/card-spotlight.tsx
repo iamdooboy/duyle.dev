@@ -14,11 +14,7 @@ import {
 } from '@/components/ui/card'
 import { Circle } from 'lucide-react'
 
-interface Props extends ProjectConfig {
-  theme: string | undefined
-}
-
-export function CardSpotlight({ theme, ...project }: Props) {
+export function CardSpotlight({ ...project }: ProjectConfig) {
   const divRef = useRef<HTMLDivElement>(null)
   const [isFocused, setIsFocused] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
