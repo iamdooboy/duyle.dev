@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 import { Icons } from './icons'
 import { ModeToggle } from './mode-toggle'
-import { buttonVariants } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 
 export function Navbar() {
   return (
@@ -18,7 +18,19 @@ export function Navbar() {
             <span className='dark:text-neutral-100'>Full Stack Developer</span>
           </div>
         </a>
-        <div className='flex items-center space-x-1'>
+        <div className='flex items-center justify-evenly space-x-3'>
+          <div>
+            <Link href='/blog'>
+              <Button variant='link' className='text-lg'>
+                Blog
+              </Button>
+            </Link>
+            <Link href='/blog'>
+              <Button variant='link' className='text-lg'>
+                Project
+              </Button>
+            </Link>
+          </div>
           <Link href='/' target='_blank' rel='noreferrer'>
             <div
               className={cn(

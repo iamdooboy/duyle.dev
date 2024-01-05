@@ -27,20 +27,17 @@ export default function RootLayout({
           GeistSans.className
         )}
       >
-        {/* <ThemeProvider
+        <ThemeProvider
           attribute='class'
           defaultTheme='dark'
           enableSystem
           disableTransitionOnChange
-        > */}
-        <div className='absolute inset-0 dark:bg-dot-white/[0.1] bg-dot-black/[0.1]'>
-          <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_10%,black)]'></div>
+        >
           <div className='mx-auto max-w-xl py-8'>
             <Navbar />
             {children}
           </div>
-        </div>
-        {/* </ThemeProvider> */}
+        </ThemeProvider>
       </body>
     </html>
   )

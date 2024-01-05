@@ -7,12 +7,6 @@ import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
-interface Props {
-  setTheme: Dispatch<SetStateAction<'light' | 'dark'>>
-  setPreview: Dispatch<SetStateAction<ReactNode>>
-  theme: string
-}
-
 export function ModeToggle() {
   const [effect, setEffect] = useState(false)
   const [mounted, setMounted] = useState(false)
