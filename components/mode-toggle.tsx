@@ -27,13 +27,13 @@ export function ModeToggle() {
       onAnimationEnd={() => setEffect(false)}
     >
       <div
-        className='h-8 w-8 justify-center items-center flex dark:hidden'
+        className='flex h-8 w-8 items-center justify-center dark:hidden'
         onClick={() => toggleTheme('dark')}
       >
         <Sun className='h-5 w-5' />
       </div>
       <div
-        className='h-8 w-8 justify-center items-center hidden dark:inline-flex'
+        className='hidden h-8 w-8 items-center justify-center dark:inline-flex'
         onClick={() => toggleTheme('light')}
       >
         <Moon className='h-5 w-5' />

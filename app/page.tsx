@@ -1,15 +1,9 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
-import { useTheme } from 'next-themes'
 
 import { projectConfig } from '@/config/project'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
 import { CardSpotlight } from '@/components/card-spotlight'
-import { Icons } from '@/components/icons'
-import { ModeToggle } from '@/components/mode-toggle'
 
 export default function Home() {
   return (
@@ -19,9 +13,7 @@ export default function Home() {
         and attention to detail, striving to create great experiences. Love
         creating high quality and fun products.
       </p>
-      <div className='pb-2 pt-5 font-mono font-semibold'>
-        Projects
-      </div>
+      <div className='pb-2 pt-5 font-mono font-semibold'>Projects</div>
       <div className='space-y-3'>
         {projectConfig.map((project) => (
           <CardSpotlight key={project.title} {...project} />

@@ -5,7 +5,7 @@ import { getBlogPosts } from '@/app/lib/utils'
 import { CustomMDX } from '@/components/mdx'
 
 export async function generateStaticParams() {
-  const posts = await getBlogPosts()
+  const posts = getBlogPosts()
   return posts.map((post) => ({ slug: post.slug }))
 }
 
@@ -16,23 +16,23 @@ export default async function PostPage({
     slug: string
   }
 }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug)
+  const post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
   }
 
   return (
-    <section>
-      <h1 className='title font-medium text-2xl tracking-tighter max-w-[650px]'>
+    <section className='space-y-2 pt-5'>
+      <h1 className='max-w-[650px] text-2xl font-semibold tracking-tighter'>
         {post.metadata.title}
       </h1>
-      <div className='flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]'>
+      <div className='mb-8 mt-2 flex max-w-[650px] items-center justify-between text-sm'>
         <p className='text-sm text-neutral-600 dark:text-neutral-400'>
           {formatDate(post.metadata.date)}
         </p>
       </div>
-      <article className='prose prose-quoteless prose-neutral dark:prose-invert'>
+      <article className='prose prose-quoteless prose-neutral dark:prose-invert pt-5'>
         <CustomMDX source={post.content} />
       </article>
     </section>
