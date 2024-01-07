@@ -1,88 +1,43 @@
-// 'use client'
-
-// import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react'
-// import { Moon, Sun } from 'lucide-react'
-// import { useTheme } from 'next-themes'
-
-// import { cn } from '@/lib/utils'
-// import { buttonVariants } from '@/components/ui/button'
-
-// export function ModeToggle() {
-//   const [effect, setEffect] = useState(false)
-//   const [mounted, setMounted] = useState(false)
-//   const { theme, setTheme } = useTheme()
-
-//   React.useEffect(() => {
-//     setMounted(true)
-//   }, [])
-
-//   if (!mounted) {
-//     return null
-//   }
-
-//   return (
-//     <button
-//       className={cn(
-//         buttonVariants({
-//           variant: 'ghost',
-//         }),
-//         `${effect && 'animate-jiggle'} h-8 w-8 px-0 text-black dark:text-white`
-//       )}
-//       onClick={() => {
-//         if (theme === 'light') {
-//           setTheme('dark')
-//         } else {
-//           setTheme('light')
-//         }
-//         setEffect(true)
-//       }}
-//       onAnimationEnd={() => setEffect(false)}
-//     >
-//       <span className='sr-only'>Toggle mode</span>
-//       {theme === 'light' ? (
-//         <Sun className={`h-5 w-5`} />
-//       ) : (
-//         <Moon className={`h-5 w-5`} />
-//       )}
-//     </button>
-//   )
-// }
-
 'use client'
 
-import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react'
-import { Laptop2, Moon, Sun } from 'lucide-react'
+import React from 'react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
+  const [effect, setEffect] = React.useState(false)
+
+  const toggleTheme = (theme: string) => {
+    setEffect(true)
+    setTheme(theme)
+  }
+
   return (
-    <Tabs
-      defaultValue='dark'
-      className='w-[400px]'
-      onValueChange={(value) => {
-        if (value === 'light') {
-          setTheme('light')
-        } else {
-          setTheme('dark')
-        }
-      }}
+    <button
+      className={cn(
+        buttonVariants({
+          variant: 'ghost',
+        }),
+        `${effect && 'animate-jiggle'} h-8 w-8 px-0 text-black dark:text-white`
+      )}
+      onAnimationEnd={() => setEffect(false)}
     >
-      <TabsList>
-        <TabsTrigger value='light'>
-          <Sun className={`h-5 w-5`} />
-        </TabsTrigger>
-        <TabsTrigger value='dark'>
-          <Moon className={`h-5 w-5`} />
-        </TabsTrigger>
-        {/* <TabsTrigger value='system'>
-          <Laptop2 className={`h-5 w-5`} />
-        </TabsTrigger> */}
-      </TabsList>
-    </Tabs>
+      <div
+        className='h-8 w-8 justify-center items-center flex dark:hidden'
+        onClick={() => toggleTheme('dark')}
+      >
+        <Sun className='h-5 w-5' />
+      </div>
+      <div
+        className='h-8 w-8 justify-center items-center hidden dark:inline-flex'
+        onClick={() => toggleTheme('light')}
+      >
+        <Moon className='h-5 w-5' />
+      </div>
+    </button>
   )
 }
