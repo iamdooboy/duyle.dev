@@ -6,8 +6,8 @@ export default function BlogListPage() {
   const posts = getBlogPosts()
 
   return (
-    <div className='space-y-2 pt-5'>
-      <div className='pb-2 font-mono font-semibold'>All posts</div>
+    <div className='space-y-2 pt-5 '>
+      <div className='items-center pb-2 font-mono font-semibold'>All posts</div>
       <div className='flex flex-col gap-2'>
         {posts.map((post) => (
           <Link

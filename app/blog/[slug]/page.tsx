@@ -1,8 +1,11 @@
 import { Suspense } from 'react'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { ChevronLeft } from 'lucide-react'
 
-import { getBlogPosts } from '@/app/lib/utils'
+import { CopyButton } from '@/components/copy-button'
 import { CustomMDX } from '@/components/mdx'
+import { getBlogPosts } from '@/app/lib/utils'
 
 export async function generateStaticParams() {
   const posts = getBlogPosts()
@@ -24,12 +27,21 @@ export default async function PostPage({
 
   return (
     <section className='space-y-2 pt-5'>
-      <h1 className='max-w-[650px] text-2xl font-semibold tracking-tighter'>
+      <div className='text-muted-foreground flex items-center justify-between'>
+        <Link href='/blog' className='flex hover:underline'>
+          <ChevronLeft className='mr-2' />
+          <div className='font-mono font-semibold'>All posts</div>
+        </Link>
+        <CopyButton />
+      </div>
+
+      <div className='flex items-center justify-between gap-2 pb-2'></div>
+      <h1 className='text-xl font-semibold tracking-tighter'>
         {post.metadata.title}
       </h1>
       <div className='mb-8 mt-2 flex max-w-[650px] items-center justify-between text-sm'>
         <p className='text-sm text-neutral-600 dark:text-neutral-400'>
-          {formatDate(post.metadata.date)}
+          {post.metadata.date}
         </p>
       </div>
       <article className='prose prose-quoteless prose-neutral dark:prose-invert pt-5'>
