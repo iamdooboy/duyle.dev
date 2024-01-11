@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ProjectConfig } from '@/types'
 import clsx from 'clsx'
 import { Circle } from 'lucide-react'
+import { InfiniteCarousel } from './infinite-scroll'
 
 import {
   Card,
@@ -86,6 +87,9 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
         </Link>
         <CardContent>
           <div className='text-muted-foreground flex space-x-4 text-sm'>
+            <InfiniteCarousel>
+
+
             {project.stack.map((stack) => (
               // <span className=' flex me-2 items-center px-2 py-0.5 font-semibold rounded-md text-xs font-mono border-accent border text-foreground'>
               //   <svg
@@ -102,7 +106,7 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
               <div key={stack} className='flex items-center'>
                 <Circle
                   className={clsx(
-                    'mr-1 h-2 w-2 fill-current',
+                    'mr-1 h-3 w-3 fill-current',
                     stack === 'Supabase' && 'text-[#3FCF8E]',
                     stack === 'Tailwind CSS' && 'text-[#06B6D4]',
                     stack === 'Typescript' && 'text-[#3178C6]',
@@ -113,6 +117,7 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
                 <span className='text-xs'>{stack}</span>
               </div>
             ))}
+              </InfiniteCarousel>
           </div>
         </CardContent>
       </Card>
