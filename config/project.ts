@@ -29,7 +29,7 @@ export const projectConfig: ProjectConfig[] = [
   {
     title: 'draw this and guess that',
     description:
-      'Supabase week x hackathon submission. An online drawing tool to draw and compete with others by earning points for guessing correctly and climb the leaderboard',
+      'Supabase week x hackathon submission',
     year: 2023,
     url: 'https://drawthisguessthat.vercel.app',
     github: 'https://github.com/iamdooboy/supabase-hackathon',

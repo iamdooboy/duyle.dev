@@ -2,31 +2,53 @@ type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
   logo: (props: IconProps) => (
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' {...props}>
-      <rect width='256' height='256' fill='none' />
-      <line
-        x1='208'
-        y1='128'
-        x2='128'
-        y2='208'
-        fill='none'
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='16'
-      />
-      <line
-        x1='192'
-        y1='40'
-        x2='40'
-        y2='192'
-        fill='none'
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='16'
-      />
+    <svg
+      version='1.0'
+      xmlns='http://www.w3.org/2000/svg'
+      width='256.000000pt'
+      height='256.000000pt'
+      viewBox='0 0 256.000000 256.000000'
+      preserveAspectRatio='xMidYMid meet'
+      {...props}
+    >
+      <g
+        transform='translate(0.000000,256.000000) scale(0.100000,-0.100000)'
+        fill='currentColor'
+        stroke='none'
+      >
+        <path
+          d='M310 1280 l0 -970 538 0 c637 0 698 6 889 88 333 142 513 451 513
+882 0 272 -70 491 -209 657 -105 125 -237 210 -406 263 -146 45 -216 50 -787
+50 l-538 0 0 -970z m770 0 l0 -610 -190 0 -190 0 0 610 0 610 190 0 190 0 0
+-610z'
+        />
+      </g>
     </svg>
+    // <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' {...props}>
+    //   <rect width='256' height='256' fill='none' />
+    //   <line
+    //     x1='208'
+    //     y1='128'
+    //     x2='128'
+    //     y2='208'
+    //     fill='none'
+    //     stroke='currentColor'
+    //     strokeLinecap='round'
+    //     strokeLinejoin='round'
+    //     strokeWidth='16'
+    //   />
+    //   <line
+    //     x1='192'
+    //     y1='40'
+    //     x2='40'
+    //     y2='192'
+    //     fill='none'
+    //     stroke='currentColor'
+    //     strokeLinecap='round'
+    //     strokeLinejoin='round'
+    //     strokeWidth='16'
+    //   />
+    // </svg>
   ),
   gitHub: (props: IconProps) => (
     <svg viewBox='0 0 438.549 438.549' {...props}>
