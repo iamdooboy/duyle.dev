@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/card'
 
 import { Badge } from './badge'
+import { InfiniteCarousel } from './infinite-scroll'
 
 export function CardSpotlight({ ...project }: ProjectConfig) {
   const divRef = useRef<HTMLDivElement>(null)
@@ -87,24 +88,12 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
           </CardHeader>
         </Link>
         <CardContent>
-          <div className='text-muted-foreground flex space-x-2 text-sm'>
-            {project.stack.map((stack) => (
-              <Badge stack={stack} />
-
-              // <div key={stack} className='flex items-center'>
-              //   <Circle
-              //     className={clsx(
-              //       'mr-1 h-2 w-2 fill-current',
-              //       stack === 'Supabase' && 'text-[#3FCF8E]',
-              //       stack === 'Tailwind CSS' && 'text-[#06B6D4]',
-              //       stack === 'Typescript' && 'text-[#3178C6]',
-              //       stack === 'React' && 'text-[#61DAFB]',
-              //       stack === 'MongoDB' && 'text-[#47A248F]'
-              //     )}
-              //   />
-              //   <span className='text-xs'>{stack}</span>
-              // </div>
-            ))}
+          <div className='text-muted-foreground flex text-sm'>
+            <InfiniteCarousel>
+              {project.stack.map((stack) => (
+                <Badge stack={stack} />
+              ))}
+            </InfiniteCarousel>
           </div>
         </CardContent>
       </Card>

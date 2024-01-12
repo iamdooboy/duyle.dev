@@ -80,11 +80,16 @@ module.exports = {
             transform: 'rotate(-3deg)',
           },
         },
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-50% - var(--gap)/2))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         jiggle: 'jiggle 0.5s ease-in-out',
+        'infinite-scroll': 'infinite-scroll var(--duration) linear infinite',
       },
     },
   },

@@ -33,6 +33,6 @@ export const projectConfig: ProjectConfig[] = [
     year: 2023,
     url: 'https://drawthisguessthat.vercel.app',
     github: 'https://github.com/iamdooboy/supabase-hackathon',
-    stack: ['Typescript', 'Next.js', 'Tailwind CSS', 'shadcn/ui', 'Supabase'],
+    stack: ['Typescript', 'Next.js', 'shadcn/ui', 'Supabase'],
   },
 ]

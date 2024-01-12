@@ -18,7 +18,7 @@ export function Badge({ stack }: { stack: string }) {
     Icon = <Icons.react className='w-4 h-4' />
   }
   return (
-    <span className='flex items-center p-1 rounded-md font-mono border-accent border text-foreground'>
+    <span className='flex items-center p-1 rounded-md font-mono border-accent border text-foreground min-w-fit'>
       {Icon}
       <p className='ml-2 text-xs'>{stack}</p>
     </span>
