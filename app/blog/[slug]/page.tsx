@@ -34,8 +34,6 @@ export default async function PostPage({
         </Link>
         <CopyButton />
       </div>
-
-      <div className='flex items-center justify-between gap-2 pb-2'></div>
       <h1 className='text-xl font-semibold tracking-tighter'>
         {post.metadata.title}
       </h1>

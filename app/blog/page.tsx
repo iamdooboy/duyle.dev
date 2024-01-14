@@ -13,7 +13,7 @@ export default function BlogListPage() {
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className='border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md border p-4'
+            className='border-input bg-background hover:bg-input/80 hover:text-accent-foreground rounded-md border p-4'
           >
             <div className='font-semibold'>{post.metadata.title}</div>
             <div className='text-muted-foreground text-sm'>

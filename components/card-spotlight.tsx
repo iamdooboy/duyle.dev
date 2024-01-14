@@ -1,23 +1,10 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import Link from 'next/link'
-import { ProjectConfig } from '@/types'
-import clsx from 'clsx'
-import { Circle } from 'lucide-react'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 
-import { Badge } from './badge'
-import { InfiniteCarousel } from './infinite-scroll'
-
-export function CardSpotlight({ ...project }: ProjectConfig) {
+export function CardSpotlight({ children }: { children: React.ReactNode }) {
   const divRef = useRef<HTMLDivElement>(null)
   const [isFocused, setIsFocused] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -77,25 +64,7 @@ export function CardSpotlight({ ...project }: ProjectConfig) {
         onMouseLeave={handleMouseLeave}
         className='overflow-hidden'
       >
-        <Link href={project.url}>
-          <CardHeader className='grid grid-cols-[1fr_110px] items-start gap-4 space-y-0'>
-            <div className='space-y-1'>
-              <CardTitle className='font-mono underline-offset-4'>
-                {project.title}
-              </CardTitle>
-              <CardDescription>{project.description}</CardDescription>
-            </div>
-          </CardHeader>
-        </Link>
-        <CardContent>
-          <div className='text-muted-foreground flex text-sm'>
-            <InfiniteCarousel>
-              {project.stack.map((stack) => (
-                <Badge stack={stack} />
-              ))}
-            </InfiniteCarousel>
-          </div>
-        </CardContent>
+        {children}
       </Card>
     </div>
   )

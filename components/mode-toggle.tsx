@@ -5,7 +5,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
@@ -17,11 +17,9 @@ export function ModeToggle() {
   }
 
   return (
-    <button
+    <Button
+      variant='ghost'
       className={cn(
-        buttonVariants({
-          variant: 'ghost',
-        }),
         `${effect && 'animate-jiggle'} h-8 w-8 px-0 text-black dark:text-white`
       )}
       onAnimationEnd={() => setEffect(false)}
@@ -38,6 +36,6 @@ export function ModeToggle() {
       >
         <Moon className='h-5 w-5' />
       </div>
-    </button>
+    </Button>
   )
 }

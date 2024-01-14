@@ -5,7 +5,6 @@ import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 
-import { MobileNav } from '@/components/mobile-nav-bar'
 import { Navbar } from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 
@@ -34,7 +33,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className='mx-auto w-full max-w-xl py-8 container'>
+          <div className='bg-background container mx-auto w-full max-w-xl py-8'>
             <Navbar />
             {children}
           </div>
