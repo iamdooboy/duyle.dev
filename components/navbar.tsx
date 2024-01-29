@@ -25,10 +25,10 @@ export function Navbar() {
                 buttonVariants({
                   variant: 'ghost',
                 }),
-                'h-8 w-8 px-0 text-black dark:text-white'
+                'size-8 px-0 text-black dark:text-white'
               )}
             >
-              <Icons.gitHub className='h-5 w-5' />
+              <Icons.gitHub className='size-5' />
               <span className='sr-only'>GitHub</span>
             </div>
           </Link>

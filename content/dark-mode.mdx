@@ -1,0 +1,139 @@
+---
+title: 'Dark Mode in Next.js App Router and Tailwind CSS without using useEffect'
+date: '8/19/2023'
+desctiption: 'Dark Mode in Next.js App Router and Tailwind CSS without using useEffect'
+---
+
+### 1. Edit `tailwind.config.js`
+
+```tsx
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  // ...
+}
+```
+
+### 2. Install `next-themes`
+
+```bash
+npm install next-themes
+```
+
+### 3. Create a theme provider
+
+```tsx title="components/theme-provider.tsx"
+'use client'
+
+import * as React from 'react'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { type ThemeProviderProps } from 'next-themes/dist/types'
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+```
+
+<Callout>The `children` prop create a 'slot' in the `ThemeProvider`</Callout>
+
+### 4. Add the `ThemeProvider` to your root layout
+
+```tsx
+import { ThemeProvider } from '@/components/theme-provider'
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <html lang='en' suppressHydrationWarning>
+      <head />
+      <body>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+<Callout>
+  By using the `children` prop, the `ThemeProvider` and the rest of the app are
+  decoupled and can be rendered independently.
+</Callout>
+
+### 5. Add a mode toggle
+
+Using useEffect to check if the page is mounted to avoid hydration mismatch error will result in this on every page refresh/reload
+
+![Alt Text](/dark_mode.gif)
+
+It is a small annoyance that's hard to overlook once you see it. Luckily, it can be solved using Tailwind CSS *dark* class variant.
+
+<Tabs defaultValue="useEffect">
+<TabsList>
+  <TabsTrigger value="useEffect">with useEffect</TabsTrigger>
+  <TabsTrigger value="no useEffect">no useEffect</TabsTrigger>
+</TabsList>
+<TabsContent value="useEffect">
+```tsx
+'use client'
+
+import { useEffect, useState } from 'react'
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+
+export function ModeToggle() {
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <button className='h-8 w-8 px-0 text-black dark:text-white'>
+      {theme === 'dark' && <Sun onClick={() => setTheme('light')} />}
+      {theme === 'light' && <Moon onClick={() => setTheme('dark')} />}
+    </button>
+  )
+}
+````
+</TabsContent>
+<TabsContent value="no useEffect">
+```tsx
+'use client'
+
+import { Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+
+export function ModeToggle() {
+  const { setTheme } = useTheme()
+  return (
+    <button className='h-8 w-8 px-0 text-black dark:text-white'>
+      <div
+        className='flex h-8 w-8 items-center justify-center dark:hidden'
+        onClick={() => setTheme('dark')}
+      >
+        <Sun className='h-5 w-5' />
+      </div>
+      <div
+        className='hidden h-8 w-8 items-center justify-center dark:inline-flex'
+        onClick={() => setTheme('light')}
+      >
+        <Moon className='h-5 w-5' />
+      </div>
+    </button>
+  )
+}
+````
+</TabsContent>
+</Tabs>

@@ -42,7 +42,7 @@ export default async function PostPage({
           {post.metadata.date}
         </p>
       </div>
-      <article className='prose prose-quoteless prose-neutral dark:prose-invert pt-5'>
+      <article className='prose prose-quoteless prose-neutral dark:prose-invert'>
         <CustomMDX source={post.content} />
       </article>
     </section>

@@ -20,21 +20,21 @@ export function ModeToggle() {
     <Button
       variant='ghost'
       className={cn(
-        `${effect && 'animate-jiggle'} h-8 w-8 px-0 text-black dark:text-white`
+        `${effect && 'animate-jiggle'} size-8 px-0 text-black dark:text-white`
       )}
       onAnimationEnd={() => setEffect(false)}
     >
       <div
-        className='flex h-8 w-8 items-center justify-center dark:hidden'
+        className='flex size-8 items-center justify-center dark:hidden'
         onClick={() => toggleTheme('dark')}
       >
-        <Sun className='h-5 w-5' />
+        <Sun className='size-5' />
       </div>
       <div
-        className='hidden h-8 w-8 items-center justify-center dark:inline-flex'
+        className='hidden size-8 items-center justify-center dark:inline-flex'
         onClick={() => toggleTheme('light')}
       >
-        <Moon className='h-5 w-5' />
+        <Moon className='size-5' />
       </div>
     </Button>
   )

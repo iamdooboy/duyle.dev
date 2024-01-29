@@ -22,12 +22,12 @@ export function CopyButton() {
     >
       {hasCopied ? (
         <>
-          <Check className='mr-2 h-4 w-4 ' />
+          <Check className='mr-2 size-4 ' />
           Copied
         </>
       ) : (
         <>
-          <Share2 className='mr-2 h-4 w-4 ' />
+          <Share2 className='mr-2 size-4 ' />
           Copy link
         </>
       )}

@@ -23,7 +23,7 @@ export function Badge({ stack }: { stack: string }) {
   const Icon = iconMappin[stack as keyof Props]
   return (
     <span className='text-foreground flex min-w-fit items-center rounded-md p-1 font-mono'>
-      <Icon className='h-4 w-4' />
+      <Icon className='size-4' />
       <p className='ml-2 text-xs'>{stack}</p>
     </span>
   )
