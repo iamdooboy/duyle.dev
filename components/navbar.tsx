@@ -19,7 +19,11 @@ export function Navbar() {
         </Link>
         <div className='flex items-center justify-evenly gap-4'>
           <MainNav />
-          <Link href='/' target='_blank' rel='noreferrer'>
+          <Link
+            href='https://github.com/iamdooboy'
+            target='_blank'
+            rel='noreferrer'
+          >
             <div
               className={cn(
                 buttonVariants({

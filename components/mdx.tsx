@@ -31,8 +31,23 @@ export const mdxComponents: MDXComponents = {
       </Code>
     )
   },
+  Strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <code
+      className={cn(
+        'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm',
+        className
+      )}
+      {...props}
+    />
+  ),
   img: MDXImage as any,
   Image: NextImage as any,
+  a: ({ className, ...props }: React.HTMLAttributes<HTMLAnchorElement>) => (
+    <a
+      className={cn('font-medium underline underline-offset-4', className)}
+      {...props}
+    />
+  ),
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
@@ -84,6 +99,12 @@ export const mdxComponents: MDXComponents = {
         'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
         className
       )}
+      {...props}
+    />
+  ),
+  Pkg: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => (
+    <p
+      className={cn('rounded bg-muted font-mono text-sm', className)}
       {...props}
     />
   ),

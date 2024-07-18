@@ -4,7 +4,34 @@ date: '8/19/2023'
 desctiption: 'Dark Mode in Next.js App Router and Tailwind CSS without using useEffect'
 ---
 
-### 1. Edit `tailwind.config.js`
+During the development of [duyle.dev](https://duyle.dev), I ran into a tiny issue when trying to implement dark mode toggle for my site with Next.js and <Strong>next-themes</Strong>
+The mode toggle button would flicker on every page refresh/reload. It is a small annoyance that's hard to overlook once you see it.
+
+![Alt Text](/dark_mode.gif)
+
+### Background
+
+The reason this happens is because when using <Strong>next-themes</Strong>, we do not know the theme
+on the server; many of the values returned from the <Strong>useTheme</Strong> hook will be undefined
+until mounted on the client. To fix this issue, you have to use <Strong>useEffect</Strong> to check
+if the page is mounted to ensure it only renders the UI with the current theme when
+the page is mounted on the client.
+
+```tsx
+useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+}
+```
+
+### Tailwind CSS
+
+So what’s the solution to this? Tailwind CSS dark class variant. And here’s how, assuming you already have tailwind CSS installed:
+
+#### 1. Edit `tailwind.config.js`
 
 ```tsx
 // tailwind.config.js
@@ -15,13 +42,13 @@ module.exports = {
 }
 ```
 
-### 2. Install `next-themes`
+#### 2. Install `next-themes`
 
 ```bash
 npm install next-themes
 ```
 
-### 3. Create a theme provider
+#### 3. Create a theme provider
 
 ```tsx title="components/theme-provider.tsx"
 'use client'
@@ -37,7 +64,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
 <Callout>The `children` prop create a 'slot' in the `ThemeProvider`</Callout>
 
-### 4. Add the `ThemeProvider` to your root layout
+#### 4. Add the `ThemeProvider` to your root layout
 
 ```tsx
 import { ThemeProvider } from '@/components/theme-provider'
@@ -66,13 +93,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   decoupled and can be rendered independently.
 </Callout>
 
-### 5. Add a mode toggle
-
-Using useEffect to check if the page is mounted to avoid hydration mismatch error will result in this on every page refresh/reload
-
-![Alt Text](/dark_mode.gif)
-
-It is a small annoyance that's hard to overlook once you see it. Luckily, it can be solved using Tailwind CSS *dark* class variant.
+#### 5. Add a mode toggle
 
 <Tabs defaultValue="useEffect">
 <TabsList>
@@ -91,21 +112,22 @@ export function ModeToggle() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+useEffect(() => {
+setMounted(true)
+}, [])
 
-  if (!mounted) {
-    return null
-  }
-
-  return (
-    <button className='h-8 w-8 px-0 text-black dark:text-white'>
-      {theme === 'dark' && <Sun onClick={() => setTheme('light')} />}
-      {theme === 'light' && <Moon onClick={() => setTheme('dark')} />}
-    </button>
-  )
+if (!mounted) {
+return null
 }
+
+return (
+
+<button className='h-8 w-8 px-0 text-black dark:text-white'>
+  {theme === 'dark' && <Sun onClick={() => setTheme('light')} />}
+  {theme === 'light' && <Moon onClick={() => setTheme('dark')} />}
+</button>
+) }
+
 ````
 </TabsContent>
 <TabsContent value="no useEffect">
@@ -135,5 +157,8 @@ export function ModeToggle() {
   )
 }
 ````
+
 </TabsContent>
 </Tabs>
+
+You can add a subtle transition animation to enhance the user experience. You can learn more about Tailwind CSS animation [here](https://tailwindcss.com/docs/animation)
