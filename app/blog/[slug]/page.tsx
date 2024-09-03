@@ -1,82 +1,101 @@
-import { Suspense } from 'react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { ChevronLeft } from 'lucide-react'
-
-import { CopyButton } from '@/components/copy-button'
-import { CustomMDX } from '@/components/mdx'
-import { getBlogPosts } from '@/app/lib/utils'
+import type { Metadata } from "next"
+import { notFound } from "next/navigation"
+import { CustomMDX } from "app/components/mdx"
+import { formatDate, getBlogPosts } from "app/lib/posts"
+import { metaData } from "app/config"
 
 export async function generateStaticParams() {
-  const posts = getBlogPosts()
-  return posts.map((post) => ({ slug: post.slug }))
+  let posts = getBlogPosts()
+
+  return posts.map((post) => ({
+    slug: post.slug
+  }))
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: {
-    slug: string
+export async function generateMetadata({
+  params
+}): Promise<Metadata | undefined> {
+  let post = getBlogPosts().find((post) => post.slug === params.slug)
+  if (!post) {
+    return
   }
-}) {
-  const post = getBlogPosts().find((post) => post.slug === params.slug)
+
+  let {
+    title,
+    publishedAt: publishedTime,
+    summary: description,
+    image
+  } = post.metadata
+  let ogImage = image
+    ? image
+    : `${metaData.baseUrl}/og?title=${encodeURIComponent(title)}`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      publishedTime,
+      url: `${metaData.baseUrl}/blog/${post.slug}`,
+      images: [
+        {
+          url: ogImage
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage]
+    }
+  }
+}
+
+export default function Blog({ params }) {
+  let post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
   }
 
   return (
-    <section className='space-y-2 pt-5'>
-      <div className='text-muted-foreground flex items-center justify-between'>
-        <Link href='/blog' className='flex hover:underline'>
-          <ChevronLeft className='mr-2' />
-          <div className='font-mono font-semibold'>All posts</div>
-        </Link>
-        <CopyButton />
-      </div>
-      <h1 className='text-xl font-semibold tracking-tighter'>
+    <section>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.metadata.title,
+            datePublished: post.metadata.publishedAt,
+            dateModified: post.metadata.publishedAt,
+            description: post.metadata.summary,
+            image: post.metadata.image
+              ? `${metaData.baseUrl}${post.metadata.image}`
+              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+            url: `${metaData.baseUrl}/blog/${post.slug}`,
+            author: {
+              "@type": "Person",
+              name: metaData.name
+            }
+          })
+        }}
+      />
+      <h1 className="title mb-3 font-medium text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className='mb-8 mt-2 flex max-w-[650px] items-center justify-between text-sm'>
-        <p className='text-sm text-neutral-600 dark:text-neutral-400'>
-          {post.metadata.date}
+      <div className="flex justify-between items-center mt-2 mb-8 text-medium">
+        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+          {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className='prose prose-quoteless prose-neutral dark:prose-invert'>
+      <article className="prose prose-quoteless prose-neutral dark:prose-invert">
         <CustomMDX source={post.content} />
       </article>
     </section>
   )
-}
-
-function formatDate(date: string) {
-  let currentDate = new Date()
-  if (!date.includes('T')) {
-    date = `${date}T00:00:00`
-  }
-  let targetDate = new Date(date)
-
-  let yearsAgo = currentDate.getFullYear() - targetDate.getFullYear()
-  let monthsAgo = currentDate.getMonth() - targetDate.getMonth()
-  let daysAgo = currentDate.getDate() - targetDate.getDate()
-
-  let formattedDate = ''
-
-  if (yearsAgo > 0) {
-    formattedDate = `${yearsAgo}y ago`
-  } else if (monthsAgo > 0) {
-    formattedDate = `${monthsAgo}mo ago`
-  } else if (daysAgo > 0) {
-    formattedDate = `${daysAgo}d ago`
-  } else {
-    formattedDate = 'Today'
-  }
-
-  let fullDate = targetDate.toLocaleString('en-us', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-
-  return `${fullDate} (${formattedDate})`
 }
