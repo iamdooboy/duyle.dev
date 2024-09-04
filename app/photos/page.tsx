@@ -1,5 +1,5 @@
 import React from "react"
-import { ImageGrid } from "app/components/image-grid"
+import { ImageGrid } from "app/_components/image-grid"
 
 export const metadata = {
   title: "Photos",

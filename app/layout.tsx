@@ -2,12 +2,14 @@ import "./global.css"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Navbar } from "./components/nav"
+import { Navbar } from "./_components/nav"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import Footer from "./components/footer"
-import { ThemeProvider } from "./components/theme-switch"
+import Footer from "./_components/footer"
+import { ThemeProvider } from "./_components/theme-switch"
 import { metaData } from "./config"
+import { AuroraBackgroundDemo } from "./_components/test"
+import BlurryBlob from "@/ui/blurry-blob"
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -77,8 +79,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[640px] w-full">
+          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[640px] w-full relative">
+            <BlurryBlob
+              className="rounded-xl opacity-45"
+              firstBlobColor="bg-purple-400"
+              secondBlobColor="bg-blue-400"
+            />
             <Navbar />
+
             {children}
             <Footer />
             <Analytics />

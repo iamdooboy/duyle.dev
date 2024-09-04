@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { CustomMDX } from "app/components/mdx"
-import { formatDate, getBlogPosts } from "app/lib/posts"
+import { CustomMDX } from "app/_components/mdx"
+import { formatDate, getBlogPosts } from "@/lib/posts"
 import { metaData } from "app/config"
 
 export async function generateStaticParams() {

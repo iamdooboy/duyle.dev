@@ -20,6 +20,11 @@
         "name": "next"
       }
     ],
+    "paths": {
+      "@/ui/*": ["./app/_components/ui/*"],
+      "@/_components/*": ["./app/_components/*"],
+      "@/*": ["./*"]
+    },
     "strictNullChecks": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
