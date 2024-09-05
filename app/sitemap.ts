@@ -1,15 +1,15 @@
-import { MetadataRoute } from "next"
-import { getBlogPosts } from "../lib/posts"
-import { metaData } from "./config"
+import { getBlogPosts } from "@/lib/utils"
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export const baseUrl = "https://portfolio-blog-starter.vercel.app"
+
+export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
-    url: `${metaData.baseUrl}/blog/${post.slug}`,
+    url: `${baseUrl}/blog/${post.slug}`,
     lastModified: post.metadata.publishedAt
   }))
 
-  let routes = ["", "/blog", "/projects", "/photos"].map((route) => ({
-    url: `${metaData.baseUrl}${route}`,
+  let routes = ["", "/blog"].map((route) => ({
+    url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split("T")[0]
   }))
 

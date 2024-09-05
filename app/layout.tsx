@@ -1,15 +1,13 @@
 import "./global.css"
-import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
-import { Navbar } from "./_components/nav"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GeistMono } from "geist/font/mono"
+import { GeistSans } from "geist/font/sans"
+import type { Metadata } from "next"
 import Footer from "./_components/footer"
-import { ThemeProvider } from "./_components/theme-switch"
-import { metaData } from "./config"
-import { AuroraBackgroundDemo } from "./_components/test"
-import BlurryBlob from "@/ui/blurry-blob"
+import { Navbar } from "./_components/navbar"
+import { ThemeProvider } from "./_components/theme-provider"
+import { metaData } from "./meta-data"
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -43,7 +41,7 @@ export const metadata: Metadata = {
   }
 }
 
-const cx = (...classes) => classes.filter(Boolean).join(" ")
+const cx = (...classes: string[]) => classes.filter(Boolean).join(" ")
 
 export default function RootLayout({
   children
@@ -51,7 +49,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cx(GeistSans.variable, GeistMono.variable)}>
+    <html
+      lang="en"
+      className={cx(GeistSans.variable, GeistMono.variable)}
+      suppressHydrationWarning
+    >
       <head>
         <link
           rel="alternate"
@@ -71,29 +73,18 @@ export default function RootLayout({
           href="/feed.json"
           title="JSON Feed"
         />
+        <body className="antialiased max-w-2xl min-h-screen mx-auto px-6">
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+              <Navbar />
+              {children}
+              <Footer />
+              <Analytics />
+              <SpeedInsights />
+            </main>
+          </ThemeProvider>
+        </body>
       </head>
-      <body className="antialiased flex flex-col items-center justify-center mx-auto mt-2 lg:mt-8 mb-20 lg:mb-40">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[640px] w-full relative">
-            <BlurryBlob
-              className="rounded-xl opacity-45"
-              firstBlobColor="bg-purple-400"
-              secondBlobColor="bg-blue-400"
-            />
-            <Navbar />
-
-            {children}
-            <Footer />
-            <Analytics />
-            <SpeedInsights />
-          </main>
-        </ThemeProvider>
-      </body>
     </html>
   )
 }

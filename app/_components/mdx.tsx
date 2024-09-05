@@ -1,41 +1,11 @@
-import React from "react"
-import Link from "next/link"
-import Image from "next/image"
+import { Code } from "bright"
 import { MDXRemote } from "next-mdx-remote/rsc"
-import { highlight } from "sugar-high"
-import { TweetComponent } from "./tweet"
-import { CaptionComponent } from "./caption"
-import { YouTubeComponent } from "./youtube"
-import { ImageGrid } from "./image-grid"
-import rehypeKatex from "rehype-katex"
-import remarkMath from "remark-math"
-import "katex/dist/katex.min.css"
+import Image from "next/image"
+import Link from "next/link"
+import { ComponentProps, createElement } from "react"
+//import { CodeThemeProvider } from "./code-theme-provider"
 
-function CustomLink(props) {
-  let href = props.href
-  if (href.startsWith("/")) {
-    return (
-      <Link href={href} {...props}>
-        {props.children}
-      </Link>
-    )
-  }
-  if (href.startsWith("#")) {
-    return <a {...props} />
-  }
-  return <a target="_blank" rel="noopener noreferrer" {...props} />
-}
-
-function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />
-}
-
-function Code({ children, ...props }) {
-  let codeHTML = highlight(children)
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />
-}
-
-function Table({ data }) {
+function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
   let headers = data.headers.map((header, index) => (
     <th key={index}>{header}</th>
   ))
@@ -46,48 +16,80 @@ function Table({ data }) {
       ))}
     </tr>
   ))
+
   return (
     <table>
       <thead>
-        <tr className="text-left">{headers}</tr>
+        <tr>{headers}</tr>
       </thead>
       <tbody>{rows}</tbody>
     </table>
   )
 }
 
-function Strikethrough(props) {
-  return <del {...props} />
+type Props = {
+  href: string
+  children: React.ReactNode
 }
 
-function Callout(props) {
+function CustomLink(props: Props) {
+  const href = props.href
+
+  if (href.startsWith("/")) {
+    return <Link {...props}>{props.children}</Link>
+  }
+
+  if (href.startsWith("#")) {
+    return <a {...props} />
+  }
+
+  return <a target="_blank" rel="noopener noreferrer" {...props} />
+}
+
+function RoundedImage(props: any) {
+  return <Image alt={props.alt} className="rounded-lg" {...props} />
+}
+
+function CodeHightlight({ children, ...props }: { children: string }) {
+  Code.theme = {
+    dark: "github-dark",
+    light: "github-light"
+  }
   return (
-    <div className="px-4 py-3 bg-[#F7F7F7] dark:bg-[#181818] rounded p-1 text-sm flex items-center text-neutral-900 dark:text-neutral-100 mb-8">
-      <div className="flex items-center w-4 mr-4">{props.emoji}</div>
-      <div className="w-full callout leading-relaxed">{props.children}</div>
+    <div>
+      <div data-theme="dark" className="hidden dark:block">
+        <Code lineNumbers {...props}>
+          {children as any}
+        </Code>
+      </div>
+      <div data-theme="light" className="dark:hidden block">
+        <Code lineNumbers {...props}>
+          {children as any}
+        </Code>
+      </div>
     </div>
   )
 }
 
-function slugify(str) {
+function slugify(str: string) {
   return str
     .toString()
     .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/&/g, "-and-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-")
+    .trim() // Remove whitespace from both ends of a string
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/&/g, "-and-") // Replace & with 'and'
+    .replace(/[^\w\-]+/g, "") // Remove all non-word characters except for -
+    .replace(/\-\-+/g, "-") // Replace multiple - with single -
 }
 
-function createHeading(level) {
-  const Heading = ({ children }) => {
+function createHeading(level: number) {
+  const Heading = ({ children }: { children: string }) => {
     let slug = slugify(children)
-    return React.createElement(
+    return createElement(
       `h${level}`,
       { id: slug },
       [
-        React.createElement("a", {
+        createElement("a", {
           href: `#${slug}`,
           key: `link-${slug}`,
           className: "anchor"
@@ -96,7 +98,9 @@ function createHeading(level) {
       children
     )
   }
+
   Heading.displayName = `Heading${level}`
+
   return Heading
 }
 
@@ -108,28 +112,16 @@ let components = {
   h5: createHeading(5),
   h6: createHeading(6),
   Image: RoundedImage,
-  ImageGrid,
   a: CustomLink,
-  StaticTweet: TweetComponent,
-  Caption: CaptionComponent,
-  YouTube: YouTubeComponent,
-  code: Code,
-  Table,
-  del: Strikethrough,
-  Callout
+  pre: CodeHightlight,
+  Table
 }
 
-export function CustomMDX(props) {
+export function CustomMDX(props: ComponentProps<any>) {
   return (
     <MDXRemote
       {...props}
       components={{ ...components, ...(props.components || {}) }}
-      options={{
-        mdxOptions: {
-          remarkPlugins: [remarkMath],
-          rehypePlugins: [rehypeKatex]
-        }
-      }}
     />
   )
 }

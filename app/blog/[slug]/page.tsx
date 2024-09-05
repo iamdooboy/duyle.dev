@@ -1,8 +1,8 @@
-import type { Metadata } from "next"
+import { CustomMDX } from "@/app/_components/mdx"
+import { metaData } from "@/app/meta-data"
+import { formatDate, getBlogPosts } from "@/lib/utils"
 import { notFound } from "next/navigation"
-import { CustomMDX } from "app/_components/mdx"
-import { formatDate, getBlogPosts } from "@/lib/posts"
-import { metaData } from "app/config"
+import { Metadata } from "next/types"
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params
-}): Promise<Metadata | undefined> {
+}: { params: { slug: string } }): Promise<Metadata | undefined> {
   let post = getBlogPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
@@ -54,7 +54,7 @@ export async function generateMetadata({
   }
 }
 
-export default function Blog({ params }) {
+export default function Blog({ params }: { params: { slug: string } }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
@@ -80,20 +80,20 @@ export default function Blog({ params }) {
             url: `${metaData.baseUrl}/blog/${post.slug}`,
             author: {
               "@type": "Person",
-              name: metaData.name
+              name: "My Portfolio"
             }
           })
         }}
       />
-      <h1 className="title mb-3 font-medium text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-medium">
+      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose prose-quoteless prose-neutral dark:prose-invert">
+      <article className="prose">
         <CustomMDX source={post.content} />
       </article>
     </section>
