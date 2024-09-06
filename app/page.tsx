@@ -1,9 +1,41 @@
+import { BentoCard, BentoGrid } from "./_components/bento-grid"
 import { BlogPosts } from "./_components/blog-posts"
-import { Particles } from "./_components/particles"
+import { Moon } from "lucide-react"
+
 export default function Page() {
+  const features = [
+    {
+      Icon: Moon,
+      name: "Save your files",
+      description: "We automatically save your files as you type.",
+      href: "/",
+      cta: "Learn more",
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3"
+    },
+    {
+      Icon: Moon,
+      name: "Full text search",
+      description: "Search through all your files in one place.",
+      href: "/",
+      cta: "Learn more",
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3"
+    },
+    {
+      Icon: Moon,
+      name: "Multilingual",
+      description: "Supports 100+ languages and counting.",
+      href: "/",
+      cta: "Learn more",
+      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4"
+    }
+  ]
   return (
     <>
-      <section>
+      <section className='h-full'>
+        
         <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
           My Portfolio
         </h1>
@@ -18,14 +50,6 @@ export default function Page() {
           <BlogPosts />
         </div>
       </section>
-      <Particles
-        className="absolute inset-0 -z-10"
-        quantity={50}
-        ease={70}
-        size={0.05}
-        staticity={40}
-        color="#ffffff"
-      />
     </>
   )
 }

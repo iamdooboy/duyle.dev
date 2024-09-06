@@ -1,6 +1,6 @@
 import { CustomMDX } from "@/app/_components/mdx"
 import { metaData } from "@/app/meta-data"
-import { formatDate, getBlogPosts } from "@/lib/utils"
+import { formatDate, getBlogPosts } from "@/lib/mdx-utils"
 import { notFound } from "next/navigation"
 import { Metadata } from "next/types"
 
@@ -85,7 +85,7 @@ export default function Blog({ params }: { params: { slug: string } }) {
           })
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">

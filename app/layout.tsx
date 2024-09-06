@@ -8,6 +8,7 @@ import Footer from "./_components/footer"
 import { Navbar } from "./_components/navbar"
 import { ThemeProvider } from "./_components/theme-provider"
 import { metaData } from "./meta-data"
+import { Particles } from './_components/particles'
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -73,15 +74,23 @@ export default function RootLayout({
           href="/feed.json"
           title="JSON Feed"
         />
-        <body className="antialiased max-w-2xl min-h-screen mx-auto px-6">
+        <body className="antialiased max-w-xl mx-auto px-6">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 relative">
               <Navbar />
               {children}
               <Footer />
               <Analytics />
               <SpeedInsights />
             </main>
+            <Particles
+              className="absolute inset-0 -z-10"
+              quantity={100}
+              ease={70}
+              size={0.05}
+              staticity={40}
+              color="#ffffff"
+            />
           </ThemeProvider>
         </body>
       </head>

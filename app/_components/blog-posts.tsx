@@ -1,4 +1,4 @@
-import { formatDate, getBlogPosts } from "@/lib/utils"
+import { formatDate, getBlogPosts } from "@/lib/mdx-utils"
 import Link from "next/link"
 
 export function BlogPosts() {

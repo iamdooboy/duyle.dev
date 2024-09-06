@@ -4,12 +4,7 @@ import * as React from "react"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
 
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { cn } from '@/lib/utils'
 
 export function ModeToggle() {
   const { setTheme, theme } = useTheme()
@@ -17,8 +12,7 @@ export function ModeToggle() {
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm hover:opacity-75",
-        "rounded-md px-3"
+        "inline-flex items-center justify-center whitespace-nowrap hover:opacity-80 px-3"
       )}
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
