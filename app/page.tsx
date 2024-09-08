@@ -1,41 +1,11 @@
-import { BentoCard, BentoGrid } from "./_components/bento-grid"
-import { BlogPosts } from "./_components/blog-posts"
-import { Moon } from "lucide-react"
+import { More } from "./_components/more"
+import { RecentPosts } from "./_components/recent-posts"
+import { Title } from "./_components/title"
 
 export default function Page() {
-  const features = [
-    {
-      Icon: Moon,
-      name: "Save your files",
-      description: "We automatically save your files as you type.",
-      href: "/",
-      cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
-      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3"
-    },
-    {
-      Icon: Moon,
-      name: "Full text search",
-      description: "Search through all your files in one place.",
-      href: "/",
-      cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
-      className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3"
-    },
-    {
-      Icon: Moon,
-      name: "Multilingual",
-      description: "Supports 100+ languages and counting.",
-      href: "/",
-      cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
-      className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4"
-    }
-  ]
   return (
     <>
-      <section className='h-full'>
-        
+      <section className="h-full">
         <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
           My Portfolio
         </h1>
@@ -47,7 +17,14 @@ export default function Page() {
         mode, which eases long coding sessions by reducing eye strain.`}
         </p>
         <div className="my-8">
-          <BlogPosts />
+          <Title>Recent posts</Title>
+          <RecentPosts />
+          <More href="/blog">More posts</More>
+        </div>
+        <div className="my-8">
+          <Title>Recent projects</Title>
+          <RecentPosts />
+          <More href="/projects">More projects</More>
         </div>
       </section>
     </>

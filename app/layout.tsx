@@ -6,9 +6,9 @@ import { GeistSans } from "geist/font/sans"
 import type { Metadata } from "next"
 import Footer from "./_components/footer"
 import { Navbar } from "./_components/navbar"
+import { Particles } from "./_components/particles"
 import { ThemeProvider } from "./_components/theme-provider"
 import { metaData } from "./meta-data"
-import { Particles } from './_components/particles'
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),

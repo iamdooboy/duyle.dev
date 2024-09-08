@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { ModeToggle } from "./mode-toggle"
 import AnimatedBackground from "./animated-bg"
+import { ModeToggle } from "./mode-toggle"
 
 const navItems = {
   "/": {
