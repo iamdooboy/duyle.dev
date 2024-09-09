@@ -19,11 +19,11 @@ export function RecentPosts() {
         .map((post) => (
           <Link
             key={post.slug}
-            className="flex flex-col gap-1 mb-4 hover:scale-105 transition-transform duration-300 group"
+            className="group mb-4 flex flex-col gap-1 transition-transform duration-300 hover:scale-105"
             href={`/blog/${post.slug}`}
           >
             <div>
-              <p className="tracking-tight text-lg font-medium group-hover:underline">
+              <p className="font-medium text-lg tracking-tight group-hover:underline">
                 {post.metadata.title}
               </p>
               <p className="text-muted-foreground tabular-nums">

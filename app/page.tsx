@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <section className="h-full">
-        <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
+        <h1 className="mb-8 font-semibold text-2xl tracking-tighter">
           My Portfolio
         </h1>
         <p className="mb-4">

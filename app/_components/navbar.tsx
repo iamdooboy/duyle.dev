@@ -14,10 +14,10 @@ const TABS = ["home", "blog", "projects"]
 
 export function Navbar() {
   return (
-    <aside className="-ml-[8px] sm:mb-16 mb-10 tracking-tight">
+    <aside className="-ml-[8px] mb-10 tracking-tight sm:mb-16">
       <div className="lg:sticky lg:top-20">
         <nav
-          className="flex flex-row items-start relative px-0 pb-0 md:overflow-auto scroll-pr-6 md:relative"
+          className="relative flex scroll-pr-6 flex-row items-start px-0 pb-0 md:relative md:overflow-auto"
           id="nav"
         >
           <div className="flex items-center space-x-0 pr-10 ">
@@ -37,7 +37,7 @@ export function Navbar() {
                   key={index}
                   data-id={tab}
                   type="button"
-                  className="px-2 py-0.5 transition-colors text-lg text-muted-foreground hover:text-primary"
+                  className="px-2 py-0.5 text-lg text-muted-foreground transition-colors hover:text-primary"
                 >
                   {tab}
                 </Link>

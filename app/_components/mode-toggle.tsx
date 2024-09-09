@@ -12,12 +12,12 @@ export function ModeToggle() {
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap hover:opacity-80 px-3"
+        "inline-flex items-center justify-center whitespace-nowrap px-3 hover:opacity-80"
       )}
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
-      <Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 size-5" />
-      <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 size-5" />
+      <Sun className="dark:-rotate-90 size-5 rotate-0 scale-100 transition-all dark:scale-0" />
+      <Moon className="absolute size-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       <span className="sr-only">Toggle theme</span>
     </button>
   )

@@ -3,7 +3,6 @@ import { MDXRemote } from "next-mdx-remote/rsc"
 import Image from "next/image"
 import Link from "next/link"
 import { ComponentProps, createElement } from "react"
-//import { CodeThemeProvider } from "./code-theme-provider"
 
 function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
   let headers = data.headers.map((header, index) => (
@@ -62,7 +61,7 @@ function CodeHightlight({ children, ...props }: { children: string }) {
           {children as any}
         </Code>
       </div>
-      <div data-theme="light" className="dark:hidden block">
+      <div data-theme="light" className="block dark:hidden">
         <Code lineNumbers {...props}>
           {children as any}
         </Code>

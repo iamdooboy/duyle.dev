@@ -21,7 +21,7 @@ export default function Footer() {
 
   return (
     <footer className="mb-16">
-      <ul className="font-sm mt-8 flex gap-5">
+      <ul className="mt-8 flex gap-5 font-sm">
         {FOOTER_ELEMENTS.map((element) => (
           <li key={element.label}>
             <a
@@ -31,7 +31,7 @@ export default function Footer() {
               href={element.href}
             >
               {element.icon}
-              <p className="ml-2 h-7">{element.label}</p>
+              <p className="ml-2">{element.label}</p>
             </a>
           </li>
         ))}

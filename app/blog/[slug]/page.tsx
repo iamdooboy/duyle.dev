@@ -88,8 +88,8 @@ export default function Blog({ params }: { params: { slug: string } }) {
       <h1 className="font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+      <div className="mt-2 mb-8 flex items-center justify-between text-sm">
+        <p className="text-neutral-600 text-sm dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>

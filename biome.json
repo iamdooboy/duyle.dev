@@ -19,6 +19,16 @@
       "recommended": false,
       "correctness": {
         "useJsxKeyInIterable": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "info",
+          "fix": "safe",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "cn"]
+          }
+        }
       }
     }
   },

@@ -1,6 +1,6 @@
 export const Title = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="bg-muted w-fit px-1.5 py-1 rounded-md text-xs text-muted-foreground mb-1">
+    <div className="mb-1 w-fit rounded-md bg-muted px-1.5 py-1 text-muted-foreground text-xs">
       {children}
     </div>
   )

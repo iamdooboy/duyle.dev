@@ -74,9 +74,9 @@ export default function RootLayout({
           href="/feed.json"
           title="JSON Feed"
         />
-        <body className="antialiased max-w-xl mx-auto px-6">
+        <body className="mx-auto max-w-xl px-6 antialiased">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 relative">
+            <main className="relative mt-6 flex min-w-0 flex-auto flex-col px-2 md:px-0">
               <Navbar />
               {children}
               <Footer />
@@ -84,12 +84,11 @@ export default function RootLayout({
               <SpeedInsights />
             </main>
             <Particles
-              className="absolute inset-0 -z-10"
+              className="-z-10 absolute inset-0"
               quantity={100}
-              ease={70}
-              size={0.05}
-              staticity={40}
-              color="#ffffff"
+              ease={90}
+              size={.25}
+              staticity={100}
             />
           </ThemeProvider>
         </body>

@@ -7,7 +7,7 @@ export const More = ({
 }: { href: string; children: React.ReactNode }) => {
   return (
     <Link
-      className="flex gap-1 items-center font-bold hover:text-muted-foreground"
+      className="flex items-center gap-1 font-semibold hover:text-muted-foreground"
       href={href}
     >
       {children}
