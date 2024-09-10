@@ -1,6 +1,4 @@
 import { BlogPosts } from "../_components/blog-posts"
-import { RadialGradient } from "../_components/radial-gradient"
-import Ripple from "../_components/ripple"
 
 export const metadata = {
   title: "Blog",

@@ -22,7 +22,7 @@
       },
       "nursery": {
         "useSortedClasses": {
-          "level": "info",
+          "level": "off",
           "fix": "safe",
           "options": {
             "attributes": ["classList"],

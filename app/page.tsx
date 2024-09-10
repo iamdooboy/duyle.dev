@@ -1,6 +1,8 @@
+import { Card } from "./_components/card"
 import { More } from "./_components/more"
 import { RecentPosts } from "./_components/recent-posts"
 import { Title } from "./_components/title"
+import { projects } from "./config"
 
 export default function Page() {
   return (
@@ -23,10 +25,32 @@ export default function Page() {
         </div>
         <div className="my-8">
           <Title>Recent projects</Title>
-          <RecentPosts />
+          <div className="w-full h-full flex gap-4 my-3">
+            {projects.map((project) => (
+              <Card
+                key={project.name}
+                body={project.description}
+                image={project.imageSrc}
+                name={project.name}
+                link={project.link}
+              />
+            ))}
+          </div>
+          {/* <RecentPosts /> */}
           <More href="/projects">More projects</More>
         </div>
       </section>
     </>
   )
 }
+
+const bg = (
+  <>
+    <div>hello</div>
+    {/* <DotPattern
+      className={cn(
+        "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
+      )}
+    /> */}
+  </>
+)

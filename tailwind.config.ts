@@ -55,15 +55,16 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)"
       },
       animation: {
-        ripple: "ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite"
+        meteor: "meteor 5s linear infinite",
+        "text-gradient": "text-gradient 1.5s linear infinite"
       },
       keyframes: {
-        ripple: {
-          "0%, 100%": {
-            transform: "translate(-50%, -50%) scale(1)"
-          },
-          "50%": {
-            transform: "translate(-50%, -50%) scale(0.9)"
+        meteor: {
+          "0%": { transform: "rotate(-40deg) translateX(0)", opacity: "0" },
+          "30%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(-40deg) translateX(-500px)",
+            opacity: "0"
           }
         }
       }
