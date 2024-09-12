@@ -1,5 +1,5 @@
-import { MoveRight } from "lucide-react"
 import Link from "next/link"
+import { Icons } from "./icons"
 
 export const More = ({
   href,
@@ -11,7 +11,7 @@ export const More = ({
       href={href}
     >
       {children}
-      <MoveRight className="size-4" />
+      <Icons.RightArrow className="size-4" />
     </Link>
   )
 }

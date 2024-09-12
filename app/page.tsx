@@ -25,8 +25,8 @@ export default function Page() {
         </div>
         <div className="my-8">
           <Title>Recent projects</Title>
-          <div className="w-full h-full flex gap-4 my-3">
-            {projects.map((project) => (
+          <div className="grid grid-cols-2 gap-4 my-3">
+            {projects.slice(0, 2).map((project) => (
               <Card
                 key={project.name}
                 body={project.description}
@@ -36,21 +36,9 @@ export default function Page() {
               />
             ))}
           </div>
-          {/* <RecentPosts /> */}
           <More href="/projects">More projects</More>
         </div>
       </section>
     </>
   )
 }
-
-const bg = (
-  <>
-    <div>hello</div>
-    {/* <DotPattern
-      className={cn(
-        "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
-      )}
-    /> */}
-  </>
-)

@@ -1,28 +1,20 @@
 import Link from "next/link"
 import AnimatedBackground from "./animated-bg"
+import HyperText from "./hyper-text"
 import { ModeToggle } from "./mode-toggle"
 
-const navItems = {
-  "/": {
-    name: "home"
-  },
-  "/blog": {
-    name: "blog"
-  }
-}
 const TABS = ["home", "blog", "projects"]
 
 export function Navbar() {
   return (
     <aside className="-ml-[8px] mb-10 tracking-tight sm:mb-16">
       <div className="lg:sticky lg:top-20">
-        <nav
-          className="relative flex scroll-pr-6 flex-row items-start px-0 pb-0 md:relative md:overflow-auto"
-          id="nav"
-        >
-          <div className="flex items-center space-x-0 pr-10 ">
+        <nav className="relative flex items-center scroll-pr-6 justify0-end px-0 pb-0 md:relative md:overflow-auto">
+          <a href="/" className="first:mr-auto pl-2">
+            <HyperText text="Duy Le" className="text-2xl font-bold" />
+          </a>
+          <div className="flex items-center ">
             <AnimatedBackground
-              defaultValue={TABS[0]}
               className="rounded-lg bg-primary/10"
               transition={{
                 type: "spring",
