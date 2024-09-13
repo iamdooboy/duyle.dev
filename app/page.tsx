@@ -2,6 +2,7 @@ import { Card } from "./_components/card"
 import { More } from "./_components/more"
 import { RecentPosts } from "./_components/recent-posts"
 import { Title } from "./_components/title"
+
 import { projects } from "./config"
 
 export default function Page() {
@@ -9,14 +10,13 @@ export default function Page() {
     <>
       <section className="h-full">
         <h1 className="mb-8 font-semibold text-2xl tracking-tighter">
-          My Portfolio
+          Hi, I’m Duy (doo·ee).
         </h1>
-        <p className="mb-4">
-          {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
+        <p className="mb-4 text-primary">
+          I like to{" "}
+          <span className="font-semibold">learn, build, and iterate.</span> I'm
+          a creative web developer with a passion for UI design and crafting
+          high quality and fun products.
         </p>
         <div className="my-8">
           <Title>Recent posts</Title>
