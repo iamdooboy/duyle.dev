@@ -1,6 +1,7 @@
 import { Card } from "./_components/card"
 import { More } from "./_components/more"
 import { RecentPosts } from "./_components/recent-posts"
+import { TechStack } from "./_components/tech-stack"
 import { Title } from "./_components/title"
 
 import { projects } from "./config"
@@ -10,14 +11,15 @@ export default function Page() {
     <>
       <section className="h-full">
         <h1 className="mb-8 font-semibold text-2xl tracking-tighter">
-          Hi, I’m Duy (doo·ee).
+          Hi, I'm Duy (doo·ee).
         </h1>
         <p className="mb-4 text-primary">
           I like to{" "}
           <span className="font-semibold">learn, build, and iterate.</span> I'm
           a creative web developer with a passion for UI design and crafting
-          high quality and fun products.
+          high quality and fun side projects.
         </p>
+        <TechStack />
         <div className="my-8">
           <Title>Recent posts</Title>
           <RecentPosts />
