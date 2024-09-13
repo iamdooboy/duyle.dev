@@ -21,7 +21,7 @@ export const Card = ({
         "dark:bg-black dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_40px_-20px_#ffffff1f_inset]"
       )}
     >
-      <a href={link}>
+      <a href={link} target="_blank" rel="noopener noreferrer">
         <div className="flex flex-row items-center gap-2">
           <div className="flex flex-col">
             <div className="flex items-start gap-2">
