@@ -4,10 +4,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 import type { Metadata } from "next"
-import { Background } from "./_components/background"
+import { GradientBackground } from "./_components/background/background"
+import { Particles } from "./_components/background/particles"
 import Footer from "./_components/footer"
-import { Navbar } from "./_components/navbar"
-import { Particles } from "./_components/particles"
+import { Navbar } from "./_components/header/navbar"
 import { ThemeProvider } from "./_components/theme-provider"
 import { metaData } from "./config"
 
@@ -91,7 +91,7 @@ export default function RootLayout({
               size={0.25}
               staticity={100}
             />
-            <Background />
+            <GradientBackground />
           </ThemeProvider>
         </body>
       </head>

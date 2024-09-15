@@ -1,5 +1,5 @@
-import { Button } from "../_components/button"
-import Safari from "../_components/safari"
+import { Button } from "../_components/ui/button"
+import Safari from "../_components/ui/safari"
 import { projects } from "../config"
 
 export const metadata = {
@@ -22,7 +22,7 @@ export default function Page() {
       <h1 className="mb-8 font-semibold text-2xl tracking-tighter">
         My Projects
       </h1>
-      <div className="flex flex-col justify-between my-3 sm:gap-8 divide-dotted divide-y-2 sm:divide-none group/card">
+      <div className="flex flex-col justify-between my-3 sm:gap-20 divide-dotted divide-y-2 sm:divide-none group/card">
         {projects.map((project) => (
           <div
             className="py-10 first:pt-0 sm:p-0 last:pb-0 group-hover/card:blur-sm hover:!blur-none group/image"

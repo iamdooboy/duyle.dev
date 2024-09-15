@@ -1,4 +1,4 @@
-import { Icons } from "./icons"
+import { Icons } from "./ui/icons"
 
 export default function Footer() {
   const FOOTER_ELEMENTS = [
