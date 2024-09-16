@@ -1,6 +1,6 @@
+import { BlogPosts } from "./_components/blog-posts"
 import { Card } from "./_components/homepage/card"
 import { More } from "./_components/homepage/more"
-import { RecentPosts } from "./_components/homepage/recent-posts"
 import { Techstack } from "./_components/homepage/tech-stack"
 import { Title } from "./_components/homepage/title"
 import { projects } from "./config"
@@ -16,7 +16,7 @@ export default function Page() {
           I like to &nbsp;
           <span className="font-bold">learn, build, and iterate.</span> I'm a
           creative web developer with a passion for UI design and crafting high
-          quality and fun web apps. 
+          quality and fun web apps.
         </p>
         <div className="my-6 space-y-3">
           <p>Programming languages and libraries I'm currently using</p>
@@ -24,7 +24,7 @@ export default function Page() {
         </div>
         <div className="my-14">
           <Title>Recent posts</Title>
-          <RecentPosts />
+          <BlogPosts limit={2} />
           <More href="/blog">More posts</More>
         </div>
         <div className="my-14">

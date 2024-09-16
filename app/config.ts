@@ -19,6 +19,7 @@ export const projects = [
     link: "https://sudoku.duyle.dev",
     sourceCode: "https://github.com/iamdooboy/realtime-sudoku",
     imageSrc: "/sudoku.png",
+    imageSrcDark: "/sudoku_dark.png",
     longDescription:
       "A realtime, multiplayer Sudoku game built with Next.js, Tailwind CSS, and Liveblocks",
     color: "purple"
@@ -29,6 +30,7 @@ export const projects = [
     link: "https://ui.duyle.dev",
     sourceCode: "https://github.com/iamdooboy/ui",
     imageSrc: "/ui.png",
+    imageSrcDark: "/ui.png",
     longDescription:
       "A small collection of copy-paste components with Next.js and Tailwind CSS",
     color: "blue"
@@ -39,6 +41,7 @@ export const projects = [
     link: "https://duyle.dev",
     sourceCode: "https://github.com/iamdooboy/duyle.dev",
     imageSrc: "/website.png",
+    imageSrcDark: "/website_dark.png",
     longDescription:
       "A fast and lightweight portfolio site built with Next.js and Tailwind CSS.",
     color: "green"

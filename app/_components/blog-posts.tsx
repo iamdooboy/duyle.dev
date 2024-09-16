@@ -1,11 +1,15 @@
 import { formatDate, getBlogPosts } from "@/lib/mdx-utils"
 import Link from "next/link"
 
-export function BlogPosts() {
+export function BlogPosts({ limit }: { limit?: number }) {
   let allBlogs = getBlogPosts()
 
+  if (limit) {
+    allBlogs = allBlogs.slice(0, limit + 1)
+  }
+
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {allBlogs
         .sort((a, b) => {
           if (
@@ -18,17 +22,13 @@ export function BlogPosts() {
         .map((post) => (
           <Link
             key={post.slug}
-            className="mb-4 flex flex-col space-y-1"
+            className="mb-4 flex flex-col gap-1 hover:translate-x-2 transition-all duration-400 hover:border-l-4 hover:pl-2"
             href={`/blog/${post.slug}`}
           >
-            <div className="flex w-full flex-col space-x-0 md:flex-row md:space-x-2">
-              <p className="w-[100px] text-neutral-600 tabular-nums dark:text-neutral-400">
-                {formatDate(post.metadata.publishedAt, false)}
-              </p>
-              <p className="text-neutral-900 tracking-tight dark:text-neutral-100">
-                {post.metadata.title}
-              </p>
-            </div>
+            <p className="tracking-tight">{post.metadata.title}</p>
+            <p className=" text-muted-foreground tabular-nums">
+              {formatDate(post.metadata.publishedAt, false)}
+            </p>
           </Link>
         ))}
     </div>

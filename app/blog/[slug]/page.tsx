@@ -80,7 +80,7 @@ export default function Blog({ params }: { params: { slug: string } }) {
             url: `${metaData.baseUrl}/blog/${post.slug}`,
             author: {
               "@type": "Person",
-              name: "My Portfolio"
+              name: "Duy Le"
             }
           })
         }}
