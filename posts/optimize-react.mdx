@@ -1,0 +1,115 @@
+---
+title: 'Simple trick to optimize React'
+publishedAt: '2022-04-09'
+summary: 'Optimize React rendering using the children prop'
+---
+
+When using React, efficient rendering is crucial for large scale applications to maintain performance.
+Here is a simple technique to optimize rendering by using the <Highlight>children</Highlight> prop.
+
+Try clicking the increment button below to see the problem. 
+  <CodeEditor parent={`import ChildComponent from "./ChildComponent"
+
+export default function ParentComponent() {
+    return <ChildComponent />
+}`} 
+child={`import { useState } from "react"
+import { ExpensiveComponent } from "./ExpensiveComponent"
+
+export default function ChildComponent() {
+    const [count, setCount] = useState(0)
+    return (
+      <div>
+        <h1>Count: {count}</h1>
+        <button onClick={() => setCount(count + 1)}>Increment</button>
+        <ExpensiveComponent />
+      </div>
+    )
+}`}
+expensive={`const fibonacci = (n) => {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+export function ExpensiveComponent() {
+    const fib = fibonacci(40);
+    return <h1>Fibonacci number: {fib}</h1>;
+}`}/>
+
+## Why this happens
+The state count "lags" or pauses between each button click because React re-renders every time <Highlight>count</Highlight> changes. This includes the rendering of the ExpensiveComponent, causing unnecessary re-renders. 
+
+## The optimization
+To fix this, we can update the props in TypeScript (if you're using it) and replace the direct rendering of <Highlight>ExpensiveComponent</Highlight> with 
+the children prop. By doing this, we pass <Highlight>ExpensiveComponent</Highlight> as <Highlight>children</Highlight> instead 
+of rendering it inside the parent directly.
+
+```js
+import { PropsWithChildren } from 'react';
+import { useState } from "react";
+
+export default function ChildComponent({ children }: PropsWithChildren) {
+const [count, setCount] = useState(0);  
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      {children}
+    </div>
+  );
+}
+```
+Next, import the <Highlight>ExpensiveComponent</Highlight> and pass it in as <Highlight>children</Highlight>. Now the <Highlight>ExpensiveComponent</Highlight> is going to
+be rendered as <Highlight>children</Highlight>.
+```js
+import ChildComponent from "./ChildComponent";
+import { ExpensiveComponent } from "./ExpensiveComponent";
+
+export default function ParentComponent() {
+  return (
+    <ChildComponent>
+      <ExpensiveComponent />
+    </ChildComponent>
+  );
+}
+```
+## Why this works
+In React, components passed as <Highlight>children</Highlight> do not automatically re-render when the parent component updates its state.
+
+## Final Demo
+ <CodeEditor 
+  parent={`import ChildComponent from "./ChildComponent";
+import { ExpensiveComponent } from "./ExpensiveComponent";
+
+export default function ParentComponent() {
+    return (
+      <ChildComponent>
+        <ExpensiveComponent />
+      </ChildComponent>
+    );
+}`} 
+
+  child={`import { PropsWithChildren } from 'react';
+import { useState } from "react";
+
+export default function ChildComponent({ children }: PropsWithChildren) {
+  const [count, setCount] = useState(0);  
+    return (
+      <div>
+        <h1>Count: {count}</h1>
+        <button onClick={() => setCount(count + 1)}>Increment</button>
+        {children}
+      </div>
+    );
+}`} 
+
+  expensive={`const fibonacci = (n) => {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+export function ExpensiveComponent() {
+    const fib = fibonacci(40);
+    return <h1>Fibonacci number: {fib}</h1>;
+}`}
+/>

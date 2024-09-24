@@ -1,8 +1,16 @@
+import {
+  SandpackCodeEditor,
+  SandpackLayout,
+  SandpackPreview,
+  SandpackProvider
+} from "@codesandbox/sandpack-react"
 import { Code } from "bright"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import Image from "next/image"
 import Link from "next/link"
 import { ComponentProps, createElement } from "react"
+import { ModeToggle } from "./header/mode-toggle"
+import setupReact from "./setup-react"
 
 function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
   let headers = data.headers.map((header, index) => (
@@ -103,6 +111,55 @@ function createHeading(level: number) {
   return Heading
 }
 
+function CodeEditor(props: any) {
+  const files = {
+    "/ParentComponent.tsx": {
+      code: props.parent
+    },
+    "/ChildComponent.tsx": {
+      code: props.child
+    },
+    "/ExpensiveComponent.tsx": {
+      code: props.expensive
+    }
+  }
+  return (
+    <SandpackProvider
+      theme="dark"
+      {...setupReact({
+        files: files,
+        main: "ParentComponent"
+      })}
+    >
+      <SandpackLayout>
+        <SandpackCodeEditor
+          style={{ minWidth: "100%" }}
+          showLineNumbers
+          showTabs
+        />
+        <SandpackPreview />
+      </SandpackLayout>
+    </SandpackProvider>
+  )
+}
+
+function Highlight({ children }: { children: string }) {
+  return (
+    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+      {children}
+    </code>
+  )
+}
+
+function Callout(props: any) {
+  return (
+    <div className="px-4 py-3 bg-[#F7F7F7] dark:bg-[#181818] rounded p-1 text-sm flex items-center text-neutral-900 dark:text-neutral-100 mb-8">
+      <div className="flex items-center w-4 mr-4">{props.emoji}</div>
+      <div className="w-full callout leading-relaxed">{props.children}</div>
+    </div>
+  )
+}
+
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -113,7 +170,11 @@ let components = {
   Image: RoundedImage,
   a: CustomLink,
   pre: CodeHightlight,
-  Table
+  Table,
+  CodeEditor,
+  Highlight,
+  Callout,
+  ModeToggle
 }
 
 export function CustomMDX(props: ComponentProps<any>) {
