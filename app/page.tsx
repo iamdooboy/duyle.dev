@@ -1,60 +1,48 @@
-'use client'
+import { BlogPosts } from "./_components/blog-posts"
+import { Card } from "./_components/homepage/card"
+import { More } from "./_components/homepage/more"
+import { Techstack } from "./_components/homepage/tech-stack"
+import { Title } from "./_components/homepage/title"
+import { projects } from "./config"
 
-import Link from 'next/link'
-
-import { projectConfig } from '@/config/project'
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Badge } from '@/components/badge'
-import { CardSpotlight } from '@/components/card-spotlight'
-import { InfiniteCarousel } from '@/components/infinite-scroll'
-
-export default function Home() {
+export default function Page() {
   return (
-    <div className='space-y-2 pt-5'>
-      <p className='leading-7 dark:text-neutral-300 [&:not(:first-child)]:mt-6 '>
-        Crafting UIs with React since 2019. Passionate about interface design
-        and attention to detail, striving to create great experiences. Love
-        creating high quality and fun products.
-      </p>
-      <div className='pb-2 pt-5 font-mono font-semibold'>Projects</div>
-      <div className='space-y-3'>
-        {projectConfig.map((project) => (
-          <CardSpotlight key={project.title}>
-            <Link href={project.url}>
-              <CardHeader className='grid grid-cols-[1fr_110px] items-start gap-4 space-y-0'>
-                <div className='space-y-1'>
-                  <CardTitle className='font-mono underline-offset-4'>
-                    {project.title}
-                  </CardTitle>
-                  <CardDescription>{project.description}</CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className='text-muted-foreground flex text-sm'>
-                  <div className='flex gap-4'>
-                    {project.stack.length <= 4 ? (
-                      project.stack.map((stack) => (
-                        <Badge key={stack} stack={stack} />
-                      ))
-                    ) : (
-                      <InfiniteCarousel>
-                        {project.stack.map((stack) => (
-                          <Badge key={stack} stack={stack} />
-                        ))}
-                      </InfiniteCarousel>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Link>
-          </CardSpotlight>
-        ))}
-      </div>
-    </div>
+    <>
+      <section className="h-full">
+        <h1 className="mb-8 font-semibold text-2xl tracking-tighter">
+          Hey, I'm Duy (doo·ee) 👋
+        </h1>
+        <p className="mb-4 text-primary">
+          I like to &nbsp;
+          <span className="font-bold">learn, build, and iterate.</span> I'm a
+          creative web developer with a passion for UI design and crafting high
+          quality and fun web apps.
+        </p>
+        <div className="my-6 space-y-3">
+          <p>Programming languages and libraries I'm currently using</p>
+          <Techstack />
+        </div>
+        <div className="my-14">
+          <Title>Recent posts</Title>
+          <BlogPosts limit={2} />
+          <More href="/blog">More posts</More>
+        </div>
+        <div className="my-14">
+          <Title>Recent projects</Title>
+          <div className="grid grid-cols-2 gap-4 my-3">
+            {projects.slice(0, 2).map((project) => (
+              <Card
+                key={project.name}
+                body={project.description}
+                image={project.imageSrc}
+                name={project.name}
+                link={project.link}
+              />
+            ))}
+          </div>
+          <More href="/projects">More projects</More>
+        </div>
+      </section>
+    </>
   )
 }
