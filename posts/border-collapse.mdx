@@ -1,0 +1,92 @@
+---
+title: 'Collapse Border in CSS Grid'
+publishedAt: '2024-09-20'
+summary: 'Collapse Border in CSS Grid to prevent "double borders"'
+---
+
+## What is border-collapse
+
+<Highlight>border-collapse</Highlight> is a CSS property that merges adjacent table borders into a single border.
+
+For example, if you have a 1px border around two adjacent cells, the overlapping border will be 2px.
+With <Highlight>border-collapse</Highlight>  enabled, the borders merge, and the overlap will only be 1px.
+
+Unfortunately, <Highlight>border-collapse</Highlight> can only be use with tables.
+
+Notice how the inner borders are thicker than the outer ones in the example below.
+<Next code={`export default function Example() {
+    return (
+      <div className="p-4 w-full h-screen bg-stone-800">
+        <div className="grid grid-cols-2">
+          {[...Array(4)].map((element, index) => (
+            <div className="border border-red-400 p-5 text-white" key={index}>
+              {index}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+}
+`}/>
+
+Here a simple workaround to replicate this behavior in CSS grid in three easy steps.
+<Steps>
+### Apply a border on all sides to each grid item.
+
+<Next code={`export default function Example() {
+    return (
+      <div className="p-4 w-full h-screen bg-stone-800 text-white">
+        <div className="grid grid-cols-2">
+          {[...Array(4)].map((element, index) => (
+            <div className="border border-gray-400 p-5" key={index}>
+              {index}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+}
+`}/>
+
+### Apply <Highlight>margin-top: -1px</Highlight> and <Highlight>margin-left: -1px</Highlight> to each grid item.
+
+This will stack the borders on top of each other similar to <Highlight>border-collapse</Highlight> and causes an offset relative to the grid parent.
+<Callout emoji="💡">
+I added a border to the grid parent to highlight this offset and why the next step is neccessary.
+</Callout>
+
+<Next code={`export default function Example() {
+    return (
+      <div className="p-4 w-full h-screen bg-stone-800 text-white">
+        <div className="grid grid-cols-2 border border-red-400">
+          {[...Array(4)].map((element, index) => (
+            <div className="-ml-px -mt-px border border-gray-400 p-5" key={index}>
+              {index}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+}
+`}/>
+
+### Apply <Highlight>padding-top: 1px</Highlight> and <Highlight>padding-left: 1px</Highlight> to the grid parent.
+
+This will offset the <Highlight>margin-top: -1px</Highlight> and <Highlight>margin-left: -1px</Highlight>.
+
+<Next code={`export default function Example() {
+    return (
+      <div className="p-4 w-full h-screen bg-stone-800 text-white">
+        <div className="pt-px pl-px grid grid-cols-2 border border-red-400">
+          {[...Array(4)].map((element, index) => (
+            <div className="-ml-px -mt-px border border-gray-400 p-5" key={index}>
+              {index}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+}
+`}/>
+
+</Steps>

@@ -1,6 +1,6 @@
-import { Button } from "../_components/ui/button"
-import { Icons } from "../_components/ui/icons"
-import Safari from "../_components/ui/safari"
+import { Button } from "../../components/ui/button"
+import { Icons } from "../../components/ui/icons"
+import Safari from "../../components/ui/safari"
 import {
   VideoModal,
   VideoModalContent,
@@ -9,7 +9,7 @@ import {
   VideoModalTrigger,
   VideoModalVideo,
   VideoPlayer
-} from "../_components/ui/video-modal"
+} from "../../components/ui/video-modal"
 import { projects } from "../config"
 
 export const metadata = {

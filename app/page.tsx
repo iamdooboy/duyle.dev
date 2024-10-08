@@ -1,8 +1,8 @@
-import { BlogPosts } from "./_components/blog-posts"
-import { Card } from "./_components/homepage/card"
-import { More } from "./_components/homepage/more"
-import { Techstack } from "./_components/homepage/tech-stack"
-import { Title } from "./_components/homepage/title"
+import { BlogPosts } from "@/components/blog-posts"
+import { Card } from "@/components/homepage/card"
+import { More } from "@/components/homepage/more"
+import { Techstack } from "@/components/homepage/tech-stack"
+import { Title } from "@/components/homepage/title"
 import { projects } from "./config"
 
 export default function Page() {

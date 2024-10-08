@@ -1,0 +1,129 @@
+---
+title: 'Improve form validation UX with Tailwind CSS, no Javascript'
+publishedAt: '2024-08-03'
+summary: 'Improve form validation UX with Tailwind CSS, no Javascript'
+---
+
+This is the boiler code we will be working with. For this demo, the input have the <Highlight>minLength</Highlight> and <Highlight>required</Highlight> attributes indicating the user must enter a value and the minimum input length must be at least 3.
+
+This code has no validation
+<Next code={`export default function Example() {
+  return (
+    <div className="p-4 w-full h-screen bg-stone-800">
+      <label htmlFor="name" className="text-white text-sm font medium">
+        First Name
+      </label>
+      <input
+        required
+        minLength={3}
+        type="text"
+        id="name"
+        className="mt-1 w-full rounded-md text-sm text-white bg-stone-800 border-gray-300 border shadow-sm h-8 px-2"
+      />
+    </div>
+  )
+}`}/>
+
+## `valid` and `invalid` modifiers
+We can add the <Highlight>valid:</Highlight> and <Highlight>invalid:</Highlight> modifiers to the <Highlight>input</Highlight> class to change the border color based on the user's input.
+
+Make the border green if the input is valid and red if it's invalid
+<Next code={`export default function Example() {
+  return (
+    <div className="p-4 w-full h-screen bg-stone-800">
+      <label htmlFor="name" className="text-white text-sm font medium">
+        First Name
+      </label>
+      <input
+        required
+        minLength={3}
+        type="text"
+        id="name"
+        className="valid:border-green-500 invalid:border-red-500 mt-1 w-full rounded-md text-sm text-white bg-stone-800 border-gray-300 border shadow-sm h-8 px-2"
+      />
+    </div>
+  )
+}`}/>
+We have a problem now. Because the input is empty, it is considered invalid. So what can we do? 
+
+## `:user-valid` and `:user-invalid` modifiers
+
+<Callout emoji="⚠️">At the time of writing this post `:user-valid` and `:user-invalid` are not out yet. Use arbitary properties to achieve the same effect.</Callout>
+
+We can replace <Highlight>valid:</Highlight> and <Highlight>invalid:</Highlight> with <Highlight>[&user-valid]:</Highlight> and <Highlight>[&user-invalid]:</Highlight> respectively. 
+
+Unlike <Highlight>valid:</Highlight> and <Highlight>invalid:</Highlight>, <Highlight>[&user-valid]:</Highlight> and <Highlight>[&user-invalid]:</Highlight> only matches once the user has interacted with it.
+<Next code={`export default function Example() {
+  return (
+    <div className="p-4 w-full h-screen bg-stone-800">
+      <label htmlFor="name" className="text-white text-sm font medium">
+        First Name
+      </label>
+      <input
+        required
+        minLength={3}
+        type="text"
+        id="name"
+        className="[&:user-valid]:border-green-500 [&:user-invalid]:border-red-500 mt-1 w-full rounded-md text-sm text-white bg-stone-800 border-gray-300 border shadow-sm h-8 px-2"
+      />
+      <p className="hidden text-red-500 text-sm">
+        This field is required
+      </p>
+    </div>
+  )
+}`}/>
+
+This is good enough for some use cases but we can make it even better.
+
+## peer modifier
+
+We can add some text underneath the <Highlight>input</Highlight> when it's invalid and hide it when it's valid.
+This can be achieve using the <Highlight>peer</Highlight> modifier.   
+
+<Next code={`export default function Example() {
+  return (
+    <div className="p-4 w-full h-screen bg-stone-800">
+      <label htmlFor="name" className="text-white text-sm font medium">
+        First Name
+      </label>
+      <input
+        required
+        minLength={3}
+        type="text"
+        id="name"
+        className="peer [&:user-valid]:border-green-500 [&:user-invalid]:border-red-500 mt-1 w-full rounded-md text-sm text-white bg-stone-800 border-gray-300 border shadow-sm h-8 px-2"
+      />
+      <p className="peer-invalid:block hidden text-red-500 text-sm mt-1">
+        This field is required
+      </p>
+    </div>
+  )
+}`}/>
+
+<Highlight>peer</Highlight> allows us to style an element based on the state of a sibling element. In this example, we marked the sibling <Highlight>input</Highlight> with the <Highlight>peer</Highlight> class
+and the targeted element <Highlight>p</Highlight> with <Highlight>peer-invalid:</Highlight>
+
+But now we run into the same issue as before when using invalid. 
+
+Let's replace <Highlight>invalid:</Highlight> with <Highlight>[&user-invalid]:</Highlight>
+
+<Next code={`export default function Example() {
+  return (
+    <div className="p-4 w-full h-screen bg-stone-800">
+      <label htmlFor="name" className="text-white text-sm font medium">
+        First Name
+      </label>
+      <input
+        required
+        minLength={3}
+        required
+        type="text"
+        id="name"
+        className="peer [&:user-valid]:border-green-500 [&:user-invalid]:border-red-500 mt-1 w-full rounded-md text-sm text-white bg-stone-800 border-gray-300 border shadow-sm h-8 px-2"
+      />
+      <p className="peer-[&:user-invalid]:block hidden text-red-500 text-sm mt-1">
+        This field is required
+      </p>
+    </div>
+  )
+}`}/>

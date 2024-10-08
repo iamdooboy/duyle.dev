@@ -1,4 +1,6 @@
+import { NEXTJS_TEMPLATE } from "@/utils/template"
 import {
+  Sandpack,
   SandpackCodeEditor,
   SandpackLayout,
   SandpackPreview,
@@ -111,6 +113,26 @@ function createHeading(level: number) {
   return Heading
 }
 
+function Step({ ...props }: React.ComponentProps<"h3">) {
+  return (
+    <h3
+      className={
+        "font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight"
+      }
+      {...props}
+    />
+  )
+}
+
+function Steps({ ...props }: React.ComponentProps<"h3">) {
+  return (
+    <div
+      className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]"
+      {...props}
+    />
+  )
+}
+
 function CodeEditor(props: any) {
   const files = {
     "/ParentComponent.tsx": {
@@ -138,6 +160,26 @@ function CodeEditor(props: any) {
           showTabs
         />
         <SandpackPreview />
+      </SandpackLayout>
+    </SandpackProvider>
+  )
+}
+
+function Next(props: any) {
+  return (
+    <SandpackProvider
+      options={{
+        externalResources: ["https://cdn.tailwindcss.com"]
+      }}
+      theme="dark"
+      template="react"
+      files={{
+        "/App.js": `${props.code}`
+      }}
+    >
+      <SandpackLayout>
+        <SandpackCodeEditor style={{ minWidth: "100%", height: "100%" }} />
+        <SandpackPreview style={{ height: "100%" }} />
       </SandpackLayout>
     </SandpackProvider>
   )
@@ -174,7 +216,10 @@ let components = {
   CodeEditor,
   Highlight,
   Callout,
-  ModeToggle
+  ModeToggle,
+  Next,
+  Step,
+  Steps
 }
 
 export function CustomMDX(props: ComponentProps<any>) {

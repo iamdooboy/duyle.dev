@@ -21,7 +21,7 @@ export default function Footer() {
 
   return (
     <footer className="mb-16">
-      <ul className="mt-8 flex gap-5 font-sm">
+      <ul className="mt-8 flex gap-12 font-sm">
         {FOOTER_ELEMENTS.map((element) => (
           <li key={element.label}>
             <a

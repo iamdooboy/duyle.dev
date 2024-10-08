@@ -42,8 +42,6 @@ interface ParticlesProps {
 }
 function hexToRgb(hex: string): number[] {
   hex = hex.replace("#", "")
-
-  // Unterstützung für dreistellige Hex-Farbcodes
   if (hex.length === 3) {
     hex = hex
       .split("")

@@ -4,11 +4,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 import type { Metadata } from "next"
-import { GradientBackground } from "./_components/background/background"
-import { Particles } from "./_components/background/particles"
-import Footer from "./_components/footer"
-import { Navbar } from "./_components/header/navbar"
-import { ThemeProvider } from "./_components/theme-provider"
+import { GradientBackground } from "../components/background/background"
+import { Particles } from "../components/background/particles"
+import Footer from "../components/footer"
+import { Navbar } from "../components/header/navbar"
+import { ThemeProvider } from "../components/theme-provider"
 import { metaData } from "./config"
 
 export const metadata: Metadata = {
@@ -85,7 +85,14 @@ export default function RootLayout({
               <SpeedInsights />
             </main>
             <Particles
-              className="-z-10 absolute inset-0"
+              className="-z-10 absolute inset-0 block sm:hidden h-full"
+              quantity={40}
+              ease={90}
+              size={0.25}
+              staticity={100}
+            />
+            <Particles
+              className="-z-10 absolute inset-0 sm:block hidden"
               quantity={100}
               ease={90}
               size={0.25}

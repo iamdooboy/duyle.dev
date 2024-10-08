@@ -20,7 +20,7 @@ const ICON_COLOR_MAP = {
 export function Techstack() {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5">
+    <div className="grid grid-cols-2 md:grid-cols-5 pt-px pl-px">
       {Object.keys(ICON_COLOR_MAP).map((iconName, idx) => {
         const Icon = Icons[iconName as keyof typeof ICON_COLOR_MAP]
         return (
@@ -28,13 +28,13 @@ export function Techstack() {
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
             key={iconName}
-            className="relative flex select-none flex-col p-4 justify-center items-center group"
+            className="relative flex select-none flex-col p-4 justify-center items-center group border -ml-px -mt-px"
           >
             {hoveredIndex === idx && (
               <motion.span
                 layoutId="stack"
                 transition={{ type: "spring", duration: 0.5 }}
-                className="absolute inset-0 rounded-md bg-primary/10"
+                className="absolute inset-0 bg-primary/10"
               />
             )}
             <Icon
