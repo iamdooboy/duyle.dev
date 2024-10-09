@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { ModeToggle } from "./mode-toggle"
 
-const TABS = ["home", "blog", "projects"]
+const TABS = ["blog", "projects", "visitors"]
 
 export const TabHeaders = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -16,7 +16,7 @@ export const TabHeaders = () => {
         <Link
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
-          href={`/${tab === "home" ? "/" : tab}`}
+          href={`/${tab}`}
           key={index}
           data-id={tab}
           type="button"
