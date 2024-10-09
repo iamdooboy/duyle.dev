@@ -26,13 +26,23 @@ export function Note({ id, onShapePointerDown }: NoteProps) {
       style={{
         transform: `translate(${x}px, ${y}px)`,
         transition: !selectedByMe ? "transform 120ms linear" : "none",
-        backgroundColor: fill || "#CCC",
-        borderColor: selectionColor
+        // backgroundColor: fill || "#CCC",
+        // borderColor: selectionColor
       }}
-      className="size-32 absolute"
+      className="z-10 absolute border rounded-md bg-background dark:bg-muted w-max before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
     >
-      <p className="text-black">{name}</p>
-      <div className="text-black">{message}</div>
+      <div className="rounded-lg shadow-lg overflow-hidden p-2">
+        <img
+          src="/placeholder.svg"
+          alt="Polaroid Photo"
+          className="object-cover size-40 rounded-sm"
+        />
+
+        <div className="mt-2 space-y-1">
+          <p className="text-xs text-muted-foreground">{name}</p>
+          <p className="text-sm text-primary">{message}</p>
+        </div>
+      </div>
     </div>
   )
 }

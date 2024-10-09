@@ -1,9 +1,18 @@
 "use client"
 
 import { LiveObject, shallow } from "@liveblocks/client"
-import { useHistory, useMutation, useStorage } from "@liveblocks/react/suspense"
+import {
+  useHistory,
+  useMutation,
+  useOthers,
+  useStorage
+} from "@liveblocks/react/suspense"
 import { useRef, useState, PointerEvent } from "react"
 import { Note } from "./note"
+import { GridPattern } from "./grid-pattern"
+import { cn } from "@/lib/utils"
+import { Popover } from "./pop-over"
+import { Icons } from "./ui/icons"
 
 export const Canvas = () => {
   const [name, setName] = useState("")
@@ -12,6 +21,7 @@ export const Canvas = () => {
   const canvasRef = useRef<HTMLDivElement>(null)
 
   const history = useHistory()
+  const numOthers = useOthers((others) => others.length)
 
   const noteIds = useStorage((root) => Array.from(root.notes.keys()), shallow)
 
@@ -99,9 +109,16 @@ export const Canvas = () => {
 
   return (
     <div className="relative">
+      <div className="absolute top-0 left-0 w-full z-50 bg-muted/80 rounded-t-md p-2 flex items-center justify-between">
+        <div className="flex items-center justify-center gap-1.5">
+          <p className="font-mono">{numOthers + 1}</p>
+          <Icons.users className="size-5" />
+        </div>
+        <Popover />
+      </div>
       <div
+        className="rounded-lg h-screen border bg-background relative overflow-hidden"
         ref={canvasRef}
-        className="w-full h-full min-h-screen bg-slate-700 relative overflow-hidden"
         onPointerMove={onCanvasPointerMove}
         onPointerUp={onCanvasPointerUp}
       >
@@ -115,11 +132,16 @@ export const Canvas = () => {
           )
         })}
       </div>
-      <div className="absolute top-4 left-4">
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-        <input value={message} onChange={(e) => setMessage(e.target.value)} />
-        <button onClick={() => addNote({ name, message })}>submit</button>
-      </div>
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray={"4 2"}
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-35"
+        )}
+      />
     </div>
   )
 }
