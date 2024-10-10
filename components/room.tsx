@@ -18,7 +18,7 @@ export function Room({ children }: { children: ReactNode }) {
           cursor: null
         }}
         id="visitors-room"
-        initialStorage={{ notes: new LiveMap() }}
+        initialStorage={{ notes: new LiveList([]) }}
       >
         <ClientSideSuspense fallback={"Loading..."}>
           {children}

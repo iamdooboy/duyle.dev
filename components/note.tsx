@@ -1,18 +1,19 @@
-import { useOthers, useSelf, useStorage } from "@liveblocks/react/suspense"
+import { Note as NoteType } from "@/liveblocks.config"
+import { useOthers, useSelf } from "@liveblocks/react/suspense"
 import { PointerEvent } from "react"
 
 type NoteProps = {
-  id: string
-  onShapePointerDown: (e: PointerEvent<HTMLDivElement>, id: string) => void
+  index: number
+  note: NoteType
+  onShapePointerDown: (e: PointerEvent<HTMLDivElement>, index: number) => void
 }
 
-export function Note({ id, onShapePointerDown }: NoteProps) {
-  const { name, message, x, y, fill } =
-    useStorage((root) => root.notes.get(id)) ?? {}
+export function Note({ index, note, onShapePointerDown }: NoteProps) {
+  const { name, message, x, y, z, rotate } = note
 
-  const selectedByMe = useSelf((me) => me.presence.selection === id)
+  const selectedByMe = useSelf((me) => me.presence.selection === index)
   const selectedByOthers = useOthers((others) =>
-    others.some((other) => other.presence.selection === id)
+    others.some((other) => other.presence.selection === index)
   )
   const selectionColor = selectedByMe
     ? "blue"
@@ -22,12 +23,11 @@ export function Note({ id, onShapePointerDown }: NoteProps) {
 
   return (
     <div
-      onPointerDown={(e) => onShapePointerDown(e, id)}
+      onPointerDown={(e) => onShapePointerDown(e, index)}
       style={{
-        transform: `translate(${x}px, ${y}px)`,
+        transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
         transition: !selectedByMe ? "transform 120ms linear" : "none",
-        // backgroundColor: fill || "#CCC",
-        // borderColor: selectionColor
+        zIndex: z
       }}
       className="z-10 absolute border rounded-md bg-background dark:bg-muted w-max before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
     >
@@ -37,7 +37,6 @@ export function Note({ id, onShapePointerDown }: NoteProps) {
           alt="Polaroid Photo"
           className="object-cover size-40 rounded-sm"
         />
-
         <div className="mt-2 space-y-1">
           <p className="text-xs text-muted-foreground">{name}</p>
           <p className="text-sm text-primary">{message}</p>

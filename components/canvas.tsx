@@ -1,90 +1,64 @@
 "use client"
-
-import { LiveObject, shallow } from "@liveblocks/client"
-import {
-  useHistory,
-  useMutation,
-  useOthers,
-  useStorage
-} from "@liveblocks/react/suspense"
-import { useRef, useState, PointerEvent } from "react"
-import { Note } from "./note"
-import { GridPattern } from "./grid-pattern"
 import { cn } from "@/lib/utils"
+import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
+import { PointerEvent, useRef, useState } from "react"
+import { GridPattern } from "./grid-pattern"
+import { Note } from "./note"
 import { Popover } from "./pop-over"
 import { Icons } from "./ui/icons"
 
 export const Canvas = () => {
-  const [name, setName] = useState("")
-  const [message, setMessage] = useState("")
   const [isDragging, setIsDragging] = useState(false)
-  const canvasRef = useRef<HTMLDivElement>(null)
 
-  const history = useHistory()
   const numOthers = useOthers((others) => others.length)
+  const notes = useStorage((root) => root.notes)
 
-  const noteIds = useStorage((root) => Array.from(root.notes.keys()), shallow)
-
-  const addNote = useMutation(
-    ({ storage, setMyPresence }, { name, message }) => {
-      const noteId = Date.now().toString()
-      const canvasRect = canvasRef.current?.getBoundingClientRect()
-
-      let x = 0,
-        y = 0
-      if (canvasRect) {
-        x = Math.random() * (canvasRect.width - 100) // Subtracting 100 to ensure the note is fully within the canvas
-        y = Math.random() * (canvasRect.height - 100)
-      }
-      const note = new LiveObject({
-        name,
-        message,
-        x: getRandomInt(300),
-        y: getRandomInt(300),
-        fill: getRandomColor()
-      })
-      storage.get("notes").set(noteId, note)
-      setMyPresence({ selection: noteId })
-    },
-    []
-  )
+  const canvasRef = useRef<HTMLDivElement>(null)
+  const dragStartPositionRef = useRef({ x: 0, y: 0 })
 
   const onShapePointerDown = useMutation(
-    ({ setMyPresence }, e: PointerEvent<HTMLDivElement>, noteId: string) => {
-      history.pause()
+    (
+      { storage, setMyPresence },
+      e: PointerEvent<HTMLDivElement>,
+      index: number
+    ) => {
       e.stopPropagation()
 
-      setMyPresence({ selection: noteId }, { addToHistory: true })
+      const notes = storage.get("notes")
+      const highestZIndex = notes.get(notes.length - 1)?.get("z") ?? 1
+
+      if (notes.length !== index) {
+        notes.get(index)?.set("z", highestZIndex + 1)
+      }
+      setMyPresence({ selection: index })
       setIsDragging(true)
+      dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
     },
-    [history]
+    []
   )
 
   const onCanvasPointerUp = useMutation(
     ({ setMyPresence }) => {
       if (!isDragging) {
-        setMyPresence({ selection: null }, { addToHistory: true })
+        setMyPresence({ selection: null })
       }
-
       setIsDragging(false)
-      history.resume()
     },
-    [isDragging, history]
+    [isDragging]
   )
 
   const onCanvasPointerMove = useMutation(
-    ({ storage, self }, e: PointerEvent<HTMLDivElement>) => {
+    ({ self, storage }, e: PointerEvent<HTMLDivElement>) => {
       e.preventDefault()
-      console.log({ x: e.clientX, y: e.clientY })
       if (!isDragging) {
         return
       }
-
-      const noteId = self.presence.selection
-      if (!noteId) {
+      const index = self.presence.selection
+      if (index === null) {
         return
       }
-      const note = storage.get("notes").get(noteId)
+      const note = storage.get("notes").get(index)
+
       const canvasRect = canvasRef.current?.getBoundingClientRect()
       if (note && canvasRect) {
         if (
@@ -96,12 +70,13 @@ export const Canvas = () => {
           // If outside, stop dragging
           return
         }
-        const newX = e.clientX - canvasRect.left - 64
-        const newY = e.clientY - canvasRect.top - 64
+        const dx = e.clientX - dragStartPositionRef.current.x
+        const dy = e.clientY - dragStartPositionRef.current.y
         note.update({
-          x: newX,
-          y: newY
+          x: note.get("x") + dx,
+          y: note.get("y") + dy
         })
+        dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
       }
     },
     [isDragging]
@@ -109,12 +84,12 @@ export const Canvas = () => {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 w-full z-50 bg-muted/80 rounded-t-md p-2 flex items-center justify-between">
+      <div className="absolute border top-0 left-0 w-full z-50 bg-muted/80 rounded-t-md p-2 flex items-center justify-between">
         <div className="flex items-center justify-center gap-1.5">
           <p className="font-mono">{numOthers + 1}</p>
           <Icons.users className="size-5" />
         </div>
-        <Popover />
+        <Popover canvasRef={canvasRef} />
       </div>
       <div
         className="rounded-lg h-screen border bg-background relative overflow-hidden"
@@ -122,11 +97,12 @@ export const Canvas = () => {
         onPointerMove={onCanvasPointerMove}
         onPointerUp={onCanvasPointerUp}
       >
-        {noteIds.map((noteId: string) => {
+        {notes.map((note, index) => {
           return (
             <Note
-              key={noteId}
-              id={noteId}
+              key={note.id}
+              index={index}
+              note={note}
               onShapePointerDown={onShapePointerDown}
             />
           )
@@ -144,14 +120,4 @@ export const Canvas = () => {
       />
     </div>
   )
-}
-
-const COLORS = ["#DC2626", "#D97706", "#059669", "#7C3AED", "#DB2777"]
-
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max)
-}
-
-function getRandomColor(): string {
-  return COLORS[getRandomInt(COLORS.length)]
 }

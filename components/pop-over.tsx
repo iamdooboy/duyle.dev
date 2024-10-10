@@ -1,8 +1,9 @@
 "use client"
 import useClickOutside from "@/hooks/use-clickoutside"
+import { LiveObject } from "@liveblocks/client"
+import { useMutation } from "@liveblocks/react/suspense"
 import { AnimatePresence, MotionConfig, motion } from "framer-motion"
-// import { ArrowLeftIcon } from "lucide-react"
-import { useRef, useState, useEffect, useId } from "react"
+import { RefObject, useEffect, useId, useRef, useState } from "react"
 
 const TRANSITION = {
   type: "spring",
@@ -10,11 +11,14 @@ const TRANSITION = {
   duration: 0.3
 }
 
-export function Popover() {
+export function Popover({
+  canvasRef
+}: { canvasRef: RefObject<HTMLDivElement> }) {
   const uniqueId = useId()
   const formContainerRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [note, setNote] = useState<null | string>(null)
+  const [name, setName] = useState("")
+  const [message, setMessage] = useState("")
 
   const openMenu = () => {
     setIsOpen(true)
@@ -22,7 +26,6 @@ export function Popover() {
 
   const closeMenu = () => {
     setIsOpen(false)
-    setNote(null)
   }
 
   useClickOutside(formContainerRef, () => {
@@ -43,7 +46,32 @@ export function Popover() {
     }
   }, [])
 
-  //70 - (-70)
+  const addNote = useMutation(
+    ({ storage, setMyPresence }, { name, message }) => {
+      const canvasRect = canvasRef.current?.getBoundingClientRect()
+      let x = 0,
+        y = 0
+      if (canvasRect) {
+        x = Math.random() * (canvasRect.width - 100) // Subtracting 100 to ensure the note is fully within the canvas
+        y = Math.random() * (canvasRect.height - 100)
+      }
+
+      const length = storage.get("notes").length
+
+      const note = new LiveObject({
+        id: Date.now().toString(),
+        name,
+        message,
+        x: getRandomInt(300),
+        y: getRandomInt(300),
+        z: length === 0 ? 1 : length + 1,
+        rotate: Math.floor(Math.random() * 141) - 70
+      })
+      storage.get("notes").push(note)
+      setMyPresence({ selection: length + 1 })
+    },
+    []
+  )
 
   return (
     <MotionConfig transition={TRANSITION}>
@@ -78,6 +106,7 @@ export function Popover() {
                 className="flex h-full flex-col"
                 onSubmit={(e) => {
                   e.preventDefault()
+                  addNote({ name, message })
                 }}
               >
                 <div className="rounded-lg overflow-hidden p-2 w-max flex flex-col gap-2">
@@ -88,13 +117,21 @@ export function Popover() {
                     <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       name
                     </label>
-                    <input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" />
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    />
                   </div>
                   <div className="grid gap-2">
                     <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       message
                     </label>
-                    <textarea className='class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"' />
+                    <textarea
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className='class="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"'
+                    />
                   </div>
                 </div>
                 <div key="close" className="flex justify-between px-4 py-3">
@@ -124,4 +161,8 @@ export function Popover() {
       </div>
     </MotionConfig>
   )
+}
+
+function getRandomInt(max: number): number {
+  return Math.floor(Math.random() * max)
 }

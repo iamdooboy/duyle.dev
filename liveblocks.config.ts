@@ -1,12 +1,14 @@
-import { LiveMap, LiveObject, LiveList } from "@liveblocks/client"
+import { LiveList, LiveObject } from "@liveblocks/client"
 
-export type Note = LiveObject<{
+export type Note = {
+  id: string
   name: string
   message: string
-  x: number;
-  y: number;
-  fill: string;
-}>
+  x: number
+  y: number
+  z: number
+  rotate: number
+}
 
 export type Cursor = {
   x: number
@@ -16,13 +18,11 @@ export type Cursor = {
 declare global {
   interface Liveblocks {
     Presence: {
-      selection: string | null
+      selection: number | null
       cursor: Cursor | null
     }
     Storage: {
-      notes: LiveMap<string, Note>
+      notes: LiveList<LiveObject<Note>>
     }
   }
 }
-
-export {}
