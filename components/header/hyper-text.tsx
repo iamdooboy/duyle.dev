@@ -69,21 +69,27 @@ export default function HyperText({
   }, [text, duration, trigger, animateOnLoad])
 
   return (
-    <div
-      className="overflow-hidden py-2 flex scale-100"
-      onMouseEnter={triggerAnimation}
-    >
-      <AnimatePresence>
-        {displayText.map((letter, i) => (
-          <motion.h1
-            key={i}
-            className={cn("font-mono", letter === " " ? "w-3" : "", className)}
-            {...framerProps}
-          >
-            {letter.toUpperCase()}
-          </motion.h1>
-        ))}
-      </AnimatePresence>
+    <div className="hidden sm:block">
+      <div
+        className="overflow-hidden py-2 flex scale-100"
+        onMouseEnter={triggerAnimation}
+      >
+        <AnimatePresence>
+          {displayText.map((letter, i) => (
+            <motion.h1
+              key={i}
+              className={cn(
+                "font-mono",
+                letter === " " ? "w-3" : "",
+                className
+              )}
+              {...framerProps}
+            >
+              {letter.toUpperCase()}
+            </motion.h1>
+          ))}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

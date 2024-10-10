@@ -56,7 +56,7 @@ export function Techstack() {
               </>
             )}
             <Icon
-              className={`size-8 transition-all duration-300 group-hover:-translate-y-2 ${ICON_COLOR_MAP[iconName as keyof typeof ICON_COLOR_MAP]}`}
+              className={`size-10 sm:size-8 transition-all duration-300 group-hover:-translate-y-2 ${ICON_COLOR_MAP[iconName as keyof typeof ICON_COLOR_MAP]}`}
             />
           </div>
         )
