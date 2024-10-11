@@ -75,9 +75,9 @@ export default function RootLayout({
           href="/feed.json"
           title="JSON Feed"
         />
-        <body className="mx-auto max-w-xl px-6 antialiased">
+        <body className="antialiased">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="relative mt-6 flex min-w-0 flex-auto flex-col px-2 md:px-0">
+            <main className="relative mt-6 mx-auto max-w-xl px-6 ">
               <Navbar />
               {children}
               <Footer />

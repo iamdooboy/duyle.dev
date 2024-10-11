@@ -4,6 +4,19 @@ import { LiveObject } from "@liveblocks/client"
 import { useMutation } from "@liveblocks/react/suspense"
 import { AnimatePresence, MotionConfig, motion } from "framer-motion"
 import { RefObject, useEffect, useId, useRef, useState } from "react"
+import { Button } from "./ui/button"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "./ui/alert-dialog"
 
 const TRANSITION = {
   type: "spring",
@@ -19,6 +32,14 @@ export function Popover({
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
+  const [hasPosted, setHasPosted] = useState(false)
+
+  useEffect(() => {
+    const posted = localStorage.getItem("duyle.dev_has_posted")
+    if (posted === "true") {
+      setHasPosted(true)
+    }
+  }, [])
 
   const openMenu = () => {
     setIsOpen(true)
@@ -69,9 +90,18 @@ export function Popover({
       })
       storage.get("notes").push(note)
       setMyPresence({ selection: length + 1 })
+
+      setHasPosted(true)
+      localStorage.setItem("duyle.dev_has_posted", "true")
     },
     []
   )
+
+  // if (hasPosted) {
+  //   return <div className='font-mono'>Thanks for posting!</div>
+  // }
+
+  return <AlertDialogTrigger>add a note</AlertDialogTrigger>
 
   return (
     <MotionConfig transition={TRANSITION}>
