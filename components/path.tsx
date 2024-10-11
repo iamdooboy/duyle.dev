@@ -1,16 +1,13 @@
 import getStroke from "perfect-freehand"
 
 type Props = {
-  x: number
-  y: number
   points: number[][]
   fill: string
   onPointerDown?: (e: React.PointerEvent) => void
   stroke?: string
 }
 
-export const Path = ({ x, y, onPointerDown, stroke, fill, points }: Props) => {
-  console.log(points)
+export const Path = ({ onPointerDown, stroke, fill, points }: Props) => {
   return (
     <path
       onPointerDown={onPointerDown}
@@ -22,9 +19,6 @@ export const Path = ({ x, y, onPointerDown, stroke, fill, points }: Props) => {
           streamline: 0.5
         })
       )}
-      style={{
-        transform: `translate(${x}px, ${y}px)`
-      }}
       x={0}
       y={0}
       fill={fill}

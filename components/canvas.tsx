@@ -16,8 +16,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTitle
 } from "./ui/alert-dialog"
 
 export const Canvas = () => {
@@ -95,8 +94,6 @@ export const Canvas = () => {
     [isDragging]
   )
 
-  //return <DrawingComponent />
-
   return (
     <AlertDialog>
       <div className="relative">
@@ -130,12 +127,16 @@ export const Canvas = () => {
           x={-1}
           y={-1}
           strokeDasharray={"4 2"}
-          className={cn(
-            "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-35"
-          )}
+          className={cn("opacity-30")}
         />
       </div>
       <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2">
+        <AlertDialogHeader className="sr-only">
+          <AlertDialogTitle>Leave me a note</AlertDialogTitle>
+          <AlertDialogDescription>
+            Write a note about anything!
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <DrawingComponent />
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
