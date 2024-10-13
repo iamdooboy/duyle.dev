@@ -133,7 +133,6 @@ const DrawingComponent = ({
         onPointerLeave={onPointerLeave}
         width={width}
         height={height}
-        viewBox="0 0 400 400"
         preserveAspectRatio="xMidYMid meet"
       >
         <g transform={`scale(${width / 400}, ${height / 400})`}>

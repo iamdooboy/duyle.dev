@@ -10,8 +10,8 @@ type NoteProps = {
   onShapePointerDown: (e: PointerEvent<HTMLDivElement>, index: number) => void
 }
 
-const WIDTH = 200
-const HEIGHT = 200
+const WIDTH = 150
+const HEIGHT = 150
 
 export function Note({ index, note, onShapePointerDown }: NoteProps) {
   const { name, message, drawing, x, y, z, rotate } = note
@@ -34,9 +34,9 @@ export function Note({ index, note, onShapePointerDown }: NoteProps) {
         transition: !selectedByMe ? "transform 120ms linear" : "none",
         zIndex: z
       }}
-      className="z-10 absolute border rounded-md bg-background dark:bg-muted w-max before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
+      className="absolute border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
     >
-      <div className="rounded-lg shadow-lg overflow-hidden p-2">
+      <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">
         <svg
           className="bg-muted dark:bg-secondary-foreground rounded-sm"
           width={WIDTH}
@@ -49,13 +49,8 @@ export function Note({ index, note, onShapePointerDown }: NoteProps) {
             ))}
           </g>
         </svg>
-        {/* <img
-          src="/placeholder.svg"
-          alt="Polaroid Photo"
-          className="object-cover size-40 rounded-sm"
-        /> */}
-        <div className="mt-2 space-y-1">
-          <p className="text-xs text-muted-foreground">{name}</p>
+        <div className="mt-2 space-y-1 break-words">
+          <p className="text-xs text-muted-foreground truncate">{name}</p>
           <p className="text-sm text-primary">{message}</p>
         </div>
       </div>

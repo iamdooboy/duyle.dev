@@ -51,10 +51,17 @@ export const Canvas = () => {
       e.stopPropagation()
 
       const notes = storage.get("notes")
-      const highestZIndex = notes.get(notes.length - 1)?.get("z") ?? 1
-
+      notes.forEach((note, i) => {
+        if (i !== index) {
+          if (i === index) {
+            note.set("z", 10)
+          } else {
+            note.set("z", 1)
+          }
+        }
+      })
       if (notes.length !== index) {
-        notes.get(index)?.set("z", highestZIndex + 1)
+        notes.get(index)?.set("z", 10)
       }
       setMyPresence({ selection: index })
       setIsDragging(true)
@@ -64,10 +71,17 @@ export const Canvas = () => {
   )
 
   const onCanvasPointerUp = useMutation(
-    ({ setMyPresence }) => {
+    ({ self, storage, setMyPresence }) => {
       if (!isDragging) {
         setMyPresence({ selection: null })
       }
+
+      const index = self.presence.selection
+      if (index === null) {
+        return
+      }
+      storage.get("notes").get(index)?.set("z", 1)
+      storage.get("notes").move(index, notes.length - 1)
       setIsDragging(false)
     },
     [isDragging]
@@ -117,12 +131,11 @@ export const Canvas = () => {
       let x = 0,
         y = 0
       if (canvasRect) {
-        x = Math.random() * (canvasRect.width - 100) // Subtracting 100 to ensure the note is fully within the canvas
+        x = Math.random() * (canvasRect.width - 100)
         y = Math.random() * (canvasRect.height - 100)
       }
 
       const length = storage.get("notes").length
-
       const note = new LiveObject({
         id: Date.now().toString(),
         name,
@@ -130,7 +143,7 @@ export const Canvas = () => {
         drawing,
         x: getRandomInt(300),
         y: getRandomInt(300),
-        z: length === 0 ? 1 : length + 1,
+        z: 1,
         rotate: Math.floor(Math.random() * 141) - 70
       })
       storage.get("notes").push(note)
