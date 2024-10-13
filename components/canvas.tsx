@@ -1,10 +1,9 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
-import { PointerEvent, useRef, useState } from "react"
+import { PointerEvent, useEffect, useRef, useState } from "react"
 import { GridPattern } from "./grid-pattern"
 import { Note } from "./note"
-import { Popover } from "./pop-over"
 import DrawingComponent from "./signature"
 import { Icons } from "./ui/icons"
 
@@ -16,11 +15,26 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle
+  AlertDialogTitle,
+  AlertDialogTrigger
 } from "./ui/alert-dialog"
+import { LiveObject } from "@liveblocks/client"
+import { Drawings } from "@/types/notes"
+import { Note as NoteProp } from "@/liveblocks.config"
 
 export const Canvas = () => {
   const [isDragging, setIsDragging] = useState(false)
+  const [name, setName] = useState("")
+  const [message, setMessage] = useState("")
+  const [hasPosted, setHasPosted] = useState(false)
+  const [savedDrawings, setSavedDrawings] = useState<Drawings>([])
+
+  useEffect(() => {
+    const posted = localStorage.getItem("duyle.dev_has_posted")
+    if (posted === "true") {
+      setHasPosted(true)
+    }
+  }, [])
 
   const numOthers = useOthers((others) => others.length)
   const notes = useStorage((root) => root.notes)
@@ -94,6 +108,40 @@ export const Canvas = () => {
     [isDragging]
   )
 
+  const addNote = useMutation(
+    (
+      { storage, setMyPresence },
+      { name, message, drawing }: Pick<NoteProp, "name" | "message" | "drawing">
+    ) => {
+      const canvasRect = canvasRef.current?.getBoundingClientRect()
+      let x = 0,
+        y = 0
+      if (canvasRect) {
+        x = Math.random() * (canvasRect.width - 100) // Subtracting 100 to ensure the note is fully within the canvas
+        y = Math.random() * (canvasRect.height - 100)
+      }
+
+      const length = storage.get("notes").length
+
+      const note = new LiveObject({
+        id: Date.now().toString(),
+        name,
+        message,
+        drawing,
+        x: getRandomInt(300),
+        y: getRandomInt(300),
+        z: length === 0 ? 1 : length + 1,
+        rotate: Math.floor(Math.random() * 141) - 70
+      })
+      storage.get("notes").push(note)
+      setMyPresence({ selection: length + 1 })
+
+      setHasPosted(true)
+      localStorage.setItem("duyle.dev_has_posted", "true")
+    },
+    []
+  )
+
   return (
     <AlertDialog>
       <div className="relative">
@@ -102,7 +150,12 @@ export const Canvas = () => {
             <p className="font-mono">{numOthers + 1}</p>
             <Icons.users className="size-5" />
           </div>
-          <Popover canvasRef={canvasRef} />
+          <AlertDialogTrigger>add a note</AlertDialogTrigger>
+          {/* {hasPosted ? (
+            <div className="font-mono">Thanks for posting!</div>
+          ) : (
+            <AlertDialogTrigger>add a note</AlertDialogTrigger>
+          )} */}
         </div>
         <div
           className="rounded-lg h-screen border bg-background relative overflow-hidden"
@@ -137,12 +190,27 @@ export const Canvas = () => {
             Write a note about anything!
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <DrawingComponent />
+        <DrawingComponent
+          name={name}
+          setName={setName}
+          message={message}
+          setMessage={setMessage}
+          savedDrawings={savedDrawings}
+          setSavedDrawings={setSavedDrawings}
+        />
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction
+            onClick={() => addNote({ name, message, drawing: savedDrawings })}
+          >
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   )
+}
+
+function getRandomInt(max: number): number {
+  return Math.floor(Math.random() * max)
 }

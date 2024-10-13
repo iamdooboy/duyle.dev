@@ -1,9 +1,11 @@
 import { LiveList, LiveObject } from "@liveblocks/client"
+import { Drawings } from "./types/notes"
 
 export type Note = {
   id: string
   name: string
   message: string
+  drawing: Drawings
   x: number
   y: number
   z: number

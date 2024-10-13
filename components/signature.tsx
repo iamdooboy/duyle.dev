@@ -1,26 +1,39 @@
-import React, { useState, useRef } from "react"
+import React, {
+  useState,
+  useRef,
+  RefObject,
+  Dispatch,
+  SetStateAction
+} from "react"
 import { Path } from "./path"
 import { DrawingMenu } from "./ui/drawing-menu"
+import { CurrentDrawing, Drawings } from "@/types/notes"
+import { Point } from "framer-motion"
 
-type Point = {
-  x: number
-  y: number
+type Props = {
+  name: string
+  setName: (name: string) => void
+  message: string
+  setMessage: (message: string) => void
+  savedDrawings: Drawings
+  setSavedDrawings: Dispatch<SetStateAction<Drawings>>
+  width?: number
+  height?: number
 }
 
-type Drawing = [x: number, y: number, pressure: number][]
-
-type CurrentDrawing = {
-  color: string
-  drawing: Drawing
-}
-
-type Drawings = CurrentDrawing[]
-
-const DrawingComponent = () => {
+const DrawingComponent = ({
+  name,
+  setName,
+  message,
+  setMessage,
+  savedDrawings,
+  setSavedDrawings,
+  width = 400,
+  height = 400
+}: Props) => {
   const [currentDrawing, setCurrentDrawing] = useState<CurrentDrawing | null>(
     null
   )
-  const [savedDrawings, setSavedDrawings] = useState<Drawings>([])
   const [isDrawing, setIsDrawing] = useState(false)
   const [color, setColor] = useState("#000000")
 
@@ -84,9 +97,8 @@ const DrawingComponent = () => {
   const pointerEventToSvgPoint = (e: React.PointerEvent): Point | null => {
     if (!svgRef.current) return null
     const svgRect = svgRef.current.getBoundingClientRect()
-    const x = Math.round(e.clientX - svgRect.left)
-    const y = Math.round(e.clientY - svgRect.top)
-
+    const x = Math.round((e.clientX - svgRect.left) * (400 / svgRect.width))
+    const y = Math.round((e.clientY - svgRect.top) * (400 / svgRect.height))
     if (x >= 0 && x <= svgRect.width && y >= 0 && y <= svgRect.height) {
       return { x, y }
     }
@@ -119,19 +131,33 @@ const DrawingComponent = () => {
         onPointerUp={onPointerUp}
         onPointerEnter={onPointerEnter}
         onPointerLeave={onPointerLeave}
-        width={400}
-        height={400}
+        width={width}
+        height={height}
+        viewBox="0 0 400 400"
+        preserveAspectRatio="xMidYMid meet"
       >
-        {savedDrawings.map((drawing, index) => (
-          <Path key={index} points={drawing.drawing} fill={drawing.color} />
-        ))}
-        {currentDrawing && currentDrawing.drawing.length > 0 && (
-          <Path points={currentDrawing.drawing} fill={color} />
-        )}
+        <g transform={`scale(${width / 400}, ${height / 400})`}>
+          {savedDrawings.map((drawing, index) => (
+            <Path key={index} points={drawing.drawing} fill={drawing.color} />
+          ))}
+          {currentDrawing && currentDrawing.drawing.length > 0 && (
+            <Path points={currentDrawing.drawing} fill={color} />
+          )}
+        </g>
       </svg>
       <div className="mt-2 space-y-2">
-        <input className={className} placeholder="Name" />
-        <textarea className={className + " min-h-16"} placeholder="Message" />
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className={className}
+          placeholder="Name"
+        />
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className={className + " min-h-16"}
+          placeholder="Message"
+        />
       </div>
     </div>
   )
