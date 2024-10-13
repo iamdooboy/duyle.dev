@@ -1,33 +1,24 @@
 "use client"
+
 import { cn } from "@/lib/utils"
 import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
 import { PointerEvent, useEffect, useRef, useState } from "react"
 import { GridPattern } from "./grid-pattern"
 import { Note } from "./note"
 import DrawingComponent from "./signature"
-import { Icons } from "./ui/icons"
-
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
 } from "./ui/alert-dialog"
-import { LiveObject } from "@liveblocks/client"
-import { Drawings } from "@/types/notes"
-import { Note as NoteProp } from "@/liveblocks.config"
+import { Icons } from "./ui/icons"
 
 export const Canvas = () => {
   const [isDragging, setIsDragging] = useState(false)
-  const [name, setName] = useState("")
-  const [message, setMessage] = useState("")
   const [hasPosted, setHasPosted] = useState(false)
-  const [savedDrawings, setSavedDrawings] = useState<Drawings>([])
 
   useEffect(() => {
     const posted = localStorage.getItem("duyle.dev_has_posted")
@@ -122,39 +113,6 @@ export const Canvas = () => {
     [isDragging]
   )
 
-  const addNote = useMutation(
-    (
-      { storage, setMyPresence },
-      { name, message, drawing }: Pick<NoteProp, "name" | "message" | "drawing">
-    ) => {
-      const canvasRect = canvasRef.current?.getBoundingClientRect()
-      let x = 0,
-        y = 0
-      if (canvasRect) {
-        x = Math.random() * (canvasRect.width - 100)
-        y = Math.random() * (canvasRect.height - 100)
-      }
-
-      const length = storage.get("notes").length
-      const note = new LiveObject({
-        id: Date.now().toString(),
-        name,
-        message,
-        drawing,
-        x: getRandomInt(300),
-        y: getRandomInt(300),
-        z: 1,
-        rotate: Math.floor(Math.random() * 141) - 70
-      })
-      storage.get("notes").push(note)
-      setMyPresence({ selection: length + 1 })
-
-      setHasPosted(true)
-      localStorage.setItem("duyle.dev_has_posted", "true")
-    },
-    []
-  )
-
   return (
     <AlertDialog>
       <div className="relative">
@@ -203,22 +161,7 @@ export const Canvas = () => {
             Write a note about anything!
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <DrawingComponent
-          name={name}
-          setName={setName}
-          message={message}
-          setMessage={setMessage}
-          savedDrawings={savedDrawings}
-          setSavedDrawings={setSavedDrawings}
-        />
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => addNote({ name, message, drawing: savedDrawings })}
-          >
-            Continue
-          </AlertDialogAction>
-        </AlertDialogFooter>
+        <DrawingComponent setHasPosted={setHasPosted} canvasRef={canvasRef} />
       </AlertDialogContent>
     </AlertDialog>
   )

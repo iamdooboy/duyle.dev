@@ -1,7 +1,7 @@
 import { Note as NoteType } from "@/liveblocks.config"
 import { useOthers, useSelf } from "@liveblocks/react/suspense"
-import { PointerEvent } from "react"
 import { getStroke } from "perfect-freehand"
+import { PointerEvent } from "react"
 import { Path } from "./path"
 
 type NoteProps = {
