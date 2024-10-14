@@ -4,7 +4,7 @@ import { LiveObject } from "@liveblocks/client"
 import { useMutation } from "@liveblocks/react/suspense"
 import { Point } from "framer-motion"
 import { RefObject, useRef, useState } from "react"
-import { AnimatedCircularProgressBar } from "./circle-progess"
+import { AnimatedCircularProgressBar } from "./circular-progress"
 import { Path } from "./path"
 import {
   AlertDialogAction,
@@ -33,7 +33,7 @@ const DrawingComponent = ({
   const [currentDrawing, setCurrentDrawing] = useState<CurrentDrawing | null>(
     null
   )
-  const [isDrawing, setIsDrawing] = useState(false)
+  const [isDrawingSession, setIsDrawingSession] = useState(false)
   const [color, setColor] = useState("#000000")
 
   const maxLength = 45
@@ -42,26 +42,12 @@ const DrawingComponent = ({
 
   const svgRef = useRef<SVGSVGElement>(null)
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    const point = pointerEventToSvgPoint(e)
-    if (point) {
-      setIsDrawing(true)
-      setCurrentDrawing({
-        color,
-        drawing: [[point.x, point.y, e.pressure]]
-      })
-    }
-  }
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (isDrawing) {
-      const point = pointerEventToSvgPoint(e)
-      if (point) {
-        continueDrawing(point, e.pressure)
-      } else {
-        setIsDrawing(false)
-      }
-    }
+  const startDrawing = (point: Point, pressure: number) => {
+    setIsDrawingSession(true)
+    setCurrentDrawing({
+      color,
+      drawing: [[point.x, point.y, pressure]]
+    })
   }
 
   const continueDrawing = (point: Point, pressure: number) => {
@@ -75,12 +61,32 @@ const DrawingComponent = ({
     )
   }
 
-  const onPointerUp = () => {
+  const endDrawing = () => {
     if (currentDrawing) {
       setSavedDrawings((prev) => [...prev, currentDrawing])
       setCurrentDrawing(null)
-      setIsDrawing(false)
     }
+    setIsDrawingSession(false)
+  }
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const point = pointerEventToSvgPoint(e)
+    if (point) {
+      startDrawing(point, e.pressure)
+    }
+  }
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (isDrawingSession) {
+      const point = pointerEventToSvgPoint(e)
+      if (point) {
+        continueDrawing(point, e.pressure)
+      }
+    }
+  }
+
+  const onPointerUp = () => {
+    endDrawing()
   }
 
   const addNote = useMutation(
@@ -117,17 +123,12 @@ const DrawingComponent = ({
   )
 
   const onPointerEnter = (e: React.PointerEvent) => {
-    if (e.buttons === 1 && currentDrawing) {
+    if (e.buttons === 1 && isDrawingSession) {
       const point = pointerEventToSvgPoint(e)
       if (point) {
-        setIsDrawing(true)
         continueDrawing(point, e.pressure)
       }
     }
-  }
-
-  const onPointerLeave = () => {
-    setIsDrawing(false)
   }
 
   const pointerEventToSvgPoint = (e: React.PointerEvent): Point | null => {
@@ -144,29 +145,30 @@ const DrawingComponent = ({
   const clearDrawings = () => {
     setSavedDrawings([])
     setCurrentDrawing(null)
-    setIsDrawing(false)
+    setIsDrawingSession(false)
   }
 
   const className =
-    "flex bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
+    "flex dark:bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 z-50">
-        <DrawingMenu
-          clearDrawings={clearDrawings}
-          selectedColor={color}
-          setColor={setColor}
-        />
-      </div>
+      {!isDrawingSession && (
+        <div className="absolute top-0 left-0 z-50">
+          <DrawingMenu
+            clearDrawings={clearDrawings}
+            selectedColor={color}
+            setColor={setColor}
+          />
+        </div>
+      )}
       <svg
-        className="bg-muted dark:bg-secondary-foreground rounded-sm"
+        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm"
         ref={svgRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
         width={width}
         height={height}
         preserveAspectRatio="xMidYMid meet"
@@ -203,10 +205,7 @@ const DrawingComponent = ({
             min={0}
             value={message.length}
           />
-          {/* <div className="size-8 rounded-full bg-background flex items-center justify-center text-xs text-muted-foreground">
-            {remainingChars}
-          </div> */}
-          <div>
+          <div className="space-x-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => addNote({ name, message, drawing: savedDrawings })}

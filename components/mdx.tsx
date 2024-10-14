@@ -1,6 +1,4 @@
-import { NEXTJS_TEMPLATE } from "@/utils/template"
 import {
-  Sandpack,
   SandpackCodeEditor,
   SandpackLayout,
   SandpackPreview,

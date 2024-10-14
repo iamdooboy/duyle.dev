@@ -34,11 +34,11 @@ export function Note({ index, note, onShapePointerDown }: NoteProps) {
         transition: !selectedByMe ? "transform 120ms linear" : "none",
         zIndex: z
       }}
-      className="absolute border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
+      className="absolute dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
     >
       <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">
         <svg
-          className="bg-muted dark:bg-secondary-foreground rounded-sm"
+          className="bg-muted-foreground/15 dark:bg-secondary-foreground/90 rounded-sm"
           width={WIDTH}
           height={HEIGHT}
           preserveAspectRatio="xMidYMid meet"
@@ -50,8 +50,10 @@ export function Note({ index, note, onShapePointerDown }: NoteProps) {
           </g>
         </svg>
         <div className="mt-2 space-y-1 break-words">
-          <p className="text-xs text-muted-foreground truncate">{name}</p>
-          <p className="text-sm text-primary">{message}</p>
+          <p className="text-xs font-bold font-mono text-muted-foreground truncate">
+            {name}
+          </p>
+          <p className="text-sm font-semibold text-primary">{message}</p>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import { cn } from "@/lib/utils"
 import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
 import { PointerEvent, useEffect, useRef, useState } from "react"
 import { GridPattern } from "./grid-pattern"
@@ -15,6 +14,7 @@ import {
   AlertDialogTrigger
 } from "./ui/alert-dialog"
 import { Icons } from "./ui/icons"
+import { RainbowButton } from "./ui/rainbow-button"
 
 export const Canvas = () => {
   const [isDragging, setIsDragging] = useState(false)
@@ -121,19 +121,29 @@ export const Canvas = () => {
             <p className="font-mono">{numOthers + 1}</p>
             <Icons.users className="size-5" />
           </div>
-          <AlertDialogTrigger>add a note</AlertDialogTrigger>
+          <AlertDialogTrigger>
+            <RainbowButton>Leave a note</RainbowButton>
+          </AlertDialogTrigger>
           {/* {hasPosted ? (
-            <div className="font-mono">Thanks for posting!</div>
-          ) : (
-            <AlertDialogTrigger>add a note</AlertDialogTrigger>
-          )} */}
+              <div className="font-mono">Thanks for posting!</div>
+            ) : (
+              <AlertDialogTrigger>add a note</AlertDialogTrigger>
+            )} */}
         </div>
         <div
-          className="rounded-lg h-screen border bg-background relative overflow-hidden"
+          className="rounded-lg h-screen border relative overflow-hidden bg-background"
           ref={canvasRef}
           onPointerMove={onCanvasPointerMove}
           onPointerUp={onCanvasPointerUp}
         >
+          <GridPattern
+            width={30}
+            height={30}
+            x={-1}
+            y={-1}
+            strokeDasharray={"4 2"}
+            className="opacity-30"
+          />
           {notes.map((note, index) => {
             return (
               <Note
@@ -145,14 +155,6 @@ export const Canvas = () => {
             )
           })}
         </div>
-        <GridPattern
-          width={30}
-          height={30}
-          x={-1}
-          y={-1}
-          strokeDasharray={"4 2"}
-          className={cn("opacity-30")}
-        />
       </div>
       <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2">
         <AlertDialogHeader className="sr-only">
@@ -165,8 +167,4 @@ export const Canvas = () => {
       </AlertDialogContent>
     </AlertDialog>
   )
-}
-
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max)
 }
