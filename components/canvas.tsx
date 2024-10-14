@@ -15,6 +15,7 @@ import {
 } from "./ui/alert-dialog"
 import { Icons } from "./ui/icons"
 import { RainbowButton } from "./ui/rainbow-button"
+import { AnimatePresence, motion } from "framer-motion"
 
 export const Canvas = () => {
   const [isDragging, setIsDragging] = useState(false)
@@ -42,15 +43,6 @@ export const Canvas = () => {
       e.stopPropagation()
 
       const notes = storage.get("notes")
-      notes.forEach((note, i) => {
-        if (i !== index) {
-          if (i === index) {
-            note.set("z", 10)
-          } else {
-            note.set("z", 1)
-          }
-        }
-      })
       if (notes.length !== index) {
         notes.get(index)?.set("z", 10)
       }
@@ -121,7 +113,7 @@ export const Canvas = () => {
             <p className="font-mono">{numOthers + 1}</p>
             <Icons.users className="size-5" />
           </div>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <RainbowButton>Leave a note</RainbowButton>
           </AlertDialogTrigger>
           {/* {hasPosted ? (
@@ -144,16 +136,31 @@ export const Canvas = () => {
             strokeDasharray={"4 2"}
             className="opacity-30"
           />
-          {notes.map((note, index) => {
-            return (
-              <Note
-                key={note.id}
-                index={index}
-                note={note}
-                onShapePointerDown={onShapePointerDown}
-              />
-            )
-          })}
+          <AnimatePresence>
+            {notes.map((note, index) => {
+              return (
+                <motion.div
+                  key={note.id}
+                  initial={{ opacity: 0, y: -note.y }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  style={{
+                    position: "absolute",
+                    left: note.x,
+                    top: note.y,
+                    rotate: note.rotate,
+                    zIndex: note.z
+                  }}
+                >
+                  <Note
+                    index={index}
+                    note={note}
+                    onShapePointerDown={onShapePointerDown}
+                  />
+                </motion.div>
+              )
+            })}
+          </AnimatePresence>
         </div>
       </div>
       <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2">

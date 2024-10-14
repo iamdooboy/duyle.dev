@@ -14,7 +14,7 @@ const WIDTH = 150
 const HEIGHT = 150
 
 export function Note({ index, note, onShapePointerDown }: NoteProps) {
-  const { name, message, drawing, x, y, z, rotate } = note
+  const { name, message, drawing } = note
 
   const selectedByMe = useSelf((me) => me.presence.selection === index)
   const selectedByOthers = useOthers((others) =>
@@ -30,11 +30,9 @@ export function Note({ index, note, onShapePointerDown }: NoteProps) {
     <div
       onPointerDown={(e) => onShapePointerDown(e, index)}
       style={{
-        transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
-        transition: !selectedByMe ? "transform 120ms linear" : "none",
-        zIndex: z
+        transition: !selectedByMe ? "transform 120ms linear" : "none"
       }}
-      className="absolute dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
+      className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
     >
       <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">
         <svg
