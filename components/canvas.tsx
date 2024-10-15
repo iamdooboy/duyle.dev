@@ -1,7 +1,8 @@
 "use client"
 
 import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
-import { PointerEvent, useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { PointerEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import { GridPattern } from "./grid-pattern"
 import { Note } from "./note"
 import DrawingComponent from "./signature"
@@ -15,7 +16,6 @@ import {
 } from "./ui/alert-dialog"
 import { Icons } from "./ui/icons"
 import { RainbowButton } from "./ui/rainbow-button"
-import { AnimatePresence, motion } from "framer-motion"
 
 export const Canvas = () => {
   const [isDragging, setIsDragging] = useState(false)
@@ -37,18 +37,24 @@ export const Canvas = () => {
   const onShapePointerDown = useMutation(
     (
       { storage, setMyPresence },
-      e: PointerEvent<HTMLDivElement>,
+      e: PointerEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>,
       index: number
     ) => {
       e.stopPropagation()
+      if (e.type === "touchstart") {
+        e.preventDefault() // Prevent scrolling on touch devices
+      }
 
       const notes = storage.get("notes")
-      if (notes.length !== index) {
-        notes.get(index)?.set("z", 10)
-      }
+      notes.forEach((note, i) => {
+        note.set("z", i === index ? 10 : 1)
+      })
       setMyPresence({ selection: index })
       setIsDragging(true)
-      dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
+
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
+      dragStartPositionRef.current = { x: clientX, y: clientY }
     },
     []
   )
@@ -60,50 +66,68 @@ export const Canvas = () => {
       }
 
       const index = self.presence.selection
-      if (index === null) {
-        return
+      if (index !== null) {
+        storage.get("notes").get(index)?.set("z", 1)
+        storage.get("notes").move(index, notes.length - 1)
       }
-      storage.get("notes").get(index)?.set("z", 1)
-      storage.get("notes").move(index, notes.length - 1)
       setIsDragging(false)
     },
     [isDragging]
   )
 
   const onCanvasPointerMove = useMutation(
-    ({ self, storage }, e: PointerEvent<HTMLDivElement>) => {
-      e.preventDefault()
-      if (!isDragging) {
-        return
-      }
-      const index = self.presence.selection
-      if (index === null) {
-        return
-      }
-      const note = storage.get("notes").get(index)
+    (
+      { self, storage },
+      e: PointerEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
+    ) => {
+      e.preventDefault() // Prevent scrolling
+      if (!isDragging) return
 
+      const index = self.presence.selection
+      if (index === null) return
+
+      const note = storage.get("notes").get(index)
       const canvasRect = canvasRef.current?.getBoundingClientRect()
+
       if (note && canvasRect) {
+        const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
+        const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
+
         if (
-          e.clientX < canvasRect.left ||
-          e.clientX > canvasRect.right ||
-          e.clientY < canvasRect.top ||
-          e.clientY > canvasRect.bottom
+          clientX < canvasRect.left ||
+          clientX > canvasRect.right ||
+          clientY < canvasRect.top ||
+          clientY > canvasRect.bottom
         ) {
-          // If outside, stop dragging
-          return
+          return // If outside, stop dragging
         }
-        const dx = e.clientX - dragStartPositionRef.current.x
-        const dy = e.clientY - dragStartPositionRef.current.y
+
+        const dx = clientX - dragStartPositionRef.current.x
+        const dy = clientY - dragStartPositionRef.current.y
         note.update({
           x: note.get("x") + dx,
           y: note.get("y") + dy
         })
-        dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
+        dragStartPositionRef.current = { x: clientX, y: clientY }
       }
     },
     [isDragging]
   )
+
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener("touchmove", handleTouchMove as any, {
+      passive: false
+    })
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove as any)
+    }
+  }, [isDragging])
 
   return (
     <AlertDialog>
@@ -127,6 +151,7 @@ export const Canvas = () => {
           ref={canvasRef}
           onPointerMove={onCanvasPointerMove}
           onPointerUp={onCanvasPointerUp}
+          onTouchMove={onCanvasPointerMove}
         >
           <GridPattern
             width={30}

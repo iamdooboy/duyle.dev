@@ -18,16 +18,16 @@ export default function Page() {
           creative web developer with a passion for UI design and crafting high
           quality and fun web apps.
         </p>
-        <div className="my-6 space-y-3">
+        <div className="my-6 space-y-5">
           <p>Programming languages and libraries I'm currently using</p>
           <Techstack />
         </div>
-        <div className="my-14">
+        <div className="my-16">
           <Title>Recent posts</Title>
           <BlogPosts limit={2} />
           <More href="/blog">More posts</More>
         </div>
-        <div className="my-14">
+        <div className="my-16">
           <Title>Recent projects</Title>
           <div className="grid grid-cols-2 gap-4 my-3">
             {projects.slice(0, 2).map((project) => (

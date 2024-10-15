@@ -95,8 +95,8 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button className="border border-input bg-background hover:bg-accent hover:text-accent-foreground gap-2">
-                    <Icons.github className="size-4" />
+                  <Button variant="outline">
+                    <Icons.github className="mr-2 size-4" />
                     Source
                   </Button>
                 </a>
@@ -105,8 +105,8 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
-                    <Icons.globe className="size-4" />
+                  <Button className="px-5">
+                    <Icons.globe className="mr-2 size-4" />
                     Visit
                   </Button>
                 </a>

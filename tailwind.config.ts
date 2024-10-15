@@ -66,7 +66,7 @@ const config: Config = {
       animation: {
         meteor: "meteor 5s linear infinite",
         "text-gradient": "text-gradient 1.5s linear infinite",
-        rainbow: "rainbow var(--speed, 2s) infinite linear",
+        rainbow: "rainbow var(--speed, 2s) infinite linear"
       },
       keyframes: {
         meteor: {
@@ -80,7 +80,7 @@ const config: Config = {
         rainbow: {
           "0%": { "background-position": "0%" },
           "100%": { "background-position": "200%" }
-        },
+        }
       }
     }
   },

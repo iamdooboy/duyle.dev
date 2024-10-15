@@ -1,7 +1,7 @@
 "use client"
 
-import { Note } from "@/liveblocks.config"
-import { LiveList, LiveMap, LiveObject } from "@liveblocks/client"
+import { cn } from "@/lib/utils"
+import { LiveList } from "@liveblocks/client"
 import {
   ClientSideSuspense,
   LiveblocksProvider,
@@ -9,9 +9,8 @@ import {
 } from "@liveblocks/react/suspense"
 import { ReactNode } from "react"
 import { GridPattern } from "./grid-pattern"
-import { cn } from "@/lib/utils"
-import { RainbowButton } from "./ui/rainbow-button"
 import { Icons } from "./ui/icons"
+import { RainbowButton } from "./ui/rainbow-button"
 
 export function Room({ children }: { children: ReactNode }) {
   return (
@@ -45,15 +44,16 @@ const Loading = () => {
           <RainbowButton className="cursor-wait">Leave a note</RainbowButton>
         </div>
       </div>
-      <div className="rounded-lg h-screen border bg-background relative overflow-hidden"></div>
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray={"4 2"}
-        className={cn("opacity-30")}
-      />
+      <div className="rounded-lg h-screen border bg-background relative overflow-hidden">
+        <GridPattern
+          width={30}
+          height={30}
+          x={-1}
+          y={-1}
+          strokeDasharray={"4 2"}
+          className={cn("opacity-30")}
+        />
+      </div>
     </div>
   )
 }
