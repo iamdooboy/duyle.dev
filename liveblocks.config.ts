@@ -1,7 +1,7 @@
 import { LiveList, LiveObject } from "@liveblocks/client"
-import { Drawings } from "./types/notes"
+import { Drawings } from "./types/polaroids"
 
-export type Note = {
+export type Polaroid = {
   id: string
   name: string
   message: string
@@ -24,7 +24,7 @@ declare global {
       cursor: Cursor | null
     }
     Storage: {
-      notes: LiveList<LiveObject<Note>>
+      polaroids: LiveList<LiveObject<Polaroid>>
     }
   }
 }

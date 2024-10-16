@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { Icons } from "./icons"
+import { Icons } from "../ui/icons"
 
 type Props = {
   clearDrawings: () => void
@@ -43,7 +43,6 @@ export function DrawingMenu({ clearDrawings, selectedColor, setColor }: Props) {
       <DropdownMenuContent align="center" sideOffset={-5} className="space-y-1">
         {COLORS.map((color, index) => (
           <DropdownMenuItem
-            asChild
             key={index}
             data-highlighted={color === selectedColor}
             className="hover:bg-primary/25 hover:dark:bg-primary-foreground/25 data-[highlighted=true]:bg-primary/25 data-[highlighted=true]:dark:bg-primary-foreground/25"

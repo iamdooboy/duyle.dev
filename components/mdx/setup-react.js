@@ -22,7 +22,7 @@ const indexHtml = ({ main }) => `
 </html>
 `
 
-const setupReact = (options) => ({
+export const setupReact = (options) => ({
   customSetup: {
     entry: "/index.js",
     environment: "create-react-app",
@@ -51,5 +51,3 @@ const setupReact = (options) => ({
     ...options.files
   }
 })
-
-export default setupReact

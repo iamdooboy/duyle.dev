@@ -1,17 +1,17 @@
-import { Note } from "@/liveblocks.config"
-import { CurrentDrawing, Drawings } from "@/types/notes"
+import { Polaroid } from "@/liveblocks.config"
+import { CurrentDrawing, Drawings } from "@/types/polaroids"
 import { LiveObject } from "@liveblocks/client"
 import { useMutation } from "@liveblocks/react/suspense"
 import { Point } from "framer-motion"
 import { RefObject, useRef, useState } from "react"
-import { AnimatedCircularProgressBar } from "./circular-progress"
-import { Path } from "./path"
 import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogFooter
-} from "./ui/alert-dialog"
-import { DrawingMenu } from "./ui/drawing-menu"
+} from "../ui/alert-dialog"
+import { AnimatedCircularProgressBar } from "../ui/circular-progress"
+import { DrawingMenu } from "./drawing-menu"
+import { Path } from "./path"
 
 type Props = {
   setHasPosted: (value: boolean) => void
@@ -20,7 +20,7 @@ type Props = {
   height?: number
 }
 
-const DrawingComponent = ({
+export const Canvas = ({
   setHasPosted,
   canvasRef,
   width = 400,
@@ -37,9 +37,6 @@ const DrawingComponent = ({
   const [color, setColor] = useState("#000000")
 
   const maxLength = 45
-  const remainingChars = maxLength - message.length
-  const progress = (remainingChars / maxLength) * 100
-
   const svgRef = useRef<SVGSVGElement>(null)
 
   const startDrawing = (point: Point, pressure: number) => {
@@ -61,14 +58,6 @@ const DrawingComponent = ({
     )
   }
 
-  const endDrawing = () => {
-    if (currentDrawing) {
-      setSavedDrawings((prev) => [...prev, currentDrawing])
-      setCurrentDrawing(null)
-    }
-    setIsDrawingSession(false)
-  }
-
   const onPointerDown = (e: React.PointerEvent) => {
     const point = pointerEventToSvgPoint(e)
     if (point) {
@@ -86,13 +75,17 @@ const DrawingComponent = ({
   }
 
   const onPointerUp = () => {
-    endDrawing()
+    if (currentDrawing) {
+      setSavedDrawings((prev) => [...prev, currentDrawing])
+      setCurrentDrawing(null)
+    }
+    setIsDrawingSession(false)
   }
 
   const addNote = useMutation(
     (
       { storage, setMyPresence },
-      { name, message, drawing }: Pick<Note, "name" | "message" | "drawing">
+      { name, message, drawing }: Pick<Polaroid, "name" | "message" | "drawing">
     ) => {
       const canvasRect = canvasRef.current?.getBoundingClientRect()
       let x = 0,
@@ -102,7 +95,7 @@ const DrawingComponent = ({
         y = Math.random() * (canvasRect.height - 100)
       }
 
-      const length = storage.get("notes").length
+      const length = storage.get("polaroids").length
       const note = new LiveObject({
         id: Date.now().toString(),
         name,
@@ -113,7 +106,7 @@ const DrawingComponent = ({
         z: 1,
         rotate: Math.floor(Math.random() * 141) - 70
       })
-      storage.get("notes").push(note)
+      storage.get("polaroids").push(note)
       setMyPresence({ selection: length + 1 })
 
       setHasPosted(true)
@@ -218,8 +211,6 @@ const DrawingComponent = ({
     </div>
   )
 }
-
-export default DrawingComponent
 
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * max)

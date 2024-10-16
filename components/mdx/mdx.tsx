@@ -9,8 +9,8 @@ import { MDXRemote } from "next-mdx-remote/rsc"
 import Image from "next/image"
 import Link from "next/link"
 import { ComponentProps, createElement } from "react"
-import { ModeToggle } from "./header/mode-toggle"
-import setupReact from "./setup-react"
+import { ModeToggle } from "../header/mode-toggle"
+import { setupReact } from "./setup-react"
 
 function Table({ data }: { data: { headers: string[]; rows: string[][] } }) {
   let headers = data.headers.map((header, index) => (
