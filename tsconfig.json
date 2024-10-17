@@ -27,7 +27,9 @@
       "@/mdx/*": ["components/blog/*"],
       "@/polaroid-board/*": ["./components/polaroid-board/*"],
       "@/ui/*": ["./components/ui/*"],
-      "@/sandpack/*": ["./components/sandpack/*"]
+      "@/sandpack/*": ["./components/sandpack/*"],
+      "@/lib/*": ["./lib/*"]
+      
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

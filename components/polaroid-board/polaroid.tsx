@@ -1,6 +1,6 @@
 "use client"
 
-import { Polaroid as PolaroidType } from "@/liveblocks.config"
+import { Polaroid as PolaroidType } from "@/lib/types"
 import { useOthers } from "@liveblocks/react/suspense"
 import { motion } from "framer-motion"
 import { PointerEvent } from "react"
@@ -77,9 +77,7 @@ export function Polaroid({ polaroid, children }: PolaroidProps) {
     <div
       style={{
         position: "absolute",
-        left: x,
-        top: y,
-        rotate: rotate + "deg",
+        transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
         zIndex: z
       }}
       className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"

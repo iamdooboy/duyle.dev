@@ -1,5 +1,5 @@
 import { LiveList, LiveObject } from "@liveblocks/client"
-import { Cursor, Drawings, Polaroid } from "./lib/types"
+import { Cursor, Polaroid } from "./lib/types"
 
 declare global {
   interface Liveblocks {

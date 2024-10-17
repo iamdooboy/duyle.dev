@@ -66,7 +66,7 @@ export const PhotoBoard = ({
           strokeDasharray={"4 2"}
           className="opacity-35"
         />
-        <Polaroid polaroid={{ x: 334, y: 480, z: 0, rotate: 30 }}>
+        <Polaroid polaroid={{ x: 190, y: 638, z: 0, rotate: 10 }}>
           <PolaroidPhoto imgSrc="/vn.jpg" />
           <PolaroidInfo
             name="07/05/2024"
