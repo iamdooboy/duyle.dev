@@ -1,8 +1,8 @@
 "use client"
 
+import { Icons } from "@/ui/icons"
 import { useTheme } from "next-themes"
 import * as React from "react"
-import { Icons } from "../ui/icons"
 
 import { cn } from "@/lib/utils"
 

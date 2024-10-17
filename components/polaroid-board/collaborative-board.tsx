@@ -1,19 +1,26 @@
 "use client"
 
-import { useMutation, useOthers, useStorage } from "@liveblocks/react/suspense"
-import { PointerEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle
-} from "../ui/alert-dialog"
+} from "@/ui/alert-dialog"
+import {
+  useMutation,
+  useOthers,
+  useStorage,
+  useUpdateMyPresence
+} from "@liveblocks/react/suspense"
+import { PointerEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import { Canvas } from "./canvas"
 import { PhotoBoard } from "./photo-board"
 import { DrawingPolaroid, PolaroidInfo, PolaroidPhoto } from "./polaroid"
 
 export const CollaborativeBoard = () => {
+  const updateMyPresence = useUpdateMyPresence()
+
   const [isDragging, setIsDragging] = useState(false)
   const [hasPosted, setHasPosted] = useState(false)
 
@@ -57,9 +64,10 @@ export const CollaborativeBoard = () => {
 
   const onCanvasPointerUp = useMutation(
     ({ self, storage, setMyPresence }) => {
-      if (!isDragging) {
-        setMyPresence({ selection: null })
-      }
+      setMyPresence({ selection: null })
+      // if (!isDragging) {
+      //   setMyPresence({ selection: null })
+      // }
       const length = storage.get("polaroids").length
       const index = self.presence.selection
       if (index !== null) {
@@ -73,22 +81,33 @@ export const CollaborativeBoard = () => {
 
   const onCanvasPointerMove = useMutation(
     (
-      { self, storage },
+      { self, storage, setMyPresence },
       e: PointerEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
     ) => {
       e.preventDefault() // Prevent scrolling
+      const canvasRect = canvasRef.current?.getBoundingClientRect()
+
+      if (canvasRect === undefined) return
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
+
+      setMyPresence({
+        cursor: {
+          x: Math.round(clientX - canvasRect.left),
+          y: Math.round(clientY - canvasRect.top)
+        }
+      })
+
       if (!isDragging) return
 
       const index = self.presence.selection
       if (index === null) return
 
       const note = storage.get("polaroids").get(index)
-      const canvasRect = canvasRef.current?.getBoundingClientRect()
 
       if (note && canvasRect) {
         const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
         const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
-
         if (
           clientX < canvasRect.left ||
           clientX > canvasRect.right ||
@@ -109,6 +128,10 @@ export const CollaborativeBoard = () => {
     },
     [isDragging]
   )
+
+  const onCanvasPointerLeave = () => {
+    updateMyPresence({ cursor: null })
+  }
 
   useEffect(() => {
     const handleTouchMove = (e: TouchEvent) => {
@@ -132,6 +155,7 @@ export const CollaborativeBoard = () => {
         canvasRef={canvasRef}
         onCanvasPointerMove={onCanvasPointerMove}
         onCanvasPointerUp={onCanvasPointerUp}
+        onCanvasPointerLeave={onCanvasPointerLeave}
       >
         {polaroids.map((polaroid, index) => {
           return (

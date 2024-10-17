@@ -1,15 +1,15 @@
-import { Polaroid } from "@/liveblocks.config"
-import { CurrentDrawing, Drawings } from "@/types/polaroids"
-import { LiveObject } from "@liveblocks/client"
-import { useMutation } from "@liveblocks/react/suspense"
-import { Point } from "framer-motion"
-import { RefObject, useRef, useState } from "react"
+import { CurrentDrawing, Drawings } from "@/lib/types"
+import { Polaroid } from "@/lib/types"
 import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogFooter
-} from "../ui/alert-dialog"
-import { AnimatedCircularProgressBar } from "../ui/circular-progress"
+} from "@/ui/alert-dialog"
+import { AnimatedCircularProgressBar } from "@/ui/circular-progress"
+import { LiveObject } from "@liveblocks/client"
+import { useMutation } from "@liveblocks/react/suspense"
+import { Point } from "framer-motion"
+import { RefObject, useRef, useState } from "react"
 import { DrawingMenu } from "./drawing-menu"
 import { Path } from "./path"
 

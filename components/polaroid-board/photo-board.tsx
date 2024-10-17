@@ -1,9 +1,13 @@
+"use client"
+
+import { GridPattern } from "@/background/grid-pattern"
+import { Icons } from "@/ui/icons"
+import { RainbowButton } from "@/ui/rainbow-button"
+import { ClientSideSuspense } from "@liveblocks/react/suspense"
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog"
 import { AnimatePresence } from "framer-motion"
 import { PointerEvent, TouchEvent } from "react"
-import { GridPattern } from "../background/grid-pattern"
-import { Icons } from "../ui/icons"
-import { RainbowButton } from "../ui/rainbow-button"
+import { LiveCursor } from "./cursor/live-cursor"
 import { PolaroidInfo, PolaroidPhoto } from "./polaroid"
 import { Polaroid } from "./polaroid"
 
@@ -14,6 +18,7 @@ type PhotoBoardProps = {
     e: PointerEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
   ) => void
   onCanvasPointerUp?: () => void
+  onCanvasPointerLeave?: () => void
   children: React.ReactNode
 }
 
@@ -22,6 +27,7 @@ export const PhotoBoard = ({
   canvasRef,
   onCanvasPointerMove,
   onCanvasPointerUp,
+  onCanvasPointerLeave,
   children
 }: PhotoBoardProps) => {
   return (
@@ -49,6 +55,7 @@ export const PhotoBoard = ({
         ref={canvasRef}
         onPointerMove={onCanvasPointerMove}
         onPointerUp={onCanvasPointerUp}
+        onPointerLeave={onCanvasPointerLeave}
         onTouchMove={onCanvasPointerMove}
       >
         <GridPattern
@@ -67,6 +74,9 @@ export const PhotoBoard = ({
           />
         </Polaroid>
         <AnimatePresence>{children}</AnimatePresence>
+        <ClientSideSuspense fallback={null}>
+          <LiveCursor />
+        </ClientSideSuspense>
       </div>
     </div>
   )

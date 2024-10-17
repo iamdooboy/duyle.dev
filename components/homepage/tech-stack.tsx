@@ -1,8 +1,8 @@
 "use client"
 
+import { Icons } from "@/ui/icons"
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { Icons } from "../ui/icons"
 
 const ICON_COLOR_MAP = {
   nextjs: "",
@@ -61,7 +61,7 @@ export function Techstack() {
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
               key={iconName}
-              className="group relative flex select-none flex-col p-4 justify-center items-center group border -ml-px -mt-px aspect-square"
+              className="group relative flex select-none flex-col p-4 justify-center items-center group -ml-px -mt-px aspect-square"
             >
               {hoveredIndex === idx && (
                 <>

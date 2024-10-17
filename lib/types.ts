@@ -11,3 +11,19 @@ export type CurrentDrawing = {
 }
 
 export type Drawings = CurrentDrawing[]
+
+export type Polaroid = {
+  id: string
+  name: string
+  message: string
+  drawing: Drawings
+  x: number
+  y: number
+  z: number
+  rotate: number
+}
+
+export type Cursor = {
+  x: number
+  y: number
+}

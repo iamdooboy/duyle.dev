@@ -1,5 +1,5 @@
+import { Icons } from "@/ui/icons"
 import Link from "next/link"
-import { Icons } from "../ui/icons"
 
 export const More = ({
   href,

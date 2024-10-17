@@ -9,24 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { Icons } from "../ui/icons"
+import { DRAWING_COLORS } from "@/lib/constants"
+import { Icons } from "@/ui/icons"
 
 type Props = {
   clearDrawings: () => void
   selectedColor: string
   setColor: (color: string) => void
 }
-
-const COLORS = [
-  "#000000", // Black (Tailwind: bg-black)
-  "#FFFFFF", // White (Tailwind: bg-white)
-  "#EF4444", // Red (Tailwind: bg-red-500)
-  "#3B82F6", // Blue (Tailwind: bg-blue-500)
-  "#22C55E", // Green (Tailwind: bg-green-500)
-  "#EAB308", // Yellow (Tailwind: bg-yellow-500)
-  "#FB923C", // Orange (Tailwind: bg-orange-500)
-  "#A855F7" // Purple (Tailwind: bg-purple-500)
-]
 
 export function DrawingMenu({ clearDrawings, selectedColor, setColor }: Props) {
   return (
@@ -41,11 +31,11 @@ export function DrawingMenu({ clearDrawings, selectedColor, setColor }: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" sideOffset={-5} className="space-y-1">
-        {COLORS.map((color, index) => (
+        {DRAWING_COLORS.map((color, index) => (
           <DropdownMenuItem
             key={index}
             data-highlighted={color === selectedColor}
-            className="hover:bg-primary/25 hover:dark:bg-primary-foreground/25 data-[highlighted=true]:bg-primary/25 data-[highlighted=true]:dark:bg-primary-foreground/25"
+            className="hover:bg-primary/25 hover:dark:bg-primary-foreground/25 data-[highlighted=true]:bg-primary/15 data-[highlighted=true]:dark:bg-primary-foreground/15"
           >
             <button
               onClick={() => setColor(color)}

@@ -1,15 +1,13 @@
 "use client"
 
 import { Polaroid as PolaroidType } from "@/liveblocks.config"
-import { useOthers, useSelf } from "@liveblocks/react/suspense"
+import { useOthers } from "@liveblocks/react/suspense"
 import { motion } from "framer-motion"
 import { PointerEvent } from "react"
 
-import { Drawings } from "@/types/polaroids"
+import { COLORS, HEIGHT, WIDTH } from "@/lib/constants"
+import { Drawings } from "@/lib/types"
 import { Path } from "./path"
-
-const WIDTH = 150
-const HEIGHT = 150
 
 type PolaroidStyles = Pick<PolaroidType, "x" | "y" | "z" | "rotate">
 
@@ -17,7 +15,6 @@ interface PolaroidProps {
   polaroid: PolaroidStyles
   children: React.ReactNode
 }
-
 interface DrawingPolaroid extends PolaroidProps {
   index?: number
   onShapePointerDown?: (e: PointerEvent<HTMLDivElement>, index: number) => void
@@ -31,15 +28,17 @@ export function DrawingPolaroid({
 }: DrawingPolaroid) {
   const { x, y, z, rotate } = polaroid
 
-  // const selectedByMe = useSelf((me) => me.presence.selection === index)
-  // const selectedByOthers = useOthers((others) =>
-  //   others.some((other) => other.presence.selection === index)
-  // )
-  // const selectionColor = selectedByMe
-  //   ? "blue"
-  //   : selectedByOthers
-  //     ? "green"
-  //     : "transparent"
+  const selectedByOthers = useOthers((others) =>
+    others.some((other) => other.presence.selection === index)
+  )
+
+  const selectingUser = useOthers((others) =>
+    others.find((other) => other.presence.selection === index)
+  )
+
+  const outlineColor = selectingUser
+    ? COLORS[selectingUser.connectionId % COLORS.length]
+    : "transparent"
 
   return (
     <motion.div
@@ -58,9 +57,10 @@ export function DrawingPolaroid({
         onPointerDown={(e) =>
           onShapePointerDown && onShapePointerDown(e, index || 0)
         }
-        // style={{
-        //   transition: !selectedByMe ? "transform 120ms linear" : "none"
-        // }}
+        style={{
+          outline: selectedByOthers ? `solid ${outlineColor}` : "none",
+          transition: !selectedByOthers ? "transform 120ms linear" : "none"
+        }}
         className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
       >
         <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">

@@ -1,11 +1,10 @@
 "use client"
 
+import { TABS } from "@/lib/constants"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useState } from "react"
 import { ModeToggle } from "./mode-toggle"
-
-const TABS = ["blog", "projects", "visitors"]
 
 export const TabHeaders = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
