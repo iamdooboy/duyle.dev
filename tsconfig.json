@@ -29,7 +29,6 @@
       "@/ui/*": ["./components/ui/*"],
       "@/sandpack/*": ["./components/sandpack/*"],
       "@/lib/*": ["./lib/*"]
-      
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

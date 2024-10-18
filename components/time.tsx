@@ -24,6 +24,8 @@ export const Time = () => {
   }
 
   return (
-    <div className="text-sm text-muted-foreground tabular-nums font-mono">{formatTime(time)} CDT</div>
+    <div className="text-sm text-muted-foreground tabular-nums font-mono">
+      {formatTime(time)} CDT
+    </div>
   )
 }

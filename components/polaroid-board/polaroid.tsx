@@ -3,7 +3,7 @@
 import { Polaroid as PolaroidType } from "@/lib/types"
 import { useOthers } from "@liveblocks/react/suspense"
 import { motion } from "framer-motion"
-import { PointerEvent, useState, useRef, useEffect } from "react"
+import { PointerEvent, useEffect, useRef, useState } from "react"
 
 import { COLORS, HEIGHT, WIDTH } from "@/lib/constants"
 import { Drawings } from "@/lib/types"
