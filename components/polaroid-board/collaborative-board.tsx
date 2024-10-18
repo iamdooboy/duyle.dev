@@ -31,6 +31,21 @@ export const CollaborativeBoard = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener("touchmove", handleTouchMove as any, {
+      passive: false
+    })
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove as any)
+    }
+  }, [isDragging])
+
   const numOthers = useOthers((others) => others.length)
   const polaroids = useStorage((root) => root.polaroids)
 
@@ -86,8 +101,8 @@ export const CollaborativeBoard = () => {
     ) => {
       e.preventDefault() // Prevent scrolling
       const canvasRect = canvasRef.current?.getBoundingClientRect()
-
       if (canvasRect === undefined) return
+
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
 
@@ -106,8 +121,6 @@ export const CollaborativeBoard = () => {
       const note = storage.get("polaroids").get(index)
 
       if (note && canvasRect) {
-        const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
-        const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
         if (
           clientX < canvasRect.left ||
           clientX > canvasRect.right ||
@@ -133,24 +146,10 @@ export const CollaborativeBoard = () => {
     updateMyPresence({ cursor: null })
   }
 
-  useEffect(() => {
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging) {
-        e.preventDefault()
-      }
-    }
-
-    document.addEventListener("touchmove", handleTouchMove as any, {
-      passive: false
-    })
-    return () => {
-      document.removeEventListener("touchmove", handleTouchMove as any)
-    }
-  }, [isDragging])
-
   return (
     <AlertDialog>
       <PhotoBoard
+        hasPosted={hasPosted}
         numOthers={numOthers}
         canvasRef={canvasRef}
         onCanvasPointerMove={onCanvasPointerMove}

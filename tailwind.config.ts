@@ -66,7 +66,8 @@ const config: Config = {
       animation: {
         meteor: "meteor 5s linear infinite",
         "text-gradient": "text-gradient 1.5s linear infinite",
-        rainbow: "rainbow var(--speed, 2s) infinite linear"
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
+        wave: "wave 0.6s ease-in-out 6 alternate"
       },
       keyframes: {
         meteor: {
@@ -80,6 +81,10 @@ const config: Config = {
         rainbow: {
           "0%": { "background-position": "0%" },
           "100%": { "background-position": "200%" }
+        },
+        wave: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(20deg)" }
         }
       }
     }

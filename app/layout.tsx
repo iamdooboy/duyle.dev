@@ -75,26 +75,26 @@ export default function RootLayout({
           href="/feed.json"
           title="JSON Feed"
         />
-        <body className="antialiased">
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="relative mt-6 mx-auto max-w-xl px-6 ">
-              <Navbar />
-              {children}
-              <Footer />
-              <Analytics />
-              <SpeedInsights />
-            </main>
-            <Particles
-              className="-z-10 absolute inset-0 sm:block hidden"
-              quantity={100}
-              ease={90}
-              size={0.25}
-              staticity={100}
-            />
-            <GradientBackground />
-          </ThemeProvider>
-        </body>
       </head>
+      <body className="antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <main className="relative mt-6 mx-auto max-w-xl px-6 ">
+            <Navbar />
+            {children}
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </main>
+          <Particles
+            className="-z-10 absolute inset-0 sm:block hidden"
+            quantity={100}
+            ease={90}
+            size={0.25}
+            staticity={100}
+          />
+          <GradientBackground />
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

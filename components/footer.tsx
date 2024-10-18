@@ -1,3 +1,4 @@
+import { Time } from "./time"
 import { Icons } from "./ui/icons"
 
 export default function Footer() {
@@ -13,15 +14,15 @@ export default function Footer() {
       icon: <Icons.github className="size-4" />
     },
     {
-      href: "https://github.com/iamdooboy/duyle.dev",
-      label: "Source code",
-      icon: <Icons.code className="size-5" />
+      href: "mailto:duy.le1017@gmail.com",
+      label: "Contact",
+      icon: <Icons.mail className="size-5" />
     }
   ]
 
   return (
-    <footer className="mb-16">
-      <ul className="mt-8 flex gap-5 font-sm">
+    <footer className="mt-8 mb-16 flex justify-between">
+      <ul className="flex gap-5 font-sm">
         {FOOTER_ELEMENTS.map((element) => (
           <li key={element.label}>
             <a
@@ -36,6 +37,7 @@ export default function Footer() {
           </li>
         ))}
       </ul>
+      <Time />
     </footer>
   )
 }

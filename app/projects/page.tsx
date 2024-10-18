@@ -38,7 +38,17 @@ export default function Page() {
             <div
               className={`px-5 z-10 overflow-hidden bg-gradient-to-t from-[#00000000] ${colorVariants[project.color]} rounded-md`}
             >
-              <VideoModal>
+              <Safari
+                url={`https://duyle.dev`}
+                className="dark:hidden size-full transform translate-y-5 group-hover/video:-translate-y-[1px] duration-200 transition-transform"
+                src={project.imageSrc}
+              />
+              <Safari
+                url={`https://duyle.dev`}
+                className="hidden dark:block size-full transform translate-y-5 group-hover/video:-translate-y-[1px] duration-200 transition-transform"
+                src={project.imageSrcDark}
+              />
+              {/* <VideoModal>
                 <VideoModalTrigger className="relative group/video">
                   <Safari
                     url={`https://duyle.dev`}
@@ -82,7 +92,7 @@ export default function Page() {
                     </VideoPlayer>
                   </VideoModalVideo>
                 </VideoModalContent>
-              </VideoModal>
+              </VideoModal> */}
             </div>
             <div className="flex flex-col mt-2 gap-2">
               <h3 className="text-lg font-medium">{project.name}</h3>

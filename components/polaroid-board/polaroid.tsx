@@ -3,7 +3,7 @@
 import { Polaroid as PolaroidType } from "@/lib/types"
 import { useOthers } from "@liveblocks/react/suspense"
 import { motion } from "framer-motion"
-import { PointerEvent } from "react"
+import { PointerEvent, useState, useRef, useEffect } from "react"
 
 import { COLORS, HEIGHT, WIDTH } from "@/lib/constants"
 import { Drawings } from "@/lib/types"
@@ -14,6 +14,7 @@ type PolaroidStyles = Pick<PolaroidType, "x" | "y" | "z" | "rotate">
 interface PolaroidProps {
   polaroid: PolaroidStyles
   children: React.ReactNode
+  canvasRef?: React.RefObject<HTMLDivElement>
 }
 interface DrawingPolaroid extends PolaroidProps {
   index?: number
@@ -61,7 +62,7 @@ export function DrawingPolaroid({
           outline: selectedByOthers ? `solid ${outlineColor}` : "none",
           transition: !selectedByOthers ? "transform 120ms linear" : "none"
         }}
-        className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
+        className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent hover:cursor-grab"
       >
         <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">
           {children}
@@ -71,18 +72,89 @@ export function DrawingPolaroid({
   )
 }
 
-export function Polaroid({ polaroid, children }: PolaroidProps) {
+export function Polaroid({ children, canvasRef, polaroid }: PolaroidProps) {
   const { x, y, z, rotate } = polaroid
+  const [position, setPosition] = useState({ x, y })
+  const dragStartPositionRef = useRef({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const polaroidRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handlePointerMove = (e: globalThis.PointerEvent) => {
+      e.preventDefault()
+      if (!isDragging) return
+
+      const canvasRect = canvasRef?.current?.getBoundingClientRect()
+      if (canvasRect === undefined) return
+
+      if (
+        e.clientX < canvasRect.left ||
+        e.clientX > canvasRect.right ||
+        e.clientY < canvasRect.top ||
+        e.clientY > canvasRect.bottom
+      ) {
+        return // If outside, stop dragging
+      }
+
+      const dx = e.clientX - dragStartPositionRef.current.x
+      const dy = e.clientY - dragStartPositionRef.current.y
+      setPosition((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+      dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
+    }
+
+    const handlePointerUp = () => {
+      setIsDragging(false)
+    }
+
+    if (isDragging) {
+      window.addEventListener("pointermove", handlePointerMove)
+      window.addEventListener("pointerup", handlePointerUp)
+    }
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove)
+      window.removeEventListener("pointerup", handlePointerUp)
+    }
+  }, [isDragging])
+
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener("touchmove", handleTouchMove as any, {
+      passive: false
+    })
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove as any)
+    }
+  }, [isDragging])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    setIsDragging(true)
+    dragStartPositionRef.current = { x: e.clientX, y: e.clientY }
+  }
+
   return (
     <div
+      ref={polaroidRef}
+      onPointerDown={onPointerDown}
       style={{
         position: "absolute",
-        transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
-        zIndex: z
+        transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate}deg)`,
+        zIndex: z,
+        pointerEvents: isDragging ? "none" : "auto"
       }}
-      className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent"
+      data-loading={!!canvasRef}
+      className="dark:border-primary/15 border rounded-md bg-background dark:bg-muted before:absolute before:top-0 before:right-0 before:size-full before:bg-transparent hover:cursor-grab data-[loading=false]:cursor-not-allowed"
     >
-      <div className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]">
+      <div
+        className="rounded-lg shadow-lg overflow-hidden p-2 max-w-[166px]"
+        style={{ pointerEvents: "auto" }}
+      >
         {children}
       </div>
     </div>
