@@ -1,6 +1,6 @@
-import { Button } from "../_components/ui/button"
-import { Icons } from "../_components/ui/icons"
-import Safari from "../_components/ui/safari"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
+import Safari from "@/components/ui/safari"
 import {
   VideoModal,
   VideoModalContent,
@@ -9,8 +9,8 @@ import {
   VideoModalTrigger,
   VideoModalVideo,
   VideoPlayer
-} from "../_components/ui/video-modal"
-import { projects } from "../config"
+} from "@/components/ui/video-modal"
+import { projects } from "@/config"
 
 export const metadata = {
   title: "Projects",
@@ -38,7 +38,17 @@ export default function Page() {
             <div
               className={`px-5 z-10 overflow-hidden bg-gradient-to-t from-[#00000000] ${colorVariants[project.color]} rounded-md`}
             >
-              <VideoModal>
+              <Safari
+                url={`https://duyle.dev`}
+                className="dark:hidden size-full transform translate-y-5 group-hover/video:-translate-y-[1px] duration-200 transition-transform"
+                src={project.imageSrc}
+              />
+              <Safari
+                url={`https://duyle.dev`}
+                className="hidden dark:block size-full transform translate-y-5 group-hover/video:-translate-y-[1px] duration-200 transition-transform"
+                src={project.imageSrcDark}
+              />
+              {/* <VideoModal>
                 <VideoModalTrigger className="relative group/video">
                   <Safari
                     url={`https://duyle.dev`}
@@ -82,7 +92,7 @@ export default function Page() {
                     </VideoPlayer>
                   </VideoModalVideo>
                 </VideoModalContent>
-              </VideoModal>
+              </VideoModal> */}
             </div>
             <div className="flex flex-col mt-2 gap-2">
               <h3 className="text-lg font-medium">{project.name}</h3>
@@ -95,8 +105,8 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button className="border border-input bg-background hover:bg-accent hover:text-accent-foreground gap-2">
-                    <Icons.github className="size-4" />
+                  <Button variant="outline">
+                    <Icons.github className="mr-2 size-4" />
                     Source
                   </Button>
                 </a>
@@ -105,8 +115,8 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
-                    <Icons.globe className="size-4" />
+                  <Button className="px-5">
+                    <Icons.globe className="mr-2 size-4" />
                     Visit
                   </Button>
                 </a>

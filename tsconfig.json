@@ -17,8 +17,18 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*", "./app/*"],
+      "@/components/*": ["./components/*"],
+      "@/background/*": ["./components/background/*"],
+      "@/header/*": ["./components/header/*"],
+      "@/homepage/*": ["./components/homepage/*"],
+      "@/mdx/*": ["components/blog/*"],
+      "@/polaroid-board/*": ["./components/polaroid-board/*"],
+      "@/ui/*": ["./components/ui/*"],
+      "@/sandpack/*": ["./components/sandpack/*"],
+      "@/lib/*": ["./lib/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

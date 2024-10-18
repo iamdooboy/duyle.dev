@@ -25,6 +25,17 @@ export const projects = [
     color: "purple"
   },
   {
+    name: "duyle.dev",
+    description: "A simple portfolio website with blog support",
+    link: "https://duyle.dev",
+    sourceCode: "https://github.com/iamdooboy/duyle.dev",
+    imageSrc: "/website.jpg",
+    imageSrcDark: "/website_dark.jpg",
+    longDescription:
+      "A fast and lightweight portfolio site built with Next.js and Tailwind CSS.",
+    color: "green"
+  },
+  {
     name: "Interactive UI",
     description: "A small collection of copy-paste components",
     link: "https://ui.duyle.dev",
@@ -34,16 +45,5 @@ export const projects = [
     longDescription:
       "A small collection of copy-paste components with Next.js and Tailwind CSS",
     color: "blue"
-  },
-  {
-    name: "duyle.dev",
-    description: "A simple portfolio website with blog support",
-    link: "https://duyle.dev",
-    sourceCode: "https://github.com/iamdooboy/duyle.dev",
-    imageSrc: "/website.png",
-    imageSrcDark: "/website_dark.png",
-    longDescription:
-      "A fast and lightweight portfolio site built with Next.js and Tailwind CSS.",
-    color: "green"
   }
 ]

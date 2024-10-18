@@ -4,7 +4,7 @@ publishedAt: '2023-05-16'
 summary: 'How to implement dark mode in Next.js with Tailwind CSS'
 ---
 
-Follow the steps below add dark mode to your Next.js application using Tailwind CSS
+Follow the steps below to add dark mode to your Next.js application using Tailwind CSS
 
 ## Install Tailwind
 If you don't have Tailwind already installed, run the following command to install it and its dependencies. 
@@ -94,6 +94,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 ```
 
 add the following to your global.css
+
 ```css
 @layer base {
    :root {
@@ -124,8 +125,6 @@ add the following to your global.css
       --border: 0 0% 89.8%;
       --input: 0 0% 89.8%;
       --ring: 0 0% 3.9%;
-
-      --radius: 0.5rem;
    }
 
    .dark {

@@ -2,7 +2,11 @@ import type { Config } from "tailwindcss"
 
 const config: Config = {
   darkMode: "class",
-  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./public/**/*.svg"],
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "components/**/*.{ts,tsx}",
+    "./public/**/*.svg"
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -15,6 +19,11 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
       },
       colors: {
+        "color-1": "hsl(var(--color-1))",
+        "color-2": "hsl(var(--color-2))",
+        "color-3": "hsl(var(--color-3))",
+        "color-4": "hsl(var(--color-4))",
+        "color-5": "hsl(var(--color-5))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -56,7 +65,9 @@ const config: Config = {
       },
       animation: {
         meteor: "meteor 5s linear infinite",
-        "text-gradient": "text-gradient 1.5s linear infinite"
+        "text-gradient": "text-gradient 1.5s linear infinite",
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
+        wave: "wave 0.6s ease-in-out 6 alternate"
       },
       keyframes: {
         meteor: {
@@ -66,6 +77,14 @@ const config: Config = {
             transform: "rotate(-40deg) translateX(-500px)",
             opacity: "0"
           }
+        },
+        rainbow: {
+          "0%": { "background-position": "0%" },
+          "100%": { "background-position": "200%" }
+        },
+        wave: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(20deg)" }
         }
       }
     }

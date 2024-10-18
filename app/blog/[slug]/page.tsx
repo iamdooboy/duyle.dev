@@ -1,5 +1,5 @@
-import { CustomMDX } from "@/app/_components/mdx"
 import { metaData } from "@/app/config"
+import { CustomMDX } from "@/components/blog/mdx"
 import { formatDate, getBlogPosts } from "@/lib/mdx-utils"
 import { notFound } from "next/navigation"
 import { Metadata } from "next/types"

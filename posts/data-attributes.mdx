@@ -1,0 +1,73 @@
+---
+title: 'Conditionally Add Tailwind Classes With Data Attributes'
+publishedAt: '2024-10-17'
+summary: 'Conditionally add Tailwind classes with data attributes'
+---
+
+## Understanding <Highlight>data-attributes</Highlight>
+
+<Highlight>data-attributes</Highlight> allow us to store extra information on HTML elements. This information can then be accessed
+via JavaScript or CSS. 
+
+Here's a basic example of a data attribute:
+
+```js
+<button data-state="active">Click Me</button>
+```
+
+While <Highlight>data-attributes</Highlight> are traditionally used with JavaScript for DOM manipulation, Tailwind CSS enables us 
+to style elements based on <Highlight>data-attributes</Highlight>, simplifying the process and improving maintainability.
+
+
+Instead of conditionally adding Tailwind classes like this:
+```js
+function Button({ state }) {
+  return (
+    <button
+    className={state.active ? "opacity-100": "opacity-50"}
+    >
+      Button
+    </button>
+  )
+}
+```
+
+Or like this:
+
+```js
+function Button({ state }) {
+  return (
+    <button
+      className={clsx({"opacity-100": state.active, "opacity-50": !state.active})}
+    >
+      Button
+    </button>
+  )
+}
+```
+You can achieve the same effect using <Highlight>data-attributes</Highlight> for cleaner class management.
+
+<Next code={`import { useState } from "react"
+
+export default function App() {
+    const [state, setState] = useState(true);
+    
+    const toggle = () => {
+      setState(prev => !prev);
+    };
+
+    return (
+      <div className="p-4 w-full h-screen bg-stone-800 text-white">
+        <p>Current state: {state ? "active" : "disabled"}</p>
+        <button 
+          data-state={state ? "active" : "disabled"}
+          onClick={toggle} 
+          className="
+            data-[state=active]:bg-opacity-100 
+            data-[state=disabled]:opacity-50 
+            p-2 bg-purple-500 rounded"
+          >Click here
+        </button>
+      </div>
+    )
+}`}/>
