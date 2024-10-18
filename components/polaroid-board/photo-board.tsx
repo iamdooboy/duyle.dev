@@ -12,7 +12,7 @@ import { PolaroidInfo, PolaroidPhoto } from "./polaroid"
 import { Polaroid } from "./polaroid"
 
 type PhotoBoardProps = {
-  hasPosted: boolean
+  hasPosted?: boolean
   numOthers: number
   canvasRef?: React.RefObject<HTMLDivElement>
   onCanvasPointerMove?: (
