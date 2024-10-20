@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from "react"
 
-export const Time = () => {
-  const [time, setTime] = useState(new Date())
+export const Time: React.FC = () => {
+  const [time, setTime] = useState<Date | null>(null)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date())
-    }, 1000)
+    const updateTime = () => setTime(new Date())
 
+    // Update time immediately
+    updateTime()
+
+    const timer = setInterval(updateTime, 1000)
     return () => clearInterval(timer)
   }, [])
 
@@ -19,13 +21,16 @@ export const Time = () => {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      hour12: true
+      hour12: true,
+      timeZoneName: "short"
     })
   }
 
+  if (!time) return null
+
   return (
     <div className="text-sm text-muted-foreground tabular-nums font-mono">
-      {formatTime(time)} CDT
+      {formatTime(time)}
     </div>
   )
 }

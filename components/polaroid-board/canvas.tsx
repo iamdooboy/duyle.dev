@@ -1,42 +1,39 @@
 import { CurrentDrawing, Drawings } from "@/lib/types"
-import { Polaroid } from "@/lib/types"
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogFooter
-} from "@/ui/alert-dialog"
 import { AnimatedCircularProgressBar } from "@/ui/circular-progress"
-import { LiveObject } from "@liveblocks/client"
-import { useMutation } from "@liveblocks/react/suspense"
 import { Point } from "framer-motion"
-import { RefObject, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useRef, useState } from "react"
 import { DrawingMenu } from "./drawing-menu"
 import { Path } from "./path"
 
+const maxLength = 45
+
 type Props = {
-  setHasPosted: (value: boolean) => void
-  canvasRef: RefObject<HTMLDivElement>
+  name: string
+  setName: (value: string) => void
+  message: string
+  setMessage: (value: string) => void
+  savedDrawings: Drawings
+  setSavedDrawings: Dispatch<SetStateAction<Drawings>>
   width?: number
   height?: number
 }
 
 export const Canvas = ({
-  setHasPosted,
-  canvasRef,
   width = 400,
-  height = 400
+  height = 400,
+  name,
+  setName,
+  message,
+  setMessage,
+  savedDrawings,
+  setSavedDrawings
 }: Props) => {
-  const [name, setName] = useState("")
-  const [message, setMessage] = useState("")
-  const [savedDrawings, setSavedDrawings] = useState<Drawings>([])
-
   const [currentDrawing, setCurrentDrawing] = useState<CurrentDrawing | null>(
     null
   )
   const [isDrawingSession, setIsDrawingSession] = useState(false)
   const [color, setColor] = useState("#000000")
 
-  const maxLength = 45
   const svgRef = useRef<SVGSVGElement>(null)
 
   const startDrawing = (point: Point, pressure: number) => {
@@ -82,39 +79,6 @@ export const Canvas = ({
     setIsDrawingSession(false)
   }
 
-  const addNote = useMutation(
-    (
-      { storage, setMyPresence },
-      { name, message, drawing }: Pick<Polaroid, "name" | "message" | "drawing">
-    ) => {
-      const canvasRect = canvasRef.current?.getBoundingClientRect()
-      let x = 0,
-        y = 0
-      if (canvasRect) {
-        x = Math.random() * (canvasRect.width - 100)
-        y = Math.random() * (canvasRect.height - 100)
-      }
-
-      const length = storage.get("polaroids").length
-      const note = new LiveObject({
-        id: Date.now().toString(),
-        name,
-        message,
-        drawing,
-        x: getRandomInt(300),
-        y: getRandomInt(300),
-        z: 1,
-        rotate: Math.floor(Math.random() * 141) - 70
-      })
-      storage.get("polaroids").push(note)
-      setMyPresence({ selection: length + 1 })
-
-      setHasPosted(true)
-      localStorage.setItem("duyle.dev_has_posted", "true")
-    },
-    []
-  )
-
   const onPointerEnter = (e: React.PointerEvent) => {
     if (e.buttons === 1 && isDrawingSession) {
       const point = pointerEventToSvgPoint(e)
@@ -156,14 +120,14 @@ export const Canvas = ({
         </div>
       )}
       <svg
-        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm"
+        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm size-full aspect-square sm:w-[400px] sm:h-[400px]"
         ref={svgRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerEnter={onPointerEnter}
-        width={width}
-        height={height}
+        // width={width}
+        // height={height}
         preserveAspectRatio="xMidYMid meet"
       >
         <g transform={`scale(${width / 400}, ${height / 400})`}>
@@ -182,36 +146,25 @@ export const Canvas = ({
           className={className}
           placeholder="Name"
         />
-        <input
-          maxLength={maxLength}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className={className}
-          placeholder="Type your message here..."
-          aria-label="Input with character limit"
-        />
-
-        <AlertDialogFooter>
-          <AnimatedCircularProgressBar
-            className="size-8"
-            max={45}
-            min={0}
-            value={message.length}
+        <div className="relative">
+          <input
+            maxLength={maxLength}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className={className}
+            placeholder="Type your message here..."
+            aria-label="Input with character limit"
           />
-          <div className="space-x-2">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => addNote({ name, message, drawing: savedDrawings })}
-            >
-              Continue
-            </AlertDialogAction>
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
+            <AnimatedCircularProgressBar
+              className="size-7"
+              max={45}
+              min={0}
+              value={message.length}
+            />
           </div>
-        </AlertDialogFooter>
+        </div>
       </div>
     </div>
   )
-}
-
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max)
 }

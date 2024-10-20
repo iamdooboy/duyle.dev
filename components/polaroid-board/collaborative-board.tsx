@@ -1,20 +1,12 @@
 "use client"
 
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from "@/ui/alert-dialog"
-import {
   useMutation,
   useOthers,
   useStorage,
   useUpdateMyPresence
 } from "@liveblocks/react/suspense"
 import { PointerEvent, TouchEvent, useEffect, useRef, useState } from "react"
-import { Canvas } from "./canvas"
 import { PhotoBoard } from "./photo-board"
 import { DrawingPolaroid, PolaroidInfo, PolaroidPhoto } from "./polaroid"
 
@@ -22,14 +14,6 @@ export const CollaborativeBoard = () => {
   const updateMyPresence = useUpdateMyPresence()
 
   const [isDragging, setIsDragging] = useState(false)
-  const [hasPosted, setHasPosted] = useState(false)
-
-  useEffect(() => {
-    const posted = localStorage.getItem("duyle.dev_has_posted")
-    if (posted === "true") {
-      setHasPosted(true)
-    }
-  }, [])
 
   useEffect(() => {
     const handleTouchMove = (e: TouchEvent) => {
@@ -46,8 +30,8 @@ export const CollaborativeBoard = () => {
     }
   }, [isDragging])
 
-  const numOthers = useOthers((others) => others.length)
   const polaroids = useStorage((root) => root.polaroids)
+  const numOthers = useOthers((others) => others.length)
 
   const canvasRef = useRef<HTMLDivElement>(null)
   const dragStartPositionRef = useRef({ x: 0, y: 0 })
@@ -147,9 +131,8 @@ export const CollaborativeBoard = () => {
   }
 
   return (
-    <AlertDialog>
+    <>
       <PhotoBoard
-        hasPosted={hasPosted}
         numOthers={numOthers}
         canvasRef={canvasRef}
         onCanvasPointerMove={onCanvasPointerMove}
@@ -170,15 +153,6 @@ export const CollaborativeBoard = () => {
           )
         })}
       </PhotoBoard>
-      <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2">
-        <AlertDialogHeader className="sr-only">
-          <AlertDialogTitle>Leave me a note</AlertDialogTitle>
-          <AlertDialogDescription>
-            Write a note about anything!
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <Canvas setHasPosted={setHasPosted} canvasRef={canvasRef} />
-      </AlertDialogContent>
-    </AlertDialog>
+    </>
   )
 }
