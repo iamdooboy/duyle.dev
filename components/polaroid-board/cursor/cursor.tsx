@@ -11,7 +11,7 @@ export function Cursor({ color, x, y }: Props) {
         position: "absolute",
         left: 0,
         top: 0,
-        zIndex: 1000,
+        zIndex: 30,
         transform: `translateX(${x}px) translateY(${y}px)`
       }}
       width="36"

@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { Time } from "./time"
 import { Icons } from "./ui/icons"
 
@@ -21,7 +22,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="mt-8 mb-16 flex justify-between">
+    <footer className="my-10 flex justify-between">
       <ul className="flex gap-5 font-sm">
         {FOOTER_ELEMENTS.map((element) => (
           <li key={element.label}>
@@ -32,7 +33,7 @@ export default function Footer() {
               href={element.href}
             >
               {element.icon}
-              <p className="ml-2">{element.label}</p>
+              <p className="ml-2 hidden sm:block">{element.label}</p>
             </a>
           </li>
         ))}

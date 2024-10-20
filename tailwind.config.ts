@@ -67,7 +67,8 @@ const config: Config = {
         meteor: "meteor 5s linear infinite",
         "text-gradient": "text-gradient 1.5s linear infinite",
         rainbow: "rainbow var(--speed, 2s) infinite linear",
-        wave: "wave 0.6s ease-in-out 6 alternate"
+        wave: "wave 0.6s ease-in-out 6 alternate",
+        ping: "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite"
       },
       keyframes: {
         meteor: {
@@ -85,6 +86,10 @@ const config: Config = {
         wave: {
           "0%, 100%": { transform: "rotate(0deg)" },
           "50%": { transform: "rotate(20deg)" }
+        },
+        ping: {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "75%, 100%": { transform: "scale(2.5)", opacity: "0" }
         }
       }
     }

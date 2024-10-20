@@ -28,7 +28,10 @@ export function AnimatedCircularProgressBar({
 
   return (
     <div
-      className={cn("relative size-40 text-2xl font-semibold", className)}
+      className={cn(
+        "relative size-40 text-2xl font-semibold bg-white dark:bg-muted",
+        className
+      )}
       style={
         {
           "--circle-size": "100px",
@@ -104,7 +107,7 @@ export function AnimatedCircularProgressBar({
       </svg>
       <span
         data-current-value={max - value}
-        className="absolute inset-0 flex items-center justify-center text-sm animate-in fade-in"
+        className="absolute inset-0 flex items-center justify-center sm:text-sm animate-in fade-in text-xs"
         style={{
           transition: `var(--transition-length) ease var(--delay)`
         }}
