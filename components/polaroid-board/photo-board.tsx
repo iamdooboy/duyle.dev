@@ -35,7 +35,6 @@ export const PhotoBoard = ({
   children
 }: PhotoBoardProps) => {
   const [hasPosted, setHasPosted] = useState(false)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
   const [drawing, setDrawing] = useState<Drawings>([])
@@ -88,33 +87,35 @@ export const PhotoBoard = ({
           </span>
         </div>
         {!children || !canvasRef ? (
-          <RainbowButton className="opacity-70">Leave a note</RainbowButton>
-        ) : isDesktop ? (
-          // <div className="font-mono">Thanks for posting!</div>
-          <DesktopDialog
-            message={message}
-            addNote={() => addNote({ name, message, drawing })}
-          >
-            <Canvas
-              name={name}
-              setName={setName}
-              message={message}
-              setMessage={setMessage}
-              savedDrawings={drawing}
-              setSavedDrawings={setDrawing}
-            />
-          </DesktopDialog>
+          <RainbowButton className="opacity-50">Leave a note</RainbowButton>
+        ) : hasPosted ? (
+          <div className="font-mono">Thanks for posting!</div>
         ) : (
-          <MobileDrawer addNote={() => addNote({ name, message, drawing })}>
-            <Canvas
-              name={name}
-              setName={setName}
+          <>
+            <DesktopDialog
               message={message}
-              setMessage={setMessage}
-              savedDrawings={drawing}
-              setSavedDrawings={setDrawing}
-            />
-          </MobileDrawer>
+              addNote={() => addNote({ name, message, drawing })}
+            >
+              <Canvas
+                name={name}
+                setName={setName}
+                message={message}
+                setMessage={setMessage}
+                savedDrawings={drawing}
+                setSavedDrawings={setDrawing}
+              />
+            </DesktopDialog>
+            <MobileDrawer addNote={() => addNote({ name, message, drawing })}>
+              <Canvas
+                name={name}
+                setName={setName}
+                message={message}
+                setMessage={setMessage}
+                savedDrawings={drawing}
+                setSavedDrawings={setDrawing}
+              />
+            </MobileDrawer>
+          </>
         )}
       </div>
       <div

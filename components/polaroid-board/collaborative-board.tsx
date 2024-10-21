@@ -21,7 +21,6 @@ export const CollaborativeBoard = () => {
         e.preventDefault()
       }
     }
-
     document.addEventListener("touchmove", handleTouchMove as any, {
       passive: false
     })
@@ -61,12 +60,14 @@ export const CollaborativeBoard = () => {
     []
   )
 
+  const deletePolaroid = useMutation(({ storage }, index: number) => {
+    console.log("delete", index)
+    storage.get("polaroids").delete(index)
+  }, [])
+
   const onCanvasPointerUp = useMutation(
     ({ self, storage, setMyPresence }) => {
       setMyPresence({ selection: null })
-      // if (!isDragging) {
-      //   setMyPresence({ selection: null })
-      // }
       const length = storage.get("polaroids").length
       const index = self.presence.selection
       if (index !== null) {

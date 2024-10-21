@@ -123,7 +123,6 @@ export function Polaroid({ children, canvasRef, polaroid }: PolaroidProps) {
         e.preventDefault()
       }
     }
-
     document.addEventListener("touchmove", handleTouchMove as any, {
       passive: false
     })
