@@ -27,3 +27,14 @@ export type Cursor = {
   x: number
   y: number
 }
+
+export type Project = {
+  name: string
+  description: string
+  link: string
+  sourceCode: string
+  imageSrc: string
+  imageSrcDark: string
+  longDescription: string
+  color: string
+}

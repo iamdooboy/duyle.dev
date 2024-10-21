@@ -1,7 +1,6 @@
 "use client"
 
 import { GridPattern } from "@/background/grid-pattern"
-import { useMediaQuery } from "@/hooks/use-media-query"
 import { Drawings } from "@/lib/types"
 import { RainbowButton } from "@/ui/rainbow-button"
 import { LiveObject } from "@liveblocks/client"
@@ -11,7 +10,7 @@ import { PointerEvent, TouchEvent, useEffect, useState } from "react"
 import { Canvas } from "./canvas"
 import { LiveCursor } from "./cursor/live-cursor"
 import { DesktopDialog } from "./desktop-dialog"
-import MobileDrawer from "./mobile-drawer"
+import { MobileDrawer } from "./mobile-drawer"
 import { PolaroidInfo, PolaroidPhoto } from "./polaroid"
 import { Polaroid } from "./polaroid"
 

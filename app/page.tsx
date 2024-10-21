@@ -15,11 +15,11 @@ export default function Page() {
         </span>
       </h1>
       <p className="mb-4 text-primary">
-        I'm a creative web developer passionate about UI designs, dedicated to
+        I'm a creative web developer passionate about UI design, dedicated to
         building engaging experiences with great attention to detail.
         <br />
         <br />I spend most of my time exploring open source projects to learn
-        how certain things are built and how they work. I strive to continuous
+        how certain things are built and how they work. I strive to continuously
         learn and improve my skills.
       </p>
       <div className="my-6 space-y-5">
@@ -35,13 +35,7 @@ export default function Page() {
         <Title>Recent projects</Title>
         <div className="grid grid-cols-2 gap-4 my-3">
           {projects.slice(0, 2).map((project) => (
-            <Card
-              key={project.name}
-              body={project.description}
-              image={project.imageSrc}
-              name={project.name}
-              link={project.link}
-            />
+            <Card key={project.name} project={project} />
           ))}
         </div>
         <More href="/projects">More projects</More>

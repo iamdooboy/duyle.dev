@@ -1,16 +1,8 @@
+import { Project } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-export const Card = ({
-  name,
-  body,
-  link,
-  image
-}: {
-  name: string
-  body: string
-  link: string
-  image: string
-}) => {
+export const Card = ({ project }: { project: Project }) => {
+  const { name, description, link, imageSrc, imageSrcDark } = project
   return (
     <div
       className={cn(
@@ -26,15 +18,20 @@ export const Card = ({
           <div className="flex flex-col">
             <div className="flex items-start gap-2">
               <img
-                src={image}
+                src={imageSrc}
                 alt={name}
-                className="w-8 h-8 rounded-lg object-cover shadow"
+                className="w-8 h-8 rounded-lg object-cover shadow dark:hidden"
+              />
+              <img
+                src={imageSrcDark}
+                alt={name}
+                className="w-8 h-8 rounded-lg object-cover shadow hidden dark:block"
               />
               <div className="text-lg font-medium">{name}</div>
             </div>
           </div>
         </div>
-        <div className="mt-2 text-sm line-clamp-4">{body}</div>
+        <div className="mt-2 text-sm line-clamp-4">{description}</div>
       </a>
     </div>
   )

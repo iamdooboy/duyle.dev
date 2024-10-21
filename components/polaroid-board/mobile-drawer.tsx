@@ -17,7 +17,7 @@ type Props = {
   children: React.ReactNode
 }
 
-const MobileDrawer = ({ addNote, children }: Props) => {
+export const MobileDrawer = ({ addNote, children }: Props) => {
   const [open, setOpen] = useState(false)
   return (
     <div className="sm:hidden">
@@ -53,5 +53,3 @@ const MobileDrawer = ({ addNote, children }: Props) => {
     </div>
   )
 }
-
-export default MobileDrawer
