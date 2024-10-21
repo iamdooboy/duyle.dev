@@ -126,8 +126,6 @@ export const Canvas = ({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerEnter={onPointerEnter}
-        // width={width}
-        // height={height}
         preserveAspectRatio="xMidYMid meet"
       >
         <g transform={`scale(${width / 400}, ${height / 400})`}>
