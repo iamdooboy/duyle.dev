@@ -9,8 +9,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@/ui/alert-dialog"
-import { AnimatedCircularProgressBar } from "../ui/circular-progress"
-import { RainbowButton } from "../ui/rainbow-button"
+import { AnimatedCircularProgressBar } from "@/ui/circular-progress"
+import { RainbowButton } from "@/ui/rainbow-button"
 
 type Props = {
   addNote: () => void
@@ -42,7 +42,7 @@ export const DesktopDialog = ({ addNote, message, children }: Props) => {
             />
             <div className="space-x-2">
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={addNote}>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={addNote}>Submit</AlertDialogAction>
             </div>
           </AlertDialogFooter>
         </AlertDialogContent>

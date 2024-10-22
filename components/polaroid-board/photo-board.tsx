@@ -1,7 +1,7 @@
 "use client"
 
 import { GridPattern } from "@/background/grid-pattern"
-import { Drawings } from "@/lib/types"
+import type { Drawings } from "@/lib/types"
 import { RainbowButton } from "@/ui/rainbow-button"
 import { LiveObject } from "@liveblocks/client"
 import { ClientSideSuspense, useMutation } from "@liveblocks/react/suspense"
@@ -47,9 +47,10 @@ export const PhotoBoard = ({
 
   const addNote = useMutation(
     ({ storage, setMyPresence }, { name, message, drawing }) => {
+      if (!name || !message || !drawing.length) return
       const canvasRect = canvasRef?.current?.getBoundingClientRect()
-      let x = 0,
-        y = 0
+      let x = 0
+      let y = 0
       if (canvasRect) {
         x = Math.random() * (canvasRect.width - 100)
         y = Math.random() * (canvasRect.height - 100)

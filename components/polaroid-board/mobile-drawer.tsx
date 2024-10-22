@@ -1,6 +1,4 @@
 import { Button } from "@/ui/button"
-import { RainbowButton } from "@/ui/rainbow-button"
-import React, { useState } from "react"
 import {
   Drawer,
   DrawerClose,
@@ -10,7 +8,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
-} from "../ui/drawer"
+} from "@/ui/drawer"
+import { RainbowButton } from "@/ui/rainbow-button"
+import { useState } from "react"
 
 type Props = {
   addNote: () => void
@@ -40,7 +40,7 @@ export const MobileDrawer = ({ addNote, children }: Props) => {
           {children}
           <DrawerFooter>
             <Button className="w-full" onClick={addNote}>
-              Continue
+              Submit
             </Button>
             <DrawerClose asChild>
               <Button variant="outline" onClick={() => setOpen(false)}>

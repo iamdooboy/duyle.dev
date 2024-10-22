@@ -1,7 +1,13 @@
-import { CurrentDrawing, Drawings } from "@/lib/types"
+import type { CurrentDrawing, Drawings } from "@/lib/types"
 import { AnimatedCircularProgressBar } from "@/ui/circular-progress"
-import { Point } from "framer-motion"
-import { Dispatch, SetStateAction, useRef, useState } from "react"
+import type { Point } from "framer-motion"
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState
+} from "react"
 import { DrawingMenu } from "./drawing-menu"
 import { Path } from "./path"
 
@@ -17,6 +23,8 @@ type Props = {
   width?: number
   height?: number
 }
+const className =
+  "flex dark:bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
 
 export const Canvas = ({
   width = 400,
@@ -33,6 +41,7 @@ export const Canvas = ({
   )
   const [isDrawingSession, setIsDrawingSession] = useState(false)
   const [color, setColor] = useState("#000000")
+  const [isMouseDown, setIsMouseDown] = useState(false)
 
   const svgRef = useRef<SVGSVGElement>(null)
 
@@ -55,7 +64,46 @@ export const Canvas = ({
     )
   }
 
+  const saveCurrentStroke = () => {
+    if (currentDrawing) {
+      setSavedDrawings((prev) => [...prev, currentDrawing])
+      setCurrentDrawing(null)
+    }
+  }
+
+  const stopDrawing = () => {
+    saveCurrentStroke()
+    setIsDrawingSession(false)
+    setIsMouseDown(false)
+  }
+
+  const pointerEventToSvgPoint = (
+    e: React.PointerEvent | React.TouchEvent
+  ): Point | null => {
+    if (!svgRef.current) return null
+
+    const svgRect = svgRef.current.getBoundingClientRect()
+
+    const svgWidth = svgRef.current.viewBox.baseVal.width || svgRect.width
+    const svgHeight = svgRef.current.viewBox.baseVal.height || svgRect.height
+
+    const scaleX = svgWidth / svgRect.width
+    const scaleY = svgHeight / svgRect.height
+
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY
+
+    const x = (clientX - svgRect.left) * scaleX
+    const y = (clientY - svgRect.top) * scaleY
+
+    if (x >= 0 && x <= svgWidth && y >= 0 && y <= svgHeight) {
+      return { x, y }
+    }
+    return null
+  }
+
   const onPointerDown = (e: React.PointerEvent) => {
+    setIsMouseDown(true)
     const point = pointerEventToSvgPoint(e)
     if (point) {
       startDrawing(point, e.pressure)
@@ -63,50 +111,55 @@ export const Canvas = ({
   }
 
   const onPointerMove = (e: React.PointerEvent) => {
-    if (isDrawingSession) {
-      const point = pointerEventToSvgPoint(e)
-      if (point) {
-        continueDrawing(point, e.pressure)
-      }
+    if (!isDrawingSession) return
+
+    const point = pointerEventToSvgPoint(e)
+    if (point) {
+      continueDrawing(point, e.pressure)
+    } else {
+      saveCurrentStroke()
     }
   }
 
   const onPointerUp = () => {
-    if (currentDrawing) {
-      setSavedDrawings((prev) => [...prev, currentDrawing])
-      setCurrentDrawing(null)
+    stopDrawing()
+  }
+
+  const onPointerLeave = () => {
+    if (isDrawingSession) {
+      saveCurrentStroke()
     }
-    setIsDrawingSession(false)
   }
 
   const onPointerEnter = (e: React.PointerEvent) => {
-    if (e.buttons === 1 && isDrawingSession) {
+    if (e.buttons === 1 && isMouseDown) {
       const point = pointerEventToSvgPoint(e)
       if (point) {
-        continueDrawing(point, e.pressure)
+        startDrawing(point, e.pressure)
       }
     }
-  }
-
-  const pointerEventToSvgPoint = (e: React.PointerEvent): Point | null => {
-    if (!svgRef.current) return null
-    const svgRect = svgRef.current.getBoundingClientRect()
-    const x = Math.round((e.clientX - svgRect.left) * (400 / svgRect.width))
-    const y = Math.round((e.clientY - svgRect.top) * (400 / svgRect.height))
-    if (x >= 0 && x <= svgRect.width && y >= 0 && y <= svgRect.height) {
-      return { x, y }
-    }
-    return null
   }
 
   const clearDrawings = () => {
     setSavedDrawings([])
     setCurrentDrawing(null)
     setIsDrawingSession(false)
+    setIsMouseDown(false)
   }
 
-  const className =
-    "flex dark:bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
+  useEffect(() => {
+    const handlePointerUpOutside = () => {
+      if (isMouseDown) {
+        stopDrawing()
+      }
+    }
+
+    window.addEventListener("pointerup", handlePointerUpOutside)
+
+    return () => {
+      window.removeEventListener("pointerup", handlePointerUpOutside)
+    }
+  }, [isMouseDown, stopDrawing])
 
   return (
     <div className="relative">
@@ -120,11 +173,13 @@ export const Canvas = ({
         </div>
       )}
       <svg
+        viewBox="0 0 400 400"
         className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm size-full aspect-square sm:w-[400px] sm:h-[400px]"
         ref={svgRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
+        onPointerLeave={onPointerLeave}
         onPointerEnter={onPointerEnter}
         preserveAspectRatio="xMidYMid meet"
       >
@@ -143,6 +198,7 @@ export const Canvas = ({
           onChange={(e) => setName(e.target.value)}
           className={className}
           placeholder="Name"
+          aria-label="Name"
         />
         <div className="relative">
           <input
@@ -151,7 +207,7 @@ export const Canvas = ({
             onChange={(e) => setMessage(e.target.value)}
             className={className}
             placeholder="Type your message here..."
-            aria-label="Input with character limit"
+            aria-label="Message"
           />
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
             <AnimatedCircularProgressBar

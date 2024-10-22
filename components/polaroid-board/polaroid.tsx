@@ -1,12 +1,12 @@
 "use client"
 
-import { Polaroid as PolaroidType } from "@/lib/types"
+import type { Polaroid as PolaroidType } from "@/lib/types"
 import { useOthers } from "@liveblocks/react/suspense"
 import { motion } from "framer-motion"
 import { PointerEvent, useEffect, useRef, useState } from "react"
 
 import { COLORS, HEIGHT, WIDTH } from "@/lib/constants"
-import { Drawings } from "@/lib/types"
+import type { Drawings } from "@/lib/types"
 import { Path } from "./path"
 
 type PolaroidStyles = Pick<PolaroidType, "x" | "y" | "z" | "rotate">
