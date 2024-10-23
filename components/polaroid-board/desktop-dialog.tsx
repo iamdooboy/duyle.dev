@@ -25,7 +25,7 @@ export const DesktopDialog = ({ addNote, message, children }: Props) => {
         <AlertDialogTrigger asChild className="sm:block hidden">
           <RainbowButton>Leave a note</RainbowButton>
         </AlertDialogTrigger>
-        <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2">
+        <AlertDialogContent className="rounded-md bg-background dark:bg-muted w-max p-2 gap-2">
           <AlertDialogHeader className="sr-only">
             <AlertDialogTitle>Leave me a note</AlertDialogTitle>
             <AlertDialogDescription>

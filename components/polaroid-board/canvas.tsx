@@ -27,8 +27,8 @@ const className =
   "flex dark:bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
 
 export const Canvas = ({
-  width = 400,
-  height = 400,
+  width = 425,
+  height = 425,
   name,
   setName,
   message,
@@ -163,7 +163,7 @@ export const Canvas = ({
 
   return (
     <div className="relative">
-      {!isDrawingSession && (
+      {/* {!isDrawingSession && (
         <div className="absolute top-0 left-0 z-50">
           <DrawingMenu
             clearDrawings={clearDrawings}
@@ -171,10 +171,10 @@ export const Canvas = ({
             setColor={setColor}
           />
         </div>
-      )}
+      )} */}
       <svg
-        viewBox="0 0 400 400"
-        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm size-full aspect-square sm:w-[400px] sm:h-[400px]"
+        viewBox="0 0 425 425"
+        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm size-full aspect-square"
         ref={svgRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -183,7 +183,7 @@ export const Canvas = ({
         onPointerEnter={onPointerEnter}
         preserveAspectRatio="xMidYMid meet"
       >
-        <g transform={`scale(${width / 400}, ${height / 400})`}>
+        <g transform={`scale(${width / 425}, ${height / 425})`}>
           {savedDrawings.map((drawing, index) => (
             <Path key={index} points={drawing.drawing} fill={drawing.color} />
           ))}
@@ -192,7 +192,7 @@ export const Canvas = ({
           )}
         </g>
       </svg>
-      <div className="mt-2 space-y-2">
+      {/* <div className="mt-2 space-y-2">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -218,7 +218,7 @@ export const Canvas = ({
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

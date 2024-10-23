@@ -13,6 +13,12 @@ import { DesktopDialog } from "./desktop-dialog"
 import { MobileDrawer } from "./mobile-drawer"
 import { PolaroidInfo, PolaroidPhoto } from "./polaroid"
 import { Polaroid } from "./polaroid"
+import { CanvasMenu } from "./canvas-menu"
+import { BottomMenu } from "./bottom-menu"
+import { AnimatedCircularProgressBar } from "../ui/circular-progress"
+
+const className =
+  "flex dark:bg-muted border dark:border-secondary-foreground/20 h-10 w-full rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground"
 
 type PhotoBoardProps = {
   numOthers: number
@@ -89,7 +95,90 @@ export const PhotoBoard = ({
         {!children || !canvasRef ? (
           <RainbowButton className="opacity-50">Leave a note</RainbowButton>
         ) : hasPosted ? (
-          <div className="font-mono">Thanks for posting!</div>
+          // <div className="font-mono">Thanks for posting!</div>
+          <>
+            <DesktopDialog
+              message={message}
+              addNote={() => addNote({ name, message, drawing })}
+            >
+              <CanvasMenu />
+              <Canvas
+                name={name}
+                setName={setName}
+                message={message}
+                setMessage={setMessage}
+                savedDrawings={drawing}
+                setSavedDrawings={setDrawing}
+              />
+
+              {/* <BottomMenu /> */}
+              <div className="mt-2 space-y-2">
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={className}
+                  placeholder="Name"
+                  aria-label="Name"
+                />
+                <div className="relative">
+                  <input
+                    maxLength={45}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className={className}
+                    placeholder="Type your message here..."
+                    aria-label="Message"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
+                    <AnimatedCircularProgressBar
+                      className="size-7"
+                      max={45}
+                      min={0}
+                      value={message.length}
+                    />
+                  </div>
+                </div>
+              </div>
+            </DesktopDialog>
+            <MobileDrawer addNote={() => addNote({ name, message, drawing })}>
+              <CanvasMenu />
+              <Canvas
+                name={name}
+                setName={setName}
+                message={message}
+                setMessage={setMessage}
+                savedDrawings={drawing}
+                setSavedDrawings={setDrawing}
+              />
+              <div className="mt-2 space-y-2">
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={className}
+                  placeholder="Name"
+                  aria-label="Name"
+                />
+                <div className="relative">
+                  <input
+                    maxLength={45}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className={className}
+                    placeholder="Type your message here..."
+                    aria-label="Message"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
+                    <AnimatedCircularProgressBar
+                      className="size-7"
+                      max={45}
+                      min={0}
+                      value={message.length}
+                    />
+                  </div>
+                </div>
+              </div>
+            </MobileDrawer>
+          </>
         ) : (
           <>
             <DesktopDialog
