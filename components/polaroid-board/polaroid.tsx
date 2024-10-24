@@ -171,7 +171,7 @@ export const PolaroidPhoto = ({ drawing, imgSrc }: PolaroidPhotoProps) => {
   }
   return (
     <svg
-      className="bg-muted-foreground/15 dark:bg-secondary-foreground/90 rounded-sm"
+      className="bg-muted-foreground/25 dark:bg-secondary-foreground/75 rounded-sm"
       width={WIDTH}
       height={HEIGHT}
       preserveAspectRatio="xMidYMid meet"

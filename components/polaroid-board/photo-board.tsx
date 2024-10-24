@@ -14,7 +14,6 @@ import { MobileDrawer } from "./mobile-drawer"
 import { PolaroidInfo, PolaroidPhoto } from "./polaroid"
 import { Polaroid } from "./polaroid"
 import { CanvasMenu } from "./canvas-menu"
-import { BottomMenu } from "./bottom-menu"
 import { AnimatedCircularProgressBar } from "../ui/circular-progress"
 
 const className =
@@ -101,7 +100,6 @@ export const PhotoBoard = ({
               message={message}
               addNote={() => addNote({ name, message, drawing })}
             >
-              <CanvasMenu />
               <Canvas
                 name={name}
                 setName={setName}
@@ -110,38 +108,8 @@ export const PhotoBoard = ({
                 savedDrawings={drawing}
                 setSavedDrawings={setDrawing}
               />
-
-              {/* <BottomMenu /> */}
-              <div className="mt-2 space-y-2">
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={className}
-                  placeholder="Name"
-                  aria-label="Name"
-                />
-                <div className="relative">
-                  <input
-                    maxLength={45}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className={className}
-                    placeholder="Type your message here..."
-                    aria-label="Message"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
-                    <AnimatedCircularProgressBar
-                      className="size-7"
-                      max={45}
-                      min={0}
-                      value={message.length}
-                    />
-                  </div>
-                </div>
-              </div>
             </DesktopDialog>
             <MobileDrawer addNote={() => addNote({ name, message, drawing })}>
-              <CanvasMenu />
               <Canvas
                 name={name}
                 setName={setName}
@@ -150,33 +118,6 @@ export const PhotoBoard = ({
                 savedDrawings={drawing}
                 setSavedDrawings={setDrawing}
               />
-              <div className="mt-2 space-y-2">
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={className}
-                  placeholder="Name"
-                  aria-label="Name"
-                />
-                <div className="relative">
-                  <input
-                    maxLength={45}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className={className}
-                    placeholder="Type your message here..."
-                    aria-label="Message"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 sm:hidden">
-                    <AnimatedCircularProgressBar
-                      className="size-7"
-                      max={45}
-                      min={0}
-                      value={message.length}
-                    />
-                  </div>
-                </div>
-              </div>
             </MobileDrawer>
           </>
         ) : (

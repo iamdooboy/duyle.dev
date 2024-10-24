@@ -10,6 +10,7 @@ import {
 } from "react"
 import { DrawingMenu } from "./drawing-menu"
 import { Path } from "./path"
+import { CanvasMenu } from "./canvas-menu"
 
 const maxLength = 45
 
@@ -162,19 +163,15 @@ export const Canvas = ({
   }, [isMouseDown, stopDrawing])
 
   return (
-    <div className="relative">
-      {/* {!isDrawingSession && (
-        <div className="absolute top-0 left-0 z-50">
-          <DrawingMenu
-            clearDrawings={clearDrawings}
-            selectedColor={color}
-            setColor={setColor}
-          />
-        </div>
-      )} */}
+    <>
+      <CanvasMenu
+        clearDrawings={clearDrawings}
+        selectedColor={color}
+        setColor={setColor}
+      />
       <svg
         viewBox="0 0 425 425"
-        className="bg-muted-foreground/25 dark:bg-secondary-foreground/80 rounded-sm size-full aspect-square"
+        className="bg-muted-foreground/25 dark:bg-secondary-foreground/75 rounded-sm size-full aspect-square"
         ref={svgRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -192,7 +189,7 @@ export const Canvas = ({
           )}
         </g>
       </svg>
-      {/* <div className="mt-2 space-y-2">
+      <div className="mt-2 space-y-2">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -218,7 +215,7 @@ export const Canvas = ({
             />
           </div>
         </div>
-      </div> */}
-    </div>
+      </div>
+    </>
   )
 }

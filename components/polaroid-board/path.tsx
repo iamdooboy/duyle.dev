@@ -1,13 +1,28 @@
+import { useTheme } from "next-themes"
 import getStroke from "perfect-freehand"
 
 type Props = {
   points: number[][]
   fill: string
   onPointerDown?: (e: React.PointerEvent) => void
-  stroke?: string
 }
 
-export const Path = ({ onPointerDown, stroke, fill, points }: Props) => {
+export const Path = ({ onPointerDown, fill, points }: Props) => {
+  const { theme } = useTheme()
+
+  const getFillColor = (color: string) => {
+    if (color === "eraser") {
+      if (theme === "dark") {
+        return "#c5c5c5"
+      } else {
+        return "#d9d9d9"
+      }
+    }
+    return fill
+  }
+
+  const newFill = getFillColor(fill)
+
   return (
     <path
       onPointerDown={onPointerDown}
@@ -22,8 +37,7 @@ export const Path = ({ onPointerDown, stroke, fill, points }: Props) => {
       )}
       x={0}
       y={0}
-      fill={fill}
-      stroke={stroke}
+      fill={newFill}
       strokeWidth={1}
     />
   )
